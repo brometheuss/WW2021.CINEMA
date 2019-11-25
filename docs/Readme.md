@@ -3,7 +3,7 @@ The winter workshop is about learning a fundamental skills to develop, test and 
 
 # Getting Started
 We will cover those topics:
-1.	Installation process
+1.	Setting up environment
 2.	C# Fundamentals
 3.	.NET Core 3
 4.  Web API
