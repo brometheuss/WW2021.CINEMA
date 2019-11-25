@@ -6,7 +6,7 @@ We will cover those topics:
 1.	Installation process
 2.	C# Fundamentals
 3.	.NET Core 3
-4.  ASP.NET Core and Web API
+4.  Web API
 5.  Entity Framework, LINQ and SQL
 6.	Domain Driven Design
 7.  Interfaces and Dependency Injection
