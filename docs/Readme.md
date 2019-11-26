@@ -11,6 +11,6 @@ We will cover those topics:
 6.	Domain Driven Design
 7.  [Interfaces and Dependency Injection](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F07-interfaces-and-dependency-injection.md&version=GBmaster&_a=preview)
 8.  Unit Testing
-9.  Securing API
+9.  [Securing API](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F09-securing-api.md&version=GBmaster&_a=contents)
 10. JavaScript Fundamentals
 11. React
