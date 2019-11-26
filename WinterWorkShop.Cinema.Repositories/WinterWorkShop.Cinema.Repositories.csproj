@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WinterWorkShop.Cinema.Data\WinterWorkShop.Cinema.Data.csproj" />
+  </ItemGroup>
+
 </Project>
