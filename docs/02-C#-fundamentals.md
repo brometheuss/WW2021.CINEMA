@@ -9,3 +9,14 @@ and iterators, which enable implementers of collection classes to define custom 
 As an object-oriented language, C# supports the concepts of encapsulation, inheritance, and polymorphism. All variables and methods, including the Main method, 
 the application's entry point, are encapsulated within class definitions. A class may inherit directly from one parent class, but it may implement any number of interfaces. 
 Methods that override virtual methods in a parent class require the override keyword as a way to avoid accidental redefinition. 
+
+
+## OOP
+
+## SOLID
+
+## class, object
+
+## properties
+
+## method overriding/overloading
