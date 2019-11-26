@@ -9,7 +9,7 @@ We will cover those topics:
 4.  [Web API](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F04-web-api.md&version=GBmaster&_a=contents)
 5.  Entity Framework, LINQ and SQL
 6.	Domain Driven Design
-7.  Interfaces and Dependency Injection
+7.  [Interfaces and Dependency Injection](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F07-interfaces-and-dependency-injection.md&version=GBmaster&_a=preview)
 8.  Unit Testing
 9.  Securing API
 10. JavaScript Fundamentals
