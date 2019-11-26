@@ -4,7 +4,7 @@ The winter workshop is about learning a fundamental skills to develop, test and 
 # Getting Started
 We will cover those topics:
 1.	[Setting up environment](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F01-setting-up-environment.md&version=GBmaster&_a=contents)
-2.	C# Fundamentals
+2.	[C# Fundamentals](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F02-C%23-fundamentals.md&version=GBmaster&_a=preview)
 3.	[.NET Core 3](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F03-net-core-3.md&version=GBmaster&_a=preview)
 4.  [Web API](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F04-web-api.md&version=GBmaster&_a=contents)
 5.  [SQL](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F05-sql.md&version=GBmaster)
