@@ -15,8 +15,10 @@ Methods that override virtual methods in a parent class require the override key
 
 ## SOLID
 
-## class, object
+## Class and Object
 
-## properties
+## Properties
 
-## method overriding/overloading
+## Pethod overriding/overloading
+
+## Lambda Expression
