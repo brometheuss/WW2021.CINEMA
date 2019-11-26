@@ -3,3 +3,5 @@
 # Unit tests patern
 
 # Naming convention
+
+# Mocking
