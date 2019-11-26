@@ -5,8 +5,12 @@ It eliminates the need for most of the data-access code that developers usually 
 
 https://docs.microsoft.com/en-us/ef/core/
 
-# data models
+# Data Models
 
-# ralations
+# Relations
 
-# contecxt
+# DbContecxt
+
+## Quering
+
+## Saving Data
