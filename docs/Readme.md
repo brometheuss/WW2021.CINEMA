@@ -8,7 +8,7 @@ We will cover those topics:
 3.	[.NET Core 3](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F03-net-core-3.md&version=GBmaster&_a=preview)
 4.  [Web API](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F04-web-api.md&version=GBmaster&_a=contents)
 5.  [SQL](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F05-sql.md&version=GBmaster)
-6.  Entity Framework and LINQ
+6.  [Entity Framework and LINQ](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F06-entity-framework.md&version=GBmaster&_a=preview)
 7.	Domain Driven Design
 8.  [Interfaces and Dependency Injection](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F07-interfaces-and-dependency-injection.md&version=GBmaster&_a=preview)
 9.  [Unit Testing](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F09-unit-testing.md&version=GBmaster&_a=preview)
