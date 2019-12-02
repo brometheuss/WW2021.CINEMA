@@ -4,8 +4,6 @@
 
 ## Inteface Segregation Principle
 
-## Inverssion of Control 
+## Inversion of Control 
 
 ## Dependency Injection
-
-## Unity
