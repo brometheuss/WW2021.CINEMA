@@ -5,6 +5,8 @@ relations, entites
 
 ## SQL vs NoSQL
 
+## Insert, Update and Delete
+
 ## Simple Query
 
 ## Group By 
