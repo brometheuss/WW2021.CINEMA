@@ -3,6 +3,8 @@
 ## RDBMS
 relations, entites
 
+## SQL vs NoSQL
+
 ## Simple Query
 
 ## Group By 
