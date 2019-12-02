@@ -12,8 +12,7 @@ https://docs.microsoft.com/en-us/ef/core/
 ## DbContecxt
 
 ## Quering (LINQ)
-
+## Saving Data
 ## CodeFirst
 ## DBFirst
-
-## Saving Data
+## ModelFirst
