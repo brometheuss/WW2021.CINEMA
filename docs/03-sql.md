@@ -1,5 +1,8 @@
 # Introduction
 
+## RDBMS
+relations, entites
+
 ## Simple Query
 
 ## Group By 
