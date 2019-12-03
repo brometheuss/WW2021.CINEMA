@@ -80,6 +80,9 @@ https://www.xplenty.com/blog/the-sql-vs-nosql-difference/
 ## Group By 
 
 ## Join
+ 
+![Joins](/images/sql-joins.png)
+
 
 https://www.dofactory.com/sql/join 
 
