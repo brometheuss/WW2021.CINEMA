@@ -29,6 +29,19 @@ public class Car : IEquatable<Car>
 }
 ```
 
+An interface is like an abstract base class with only abstract members. Any class or struct that implements the interface must implement all its members.
+An interface can't be instantiated directly. Its members are implemented by any class or struct that implements the interface.
+Interfaces can contain methods, properties, events, indexers, or any combination of those four member types.
+Interfaces contain no implementation of methods.
+A class or struct can implement multiple interfaces. A class can inherit a base class and also implement one or more interfaces.
+
+|Abstract Classes|Interfaces|
+|:----------------:|:----------------:|
+|May contain implementation code|May not contain implementation code|
+|A class may inherit from a single base class|A class may implement any number of interfaces|
+|Members have access modifiers|Members are automatically public|
+|May contain fields, properties, constructors, destructors, methods, events and indexers|May only contain properties, methods, events, and indexers|
+
 ## Inteface Segregation Principle
 
 ## Inversion of Control 
