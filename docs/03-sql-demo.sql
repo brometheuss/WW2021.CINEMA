@@ -4,6 +4,12 @@ SELECT * FROM dbo.Customer;
 SELECT * FROM dbo.Customer
 WHERE FirstName = 'Maria';
 
+SELECT * FROM dbo.Customer
+WHERE FirstName like 'M%';
+
+SELECT * FROM dbo.Customer
+WHERE FirstName like 'M%a';
+
 -- Insert, Update and Delete
 
 INSERT INTO [dbo].[Product]
@@ -18,6 +24,14 @@ INSERT INTO [dbo].[Product]
            ,23
            ,'10 boxes x 20 bags'
            ,0)
+
+UPDATE Customer
+Set FirstName = 'Marina'
+wHERE FirstName='Maria';
+
+
+DELETE FROM [dbo].[Product]
+WHERE Id=79;
 
 -- Group By
 SELECT COUNT(*), City FROM dbo.Customer
