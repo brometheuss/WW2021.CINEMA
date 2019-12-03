@@ -80,8 +80,8 @@ https://www.xplenty.com/blog/the-sql-vs-nosql-difference/
 ## Group By 
 
 ## Join
-    - inner 
-    - outter 
+
+https://www.dofactory.com/sql/join 
 
 ## Creating Views
 
