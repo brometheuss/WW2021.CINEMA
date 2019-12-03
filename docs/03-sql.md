@@ -81,8 +81,15 @@ https://www.xplenty.com/blog/the-sql-vs-nosql-difference/
 
 ## Join
  
-![Joins](/images/sql-joins.png)
+![Joins](https://www.dofactory.com/Images/sql-joins.png)
 
+Syntax:
+```sql
+SELECT column-names
+  FROM table-name1 JOIN table-name2 
+    ON column-name1 = column-name2
+ WHERE condition
+```
 
 https://www.dofactory.com/sql/join 
 
