@@ -29,3 +29,12 @@ SELECT O.OrderNumber, O.OrderDate, I.Quantity, I.UnitPrice
 SELECT * FROM demo
 
 -- Stored Procedures
+GO
+CREATE PROCEDURE DEMOPROC
+AS
+SELECT O.OrderNumber, O.OrderDate, I.Quantity, I.UnitPrice 
+  FROM [Order] O 
+  JOIN OrderItem I ON O.Id = I.OrderId 
+  JOIN Product P ON P.Id = I.ProductId
+
+EXEC DEMOPROC
