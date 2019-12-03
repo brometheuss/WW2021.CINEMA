@@ -149,3 +149,118 @@ Examples: get data, insert data...
 
 ## Triggers and Events
 
+Creates a DML, DDL, or logon trigger. A trigger is a special type of stored procedure that automatically runs when an event occurs in the database server. 
+DML triggers run when a user tries to modify data through a data manipulation language (DML) event. DML events are INSERT, UPDATE, or DELETE statements on a table or view. 
+These triggers fire when any valid event fires, whether table rows are affected or not.
+
+Syntax:
+```sql
+-- SQL Server Syntax  
+-- Trigger on an INSERT, UPDATE, or DELETE statement to a table or view (DML Trigger)  
+  
+CREATE [ OR ALTER ] TRIGGER [ schema_name . ]trigger_name   
+ON { table | view }   
+[ WITH <dml_trigger_option> [ ,...n ] ]  
+{ FOR | AFTER | INSTEAD OF }   
+{ [ INSERT ] [ , ] [ UPDATE ] [ , ] [ DELETE ] }   
+[ WITH APPEND ]  
+[ NOT FOR REPLICATION ]   
+AS { sql_statement  [ ; ] [ ,...n ] | EXTERNAL NAME <method specifier [ ; ] > }  
+  
+<dml_trigger_option> ::=  
+    [ ENCRYPTION ]  
+    [ EXECUTE AS Clause ]  
+  
+<method_specifier> ::=  
+    assembly_name.class_name.method_name
+```
+```sql
+-- SQL Server Syntax  
+-- Trigger on an INSERT, UPDATE, or DELETE statement to a 
+-- table (DML Trigger on memory-optimized tables)  
+  
+CREATE [ OR ALTER ] TRIGGER [ schema_name . ]trigger_name   
+ON { table }   
+[ WITH <dml_trigger_option> [ ,...n ] ]  
+{ FOR | AFTER }   
+{ [ INSERT ] [ , ] [ UPDATE ] [ , ] [ DELETE ] }   
+AS { sql_statement  [ ; ] [ ,...n ] }  
+  
+<dml_trigger_option> ::=  
+    [ NATIVE_COMPILATION ]  
+    [ SCHEMABINDING ]  
+    [ EXECUTE AS Clause ]
+```
+```sql
+-- Trigger on a CREATE, ALTER, DROP, GRANT, DENY, 
+-- REVOKE or UPDATE statement (DDL Trigger)  
+  
+CREATE [ OR ALTER ] TRIGGER trigger_name   
+ON { ALL SERVER | DATABASE }   
+[ WITH <ddl_trigger_option> [ ,...n ] ]  
+{ FOR | AFTER } { event_type | event_group } [ ,...n ]  
+AS { sql_statement  [ ; ] [ ,...n ] | EXTERNAL NAME < method specifier >  [ ; ] }  
+  
+<ddl_trigger_option> ::=  
+    [ ENCRYPTION ]  
+    [ EXECUTE AS Clause ]
+```
+```sql
+-- Trigger on a LOGON event (Logon Trigger)  
+  
+CREATE [ OR ALTER ] TRIGGER trigger_name   
+ON ALL SERVER   
+[ WITH <logon_trigger_option> [ ,...n ] ]  
+{ FOR| AFTER } LOGON    
+AS { sql_statement  [ ; ] [ ,...n ] | EXTERNAL NAME < method specifier >  [ ; ] }  
+  
+<logon_trigger_option> ::=  
+    [ ENCRYPTION ]  
+    [ EXECUTE AS Clause ]
+```
+
+Example:
+```sql
+CREATE TRIGGER production.trg_product_audit
+ON production.products
+AFTER INSERT, DELETE
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO production.product_audits(
+        product_id, 
+        product_name,
+        brand_id,
+        category_id,
+        model_year,
+        list_price, 
+        updated_at, 
+        operation
+    )
+    SELECT
+        i.product_id,
+        product_name,
+        brand_id,
+        category_id,
+        model_year,
+        i.list_price,
+        GETDATE(),
+        'INS'
+    FROM
+        inserted i
+    UNION ALL
+    SELECT
+        d.product_id,
+        product_name,
+        brand_id,
+        category_id,
+        model_year,
+        d.list_price,
+        GETDATE(),
+        'DEL'
+    FROM
+        deleted d;
+END
+```
+
+## DEMO
