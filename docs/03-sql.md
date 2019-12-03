@@ -77,6 +77,12 @@ https://www.xplenty.com/blog/the-sql-vs-nosql-difference/
 
 ## Simple Query
 
+Syntax:
+```sql
+SELECT column-names
+  FROM table-name
+ WHERE condition
+```
 ## Group By 
 
 ## Join
