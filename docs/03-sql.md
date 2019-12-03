@@ -85,6 +85,19 @@ SELECT column-names
 ```
 ## Group By 
 
+- The GROUP BY clause groups records into summary rows.
+- GROUP BY returns one records for each group.
+- GROUP BY typically also involves aggregates: COUNT, MAX, SUM, AVG, etc.
+- GROUP BY can group by one or more columns.
+
+Syntax: 
+```sql
+SELECT column-names
+  FROM table-name
+ WHERE condition
+ GROUP BY column-names
+ ```
+https://www.dofactory.com/sql/group-by
 ## Join
  
 ![Joins](https://www.dofactory.com/Images/sql-joins.png)
