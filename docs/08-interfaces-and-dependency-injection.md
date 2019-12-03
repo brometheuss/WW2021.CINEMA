@@ -44,6 +44,8 @@ A class or struct can implement multiple interfaces. A class can inherit a base 
 
 ## Inteface Segregation Principle
 
+Clients should not be forced to depend upon interfaces that they do not use.
+
 ## Inversion of Control 
 
 ## Dependency Injection
