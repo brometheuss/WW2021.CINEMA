@@ -38,3 +38,47 @@ SELECT O.OrderNumber, O.OrderDate, I.Quantity, I.UnitPrice
   JOIN Product P ON P.Id = I.ProductId
 
 EXEC DEMOPROC
+
+-- Triggers
+
+CREATE TRIGGER demo_trigger_1
+ON product
+AFTER INSERT, DELETE
+AS
+BEGIN
+SET NOCOUNT ON;
+    INSERT INTO Product_Audit( 
+        ProductName,
+        SupplierId,
+        UnitPrice,
+        Package,
+        IsDiscontinued,
+		[Date],
+		Operation
+    )
+    SELECT
+        ProductName,
+        SupplierId,
+        UnitPrice,
+        Package,
+        IsDiscontinued,
+        GETDATE(),
+        'INS'
+    FROM
+        inserted i
+    UNION ALL
+    SELECT
+        ProductName,
+        SupplierId,
+        UnitPrice,
+        Package,
+        IsDiscontinued,
+        GETDATE(),
+        'DEL'
+    FROM
+        deleted d;
+END
+
+-- first delete references in orderItem
+DELETE FROM Product
+WHERE Id=1
