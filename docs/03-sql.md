@@ -114,6 +114,20 @@ https://www.dofactory.com/sql/join
 
 ## Creating Views
 
+Syntax:
+```sql
+CREATE VIEW schema_name.view_name [(column_list)]
+AS
+    select_statement;
+```
+In this syntax:
+  - First, specify the name of the view after the CREATE VIEW keywords. The schema_name is the name of the schema to which the view belongs.
+  - Second, specify a SELECT statement (select_statement) that defines the view after the AS keyword. The SELECT statement can refer to one or more tables.
+
+examples....
+
+http://www.sqlservertutorial.net/sql-server-views/sql-server-create-view/
+
 ## Stored Procedures
 
 ## Triggers and Events
