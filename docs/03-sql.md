@@ -80,6 +80,48 @@ https://www.xplenty.com/blog/the-sql-vs-nosql-difference/
 
 ## Insert, Update and Delete
 
+#### Insert
+
+The INSERT INTO statement is used to add new data to a database.
+The INSERT INTO statement adds a new record to a table.
+INSERT INTO can contain values for some or all of its columns.
+INSERT INTO can be combined with a SELECT to insert records.
+
+Syntax:
+```sql
+INSERT INTO table-name (column-names) 
+VALUES (values) 
+```
+https://www.dofactory.com/sql/insert
+
+#### Update
+
+The UPDATE statement updates data values in a database.
+UPDATE can update one or more records in a table.
+Use the WHERE clause to UPDATE only specific records.
+
+Syntax:
+```sql
+UPDATE table-name 
+   SET column-name = value, column-name = value, ...
+ WHERE condition
+ ```
+
+ https://www.dofactory.com/sql/update
+
+ #### Delete
+
+DELETE permanently removes records from a table.
+DELETE can delete one or more records in a table.
+Use the WHERE clause to DELETE only specific records.
+
+Syntax:
+```sql
+DELETE table-name 
+ WHERE condition
+ ```
+ https://www.dofactory.com/sql/delete
+ 
 ## Simple Query
 
 Syntax:
