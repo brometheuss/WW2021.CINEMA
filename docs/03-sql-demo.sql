@@ -4,6 +4,21 @@ SELECT * FROM dbo.Customer;
 SELECT * FROM dbo.Customer
 WHERE FirstName = 'Maria';
 
+-- Insert, Update and Delete
+
+INSERT INTO [dbo].[Product]
+           ([ProductName]
+           ,[SupplierId]
+           ,[UnitPrice]
+           ,[Package]
+           ,[IsDiscontinued])
+     VALUES
+           ('Box'
+           , 1
+           ,23
+           ,'10 boxes x 20 bags'
+           ,0)
+
 -- Group By
 SELECT COUNT(*), City FROM dbo.Customer
 GROUP BY City;
