@@ -130,5 +130,22 @@ http://www.sqlservertutorial.net/sql-server-views/sql-server-create-view/
 
 ## Stored Procedures
 
+A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.
+So if you have an SQL query that you write over and over again, save it as a stored procedure, and then just call it to execute it.
+You can also pass parameters to a stored procedure, so that the stored procedure can act based on the parameter value(s) that is passed.
+
+Stored Procedure Syntax:
+```sql
+CREATE PROCEDURE procedure_name
+AS
+sql_statement
+GO;
+```
+Execute Stored Procedure:
+```sql
+EXEC procedure_name;
+```
+Examples: get data, insert data...
+
 ## Triggers and Events
 
