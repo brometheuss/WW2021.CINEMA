@@ -46,6 +46,142 @@ A class or struct can implement multiple interfaces. A class can inherit a base 
 
 Clients should not be forced to depend upon interfaces that they do not use.
 
+This principle is very much related to the Single Responsibility Principle. 
+What it really means is that you should always design your abstractions in a way that the clients that are using the exposed methods do not get the whole pie instead. 
+That also include imposing the clients with the burden of implementing methods that they don’t actually need.
+
+```csharp
+public interface IVehicle
+{
+    void Drive();
+    void Fly();
+}
+```
+```csharp
+public class MultiFunctionalCar : IVehicle
+{
+    public void Drive()
+    {
+        //actions to start driving car
+        Console.WriteLine("Drive a multifunctional car");
+    }
+ 
+    public void Fly()
+    {
+        //actions to start flying
+        Console.WriteLine("Fly a multifunctional car");
+    }
+}
+```
+```csharp
+public class Car : IVehicle
+{
+    public void Drive()
+    {
+        //actions to drive a car
+        Console.WriteLine("Driving a car");
+    }
+ 
+    public void Fly()
+    {
+        throw new NotImplementedException();
+  
+```
+```csharp
+public class Airplane : IVehicle
+{
+    public void Drive()
+    {
+        throw new NotImplementedException();
+    }
+ 
+    public void Fly()
+    {
+        //actions to fly a plane
+        Console.WriteLine("Flying a plane");
+    }
+}
+```
+SOLUTION:
+```csharp
+public interface ICar
+{
+    void Drive();
+}
+```
+```csharp
+public interface IAirplane
+{
+    void Fly();
+}
+```
+
+```csharp
+public class Car : ICar
+{
+    public void Drive()
+    {
+        //actions to drive a car
+        Console.WriteLine("Driving a car");
+    }
+}
+```
+```csharp
+public class Airplane : IAirplane
+{
+    public void Fly()
+    {
+        //actions to fly a plane
+        Console.WriteLine("Flying a plane");
+    }
+}
+```
+```csharp
+public class MultiFunctionalCar : ICar, IAirplane
+{
+    public void Drive()
+    {
+        //actions to start driving car
+        Console.WriteLine("Drive a multifunctional car");
+    }
+ 
+    public void Fly()
+    {
+        //actions to start flying
+        Console.WriteLine("Fly a multifunctional car");
+    }
+}
+```
+```csharp
+public interface IMultiFunctionalVehicle : ICar, IAirplane
+{
+}
+```
+```csharp
+public class MultiFunctionalCar : IMultiFunctionalVehicle
+{
+    public void Drive()
+    {
+        //actions to start driving car
+        Console.WriteLine("Drive a multifunctional car");
+    }
+ 
+    public void Fly()
+    {
+        //actions to start flying
+        Console.WriteLine("Fly a multifunctional car");
+    }
+}
+```
+
+We can see from the example above, that smaller interface is a lot easier to implement due to not having to implement methods that our class doesn’t need.
+Another benefit is that the Interface Segregation Principle increases the readability and maintainability of our code. 
+We are reducing our class implementation only to required actions without any additional or unnecessary code.
+
+To sum this article up, we should put an effort into creating smaller interfaces while developing our project. 
+Yes, we may end up with a lot of different interfaces in the end but from our point of view, this is much better 
+than having a few large interfaces that can force us to implement non-required methods in our classes.
+
 ## Inversion of Control 
 
 ## Dependency Injection
