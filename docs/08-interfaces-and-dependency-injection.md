@@ -184,4 +184,70 @@ than having a few large interfaces that can force us to implement non-required m
 
 ## Inversion of Control 
 
+Inversion of Control (IoC) is a design principle (although, some people refer to it as a pattern). As the name suggests, it is used to 
+invert different kinds of controls in object-oriented design to achieve loose coupling. Here, controls refer to any additional responsibilities a
+class has, other than its main responsibility.  This include control over the flow of an application, and control over the flow of an 
+object creation or dependent object creation and binding.
+IoC is all about inverting the control.
+
+```csharp
+public class A
+{
+    B b;
+
+    public A()
+    {
+        b = new B();
+    }
+
+    public void Task1() {
+        // do something here..
+        b.SomeMethod();
+        // do something here..
+    }
+
+}
+
+public class B {
+
+    public void SomeMethod() { 
+        //doing something..
+    }
+}
+```
+In the above example, class A calls b.SomeMethod() to complete its task1. 
+Class A cannot complete its task without class B and so you can say that "Class A is dependent on class B" or "class B is a dependency of class A".
+
+```csharp
+public class A
+{
+    B b;
+
+    public A()
+    {
+        b = Factory.GetObjectOfB ();
+    }
+
+    public void Task1() {
+        // do something here..
+        b.SomeMethod();
+        // do something here..
+    }
+}
+
+public class Factory
+{
+    public static B GetObjectOfB() 
+    {
+        return new B();
+    }
+}
+```
+As you can see above, class A uses Factory class to get an object of class B. Thus, we have inverted the dependent object creation from class A to Factory. 
+Class A no longer creates an object of class B, instead it uses the factory class to get the object of class B.
+In an object-oriented design, classes should be designed in a loosely coupled way. Loosely coupled means changes in one class should not force other classes to change, 
+so the whole application can become maintainable and extensible. 
+Let's understand this by using typical n-tier architecture as depicted by the following figure:
+
+
 ## Dependency Injection
