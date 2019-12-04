@@ -284,6 +284,7 @@ Problems in the above example classes:
 4. Because the `CustomerBusinessLogic` class creates an object of the concrete `DataAccess` class, it cannot be tested independently (TDD). The `DataAccess` class cannot be replaced with a mock class.
 
 IoC is a principle, not a pattern!
+
 ![ioc paterns](images/ioc-patterns.png)
 
 ###### Solution
