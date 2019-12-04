@@ -83,6 +83,8 @@ if the centralized code is used in two test methods, then any change will be ref
 ![picture alt](images/arrange-act-assert-pattern.png)
 
 #### Mocking
+![picture alt](images/mocking.png)
+
 A mock also substitutes for a dependency, but it knows something about how that dependency should work. 
 It knows what methods were called within it and how many times and in what order.
 There's no reason to create a mock unless you're going to assert something about how it did its job.
