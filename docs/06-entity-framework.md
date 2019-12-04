@@ -47,6 +47,28 @@ https://docs.microsoft.com/en-us/ef/core/
 
 ## Data Models
 
+With EF Core, data access is performed using a model. A model is made up of entity classes and a context object that represents a session with the database, allowing you to query and save data.
+
+```csharp
+public class Blog
+    {
+        public int BlogId { get; set; }
+        public string Url { get; set; }
+        public int Rating { get; set; }
+        public List<Post> Posts { get; set; }
+    }
+```
+```csharp
+public class Post
+{
+    public int PostId { get; set; }
+    public string Title { get; set; }
+    public string Content { get; set; }
+
+    public int BlogId { get; set; }
+    public Blog Blog { get; set; }
+}
+```
 ## Relations
 
 ## DbContecxt
