@@ -248,6 +248,6 @@ Class A no longer creates an object of class B, instead it uses the factory clas
 In an object-oriented design, classes should be designed in a loosely coupled way. Loosely coupled means changes in one class should not force other classes to change, 
 so the whole application can become maintainable and extensible. 
 Let's understand this by using typical n-tier architecture as depicted by the following figure:
-
+![a](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema/docs/images/demo-architecture.png)
 
 ## Dependency Injection
