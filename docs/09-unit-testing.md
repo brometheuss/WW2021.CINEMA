@@ -60,12 +60,27 @@ Here, are key reasons to perform unit testing.
 *   Good unit tests serve as project documentation
 *   Unit tests help with code re-use. Migrate both your code andyour tests to your new project. Tweak the code till the tests run again.
 
+#### Naming convention
+
+**UnitOfWork_InitialCondition_ExpectedResult**
+
+Here's a naming convention in three parts that I prefer to use on my projects. 
+The first part of the name is the unit of work being tested. 
+You can think of this part of the name as the title of your unit test that indicates the main scenario the test is covering. 
+The second part of the name is the initial condition. This is how you are setting up the scenario on your test. 
+This part can explain the aspect of the business logic that the test covers. It is more specific than the unit of work. 
+The expected result is the last part of the test name. Here you describe what the expectation is for this unit of work and initial condition.
+
 #### DAMP vs. DRY principle
+Cutting down on duplicate code in the name of maintainability, which is the DRY principle, Don't Repeat Yourself. 
+However, in testing there is the saying DAMP versus DRY with DAMP standing for Declarative And Meaningful Phrases. 
+The essence of this statement is that the tests should not repeat themselves as much as possible while leaving room for the documentation aspect of testing. 
+So keep in mind that while code duplication is bad, each one of your tests is an isolated chapter in your test book, and if removing a piece of logic hurts the readability,
+then don't remove it. And from a maintenance perspective, you also need to make sure that you don't centralize out a piece of logic that can't be changed on its own meaning 
+if the centralized code is used in two test methods, then any change will be reflected in both tests. As long as that wouldn't break either of them, then centralize away.
 
 #### Arrange-Act-Assert pattern
-
-
-#### Naming convention
+![picture alt](images/arrange-act-assert-pattern.png)
 
 #### Mocking
 A mock also substitutes for a dependency, but it knows something about how that dependency should work. 
@@ -75,3 +90,15 @@ If you just need a stand-in or something to return some data, then you will use 
 If you need to know how a method was called or the order the methods were called, then you will use a mock.
 
 #### Best practise
+*   Consistent – Multiple runs of test should always return same value if there was no changes in code. 
+*   Atomic – There can be only two results PASS or FAIL, test can’t be partially successful. Tests shouldn’t depend on other test result.
+*   Single Responsibility – One test should test only one scenario. 
+*   Self-descriptive – must be easy to read and understand it. 
+*   No conditional logic or loops – Split in two tests rather than using if or Case. Tests should not contain While, DoWhile or For.
+*   No exception handling – indicate expected with attribute. Catch only expected type of exception, others exception go uncaught, test fail if expected is not caught. 
+*   Informative Assertion messages – By reading assertion message you should know why test is failing. 
+*   No test logic in production code – Separate unit tests and Production code in different projects, Use Dependency injection or Mocks to isolate production code. 
+    Do not create methods that are used only by tests.
+*   Separation per business module – Faster execution, frequently execution.
+*   Separation per type – Different purpose, time of execution.
+*   Do not create too many asserts on same tests.
