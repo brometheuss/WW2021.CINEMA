@@ -47,7 +47,6 @@ Although each software module should be unit tested, defects still exist for var
 *   External Hardware interfaces, if any, could be erroneous
 *   Inadequate exception handling could cause issues.
 
-
 ### Unit
 
 #### What are Unit tests
@@ -61,15 +60,18 @@ Here, are key reasons to perform unit testing.
 *   Good unit tests serve as project documentation
 *   Unit tests help with code re-use. Migrate both your code andyour tests to your new project. Tweak the code till the tests run again.
 
+#### DAMP vs. DRY principle
 
+#### Arrange-Act-Assert pattern
 
-
-
-
-#### Unit tests patern
 
 #### Naming convention
 
 #### Mocking
+A mock also substitutes for a dependency, but it knows something about how that dependency should work. 
+It knows what methods were called within it and how many times and in what order.
+There's no reason to create a mock unless you're going to assert something about how it did its job.
+If you just need a stand-in or something to return some data, then you will use a stub. 
+If you need to know how a method was called or the order the methods were called, then you will use a mock.
 
 #### Best practise
