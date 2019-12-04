@@ -283,4 +283,39 @@ Problems in the above example classes:
 3. The `CustomerBusinessLogic` class creates an object of the `DataAccess` class using the new keyword. There may be multiple classes which use the `DataAccess` class and create its objects. So, if you change the name of the class, then you need to find all the places in your source code where you created objects of `DataAccess` and make the changes throughout the code. This is repetitive code for creating objects of the same class and maintaining their dependencies.
 4. Because the `CustomerBusinessLogic` class creates an object of the concrete `DataAccess` class, it cannot be tested independently (TDD). The `DataAccess` class cannot be replaced with a mock class.
 
+IoC is a principle, not a pattern!
+![ioc paterns](images/ioc-patterns.png)
+
+###### Solution
+
+Let's use the Factory pattern to implement IoC in the above example, as the first step towards attaining loosely coupled classes.
+
+```csharp
+public class DataAccessFactory
+{
+    public static DataAccess GetDataAccessObj() 
+    {
+        return new DataAccess();
+    }
+}
+```
+```csharp
+public class CustomerBusinessLogic
+{
+
+    public CustomerBusinessLogic()
+    {
+    }
+
+    public string GetCustomerName(int id)
+    {
+        DataAccess _dataAccess =  DataAccessFactory.GetDataAccessObj();
+
+        return _dataAccess.GetCustomerName(id);
+    }
+}
+```
+
+https://www.tutorialsteacher.com/ioc/inversion-of-control
+
 ## Dependency Injection
