@@ -167,6 +167,47 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 }
 ```
 The Has/With pattern is used to close the loop and fully define a relationship. In this case, since the relationship to be configured is a one-to-one, the HasOne method is chained with the `WithOne` method. Then the dependent entity (`AuthorBiography`) is identified by passing it in as a type parameter to the `HasForeignKey` method, which takes a lambda specifying which property in the dependent type is the foreign key.
+
+#### Many To Many Relationships
+
+```csharp
+public class Book
+{
+    public int BookId { get; set; }
+    public string Title { get; set; }
+    public Author Author { get; set; }
+    public ICollection<BookCategory> BookCategories { get; set; }
+}  
+public class Category
+{
+    public int CategoryId { get; set; }
+    public string CategoryName { get; set; }
+    public ICollection<BookCategory> BookCategories { get; set; }
+}  
+public class BookCategory
+{
+    public int BookId { get; set; }
+    public Book Book { get; set; }
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
+}
+```
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<BookCategory>()
+        .HasKey(bc => new { bc.BookId, bc.CategoryId });  
+    modelBuilder.Entity<BookCategory>()
+        .HasOne(bc => bc.Book)
+        .WithMany(b => b.BookCategories)
+        .HasForeignKey(bc => bc.BookId);  
+    modelBuilder.Entity<BookCategory>()
+        .HasOne(bc => bc.Category)
+        .WithMany(c => c.BookCategories)
+        .HasForeignKey(bc => bc.CategoryId);
+}
+```
+
 ## DbContecxt
 
 ## Quering (LINQ)
