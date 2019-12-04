@@ -71,6 +71,70 @@ public class Post
 ```
 ## Relations
 
+#### One To Many Relationships
+
+```csharp
+public class Company
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public ICollection<Employee> Employees { get; set; }
+}
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public Company Company { get; set; }
+}
+```
+```csharp
+protected override void OnModelCreating(Modelbuilder modelBuilder)
+{
+    modelBuilder.Entity<Company>()
+        .HasMany(c => c.Employees)
+        .WithOne(e => e.Company);
+    
+    modelBuilder.Entity<Employee>()
+        .HasOne(e => e.Company)
+        .WithMany(c => c.Employees);
+}
+```
+
+You can use the IsRequired method on the relationship to prevent the relationship being optional:
+```csharp
+protected override void OnModelCreating(Modelbuilder modelBuilder)
+{
+    modelBuilder.Entity<Company>()
+        .HasMany(c => c.Employees)
+        .WithOne(e => e.Company).
+        .IsRequired();
+}
+```
+
+###### Cascading Referential Integrity Constraints
+
+If the relationship is configured as optional, the default behavour of EF Core is to take no action in respect of the dependent entity if the principal is deleted.
+The default behaviour of a database is to raise an error in this scenario: foreign key values must reference existing primary key values.
+You can alter this behaviour through the OnDelete method which takes a DeleteBehaviour enumeration. The following example sets the foreign key value of the dependent entity to null in the event that the principal is deleted:
+```csharp
+protected override void OnModelCreating(Modelbuilder modelBuilder)
+{
+    modelBuilder.Entity<Company>()
+        .HasMany(c => c.Employees)
+        .WithOne(e => e.Company).
+        .OnDelete(DeleteBehavior.SetNull);
+}
+```
+This example will result in the dependent entity being deleted:
+```csharp
+protected override void OnModelCreating(Modelbuilder modelBuilder)
+{
+    modelBuilder.Entity<Company>()
+        .HasMany(c => c.Employees)
+        .WithOne(e => e.Company).
+        .OnDelete(DeleteBehavior.Delete);
+}
+```
 ## DbContecxt
 
 ## Quering (LINQ)
