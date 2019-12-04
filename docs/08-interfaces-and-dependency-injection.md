@@ -321,3 +321,142 @@ public class CustomerBusinessLogic
 https://www.tutorialsteacher.com/ioc/inversion-of-control
 
 ## Dependency Injection
+
+Dependency Injection (DI) is a design pattern used to implement IoC. It allows the creation of dependent objects outside of a class and provides those objects to a class through different ways. Using DI, we move the creation and binding of the dependent objects outside of the class that depends on them.
+
+#### Types of Dependency Injection
+
+**Constructor Injection:** In the constructor injection, the injector supplies the service (dependency) through the client class constructor.
+
+**Property Injection:** In the property injection (aka the Setter Injection), the injector supplies the dependency through a public property of the client class.
+
+**Method Injection:** In this type of injection, the client class implements an interface which declares the method(s) to supply the dependency and the injector uses this interface to supply the dependency to the client class.
+
+#### Constructor Injection
+
+When we provide the dependency through the constructor, this is called a constructor injection.
+
+```csharp
+public class CustomerBusinessLogic
+{
+    ICustomerDataAccess _dataAccess;
+
+    public CustomerBusinessLogic(ICustomerDataAccess custDataAccess)
+    {
+        _dataAccess = custDataAccess;
+    }
+
+    public CustomerBusinessLogic()
+    {
+        _dataAccess = new CustomerDataAccess();
+    }
+
+    public string ProcessCustomerData(int id)
+    {
+        return _dataAccess.GetCustomerName(id);
+    }
+}
+
+public interface ICustomerDataAccess
+{
+    string GetCustomerData(int id);
+}
+
+public class CustomerDataAccess: ICustomerDataAccess
+{
+    public CustomerDataAccess()
+    {
+    }
+
+    public string GetCustomerName(int id) 
+    {
+        //get the customer name from the db in real application        
+        return "Dummy Customer Name"; 
+    }
+}
+```
+As you can see in the above example, the `CustomerService` class creates and injects the `CustomerDataAccess` object into the `CustomerBusinessLogic` class. Thus, the `CustomerBusinessLogic` class doesn't need to create an object of `CustomerDataAccess` using the new keyword or using factory class. The calling class (`CustomerService`) creates and sets the appropriate `DataAccess` class to the `CustomerBusinessLogic` class. In this way, the `CustomerBusinessLogic` and `CustomerDataAccess` classes become "more" loosely coupled classes.
+
+#### Property Injection
+
+The dependency is provided through a public property.
+```csharp
+public class CustomerBusinessLogic
+{
+    public CustomerBusinessLogic()
+    {
+    }
+
+    public string GetCustomerName(int id)
+    {
+        return DataAccess.GetCustomerName(id);
+    }
+
+    public ICustomerDataAccess DataAccess { get; set; }
+}
+
+public class CustomerService
+{
+    CustomerBusinessLogic _customerBL;
+
+    public CustomerService()
+    {
+        _customerBL = new CustomerBusinessLogic();
+        _customerBL.DataAccess = new CustomerDataAccess();
+    }
+
+    public string GetCustomerName(int id) {
+        return _customerBL.GetCustomerName(id);
+    }
+}
+```
+As you can see above, the `CustomerBusinessLogic` class includes the public property named `DataAccess`, where you can set an instance of a class that implements `ICustomerDataAccess`. So, `CustomerService` class creates and sets `CustomerDataAccess` class using this public property.
+
+#### Method Injection
+
+In the method injection, dependencies are provided through methods. This method can be a class method or an interface method.
+```csharp
+interface IDataAccessDependency
+{
+    void SetDependency(ICustomerDataAccess customerDataAccess);
+}
+
+public class CustomerBusinessLogic : IDataAccessDependency
+{
+    ICustomerDataAccess _dataAccess;
+
+    public CustomerBusinessLogic()
+    {
+    }
+
+    public string GetCustomerName(int id)
+    {
+        return _dataAccess.GetCustomerName(id);
+    }
+        
+    public void SetDependency(ICustomerDataAccess customerDataAccess)
+    {
+        _dataAccess = customerDataAccess;
+    }
+}
+
+public class CustomerService
+{
+    CustomerBusinessLogic _customerBL;
+
+    public CustomerService()
+    {
+        _customerBL = new CustomerBusinessLogic();
+        ((IDataAccessDependency)_customerBL).SetDependency(new CustomerDataAccess());
+    }
+
+    public string GetCustomerName(int id) {
+        return _customerBL.GetCustomerName(id);
+    }
+}
+```
+In the above example, the `CustomerBusinessLogic` class implements the `IDataAccessDependency` interface, which includes the `SetDependency()` mehtod. So, the injector class (`CustomerService`) will now use this method to inject the dependent class (`CustomerDataAccess`) to the client class.
+
+Thus, you can use DI and strategy pattern to create loose coupled classes.
+
+https://www.tutorialsteacher.com/ioc/dependency-injection
