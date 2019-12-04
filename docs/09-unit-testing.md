@@ -28,10 +28,10 @@ Testing is important because software bugs could be expensive or even dangerous.
 
 ## Types of tests
 
-![picture alt]()
+![picture alt](images/types-of-tests.png)
 
 ### UI
-About this part you will hear more from our colleague.
+About this part you will hear more from our colleagues from Testing departman.
 
 ### Integration
 
