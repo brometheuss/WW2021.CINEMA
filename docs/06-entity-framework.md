@@ -135,6 +135,38 @@ protected override void OnModelCreating(Modelbuilder modelBuilder)
         .OnDelete(DeleteBehavior.Delete);
 }
 ```
+
+#### One To One Relationships
+
+```csharp
+public class Author
+{
+    public int AuthorId { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public AuthorBiography Biography { get; set; }
+}
+public class AuthorBiography
+{
+    public int AuthorBiographyId { get; set; }
+    public string Biography { get; set; }
+    public DateTime DateOfBirth { get; set; }
+    public string PlaceOfBirth { get; set; }
+    public string Nationality { get; set; }
+    public int AuthorRef { get; set; }
+    public Author Author { get; set; }
+}
+```
+```csharp
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Author>()
+        .HasOne(a => a.Biography)
+        .WithOne(b => b.Author)
+        .HasForeignKey<AuthorBiography>(b => b.AuthorRef);
+}
+```
+The Has/With pattern is used to close the loop and fully define a relationship. In this case, since the relationship to be configured is a one-to-one, the HasOne method is chained with the `WithOne` method. Then the dependent entity (`AuthorBiography`) is identified by passing it in as a type parameter to the `HasForeignKey` method, which takes a lambda specifying which property in the dependent type is the foreign key.
 ## DbContecxt
 
 ## Quering (LINQ)
