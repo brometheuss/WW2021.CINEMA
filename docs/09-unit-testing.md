@@ -34,6 +34,9 @@ Testing is important because software bugs could be expensive or even dangerous.
 About this part you will hear more from our colleagues from Testing departman.
 
 ### Integration
+
+#### What are Integration tests
+
 Although each software module should be unit tested, defects still exist for various reasons like:
 
 *   A Module, in general, is designed by an individual software developer whose understanding and programming logic may differ from other programmers.
@@ -46,18 +49,27 @@ Although each software module should be unit tested, defects still exist for var
 
 
 ### Unit
+
+#### What are Unit tests
 Sometimes software developers attempt to save time by doing minimal unit testing. This is a myth because skipping on unit testing leads to higher Defect fixing costs during System Testing, 
 Integration Testing and even Beta Testing after the application is completed. Proper unit testing done during the development stage saves both time and money in the end.
 Here, are key reasons to perform unit testing. 
 
-## What are Integration tests
 
-## What are Unit tests
+*   Unit Tests fix bug early in development cycle and save costs.
+*   It helps understand the developers the code base and enable them to make changes quickly
+*   Good unit tests serve as project documentation
+*   Unit tests help with code re-use. Migrate both your code andyour tests to your new project. Tweak the code till the tests run again.
 
-### Unit tests patern
 
-### Naming convention
 
-### Mocking
 
-### Best practise
+
+
+#### Unit tests patern
+
+#### Naming convention
+
+#### Mocking
+
+#### Best practise
