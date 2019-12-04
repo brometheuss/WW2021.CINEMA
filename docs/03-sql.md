@@ -147,7 +147,7 @@ SELECT column-names
 https://www.dofactory.com/sql/group-by
 ## Join
  
-![Joins](https://www.dofactory.com/Images/sql-joins.png)
+![Joins](images/sql-joins.png)
 
 Syntax:
 ```sql
