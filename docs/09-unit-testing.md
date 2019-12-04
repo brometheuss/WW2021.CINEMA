@@ -30,10 +30,10 @@ Testing is important because software bugs could be expensive or even dangerous.
 
 ![picture alt](images/types-of-tests.png)
 
-### UI
+### UI Tests
 About this part you will hear more from our colleagues from Testing departman.
 
-### Integration
+### Integration Tests
 
 #### What are Integration tests
 
@@ -47,7 +47,7 @@ Although each software module should be unit tested, defects still exist for var
 *   External Hardware interfaces, if any, could be erroneous
 *   Inadequate exception handling could cause issues.
 
-### Unit
+### Unit Tests
 
 #### What are Unit tests
 Sometimes software developers attempt to save time by doing minimal unit testing. This is a myth because skipping on unit testing leads to higher Defect fixing costs during System Testing, 
