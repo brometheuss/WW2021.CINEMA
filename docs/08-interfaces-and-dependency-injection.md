@@ -1,4 +1,5 @@
 # Introduction
+In this section we will learn more about interfaces, inversion of control and dependency injection.
 
 ## Intefaces
 An interface contains definitions for a group of related functionalities that a non-abstract class or a struct must implement.
