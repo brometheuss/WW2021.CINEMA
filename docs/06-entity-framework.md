@@ -251,6 +251,34 @@ In the example above, the `SchoolContext` class is derived from the `DbContext` 
 The `OnConfiguring()` method allows us to select and configure the data source to be used with a context using `DbContextOptionsBuilder`.
 
 ## Quering (LINQ)
+
+Entity Framework Core uses Language Integrated Query (LINQ) to query data from the database. LINQ allows you to use C# (or your .NET language of choice) to write strongly typed queries. It uses your derived context and entity classes to reference database objects. EF Core passes a representation of the LINQ query to the database provider.
+
+##### Loading All Data
+```csharp
+using (var context = new BloggingContext())
+{
+    var blogs = context.Blogs.ToList();
+}
+```
+##### Loading a single entity
+```csharp
+using (var context = new BloggingContext())
+{
+    var blog = context.Blogs
+        .Single(b => b.BlogId == 1);
+}
+```
+##### Filtering
+```csharp
+using (var context = new BloggingContext())
+{
+    var blogs = context.Blogs
+        .Where(b => b.Url.Contains("dotnet"))
+        .ToList();
+}
+```
+
 ## Saving Data
 ## CodeFirst
 ## DBFirst
