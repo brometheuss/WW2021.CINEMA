@@ -213,6 +213,43 @@ The **primary key** for the join table is a **composite key** comprising both of
 
 ## DbContecxt
 
+The Entity Framework Core DbContext class represents a session with a database and provides an API for communicating with the database with the following capabilities:
+- Database Connections
+- Data operations such as querying and persistance
+- Change Tracking
+- Model building
+- Data Mapping
+- Object caching
+- Transaction management
+
+```csharp
+public class SchoolContext : DbContext
+{
+    //entities
+    public DbSet<Student> Books { get; set; }
+    public DbSet<Category> Categories { get; set; }
+
+    public SchoolContext()
+    {
+  
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer(
+                @"Server=(localdb)\mssqllocaldb;Database=database;Integrated Security=True");
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+    }
+    
+} 
+```
+
+In the example above, the `SchoolContext` class is derived from the `DbContext` class and contains the `DbSet<TEntity>` properties of `Student` and `Course` type. It also overrides the `OnConfiguring` and `OnModelCreating` methods. We must create an instance of `SchoolContext` to connect to the database and save or retrieve `Student` or `Course` data.
+The `OnConfiguring()` method allows us to select and configure the data source to be used with a context using `DbContextOptionsBuilder`.
+
 ## Quering (LINQ)
 ## Saving Data
 ## CodeFirst
