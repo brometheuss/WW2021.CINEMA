@@ -280,6 +280,39 @@ using (var context = new BloggingContext())
 ```
 
 ## Saving Data
+
+Each context instance has a `ChangeTracker` that is responsible for keeping track of changes that need to be written to the database. As you make changes to instances of your entity classes, these changes are recorded in the `ChangeTracker` and then written to the database when you call `SaveChanges`. The database provider is responsible for translating the changes into database-specific operations (for example, `INSERT`, `UPDATE`, and `DELETE` commands for a relational database).
+
+##### Basic Save
+Addind data:
+```csharp
+using (var context = new BloggingContext())
+{
+    var blog = new Blog { Url = "http://sample.com" };
+    context.Blogs.Add(blog);
+    context.SaveChanges();
+}
+```
+Updating data:
+```csharp
+using (var context = new BloggingContext())
+{
+    var blog = context.Blogs.First();
+    blog.Url = "http://sample.com/blog";
+    context.SaveChanges();
+}
+```
+Deleting data:
+```csharp
+using (var context = new BloggingContext())
+{
+    var blog = context.Blogs.First();
+    context.Blogs.Remove(blog);
+    context.SaveChanges();
+}
+```
+https://docs.microsoft.com/en-us/ef/core/saving/
+
 ## CodeFirst
 ## DBFirst
 ## ModelFirst
