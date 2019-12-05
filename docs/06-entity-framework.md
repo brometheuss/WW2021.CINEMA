@@ -170,6 +170,8 @@ The Has/With pattern is used to close the loop and fully define a relationship. 
 
 #### Many To Many Relationships
 
+A many-to-many relationship occurs between entities when a one-to-many relationship between them works both ways. A book can appear in many categories and a category can contain many books. This type of relationship is represented in a database by a join table (also known among other things as a bridging, junction or linking table).
+
 ```csharp
 public class Book
 {
@@ -207,6 +209,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
         .HasForeignKey(bc => bc.CategoryId);
 }
 ```
+The **primary key** for the join table is a **composite key** comprising both of the **foreign key** values. In addition, both sides of the many-to-many relationship are configured using the `HasOne`, `WithMany` and `HasForeignKey` Fluent API methods.
 
 ## DbContecxt
 
