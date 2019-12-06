@@ -25,6 +25,105 @@ There are some key aspects that you can decipher from the architecture. The runt
 
 ## Introduction to ASP.NET Core
 
-This introduction is also done in form of PowerPoint presentation. 
-It covers benefits, basics, MVC, Web API, data access and auth. 
-You can create new ASP.NET Core MVC and ASP.NET Core Web API applications in parallel to check out all the mentioned features yourself. 
+ASP.NET Core is a cross-platform, high-performance, open-source framework for building modern, cloud-based, Internet-connected applications. With ASP.NET Core, you can:
+- Build web apps and services, IoT apps, and mobile backends.
+- Use your favorite development tools on Windows, macOS, and Linux.
+- Deploy to the cloud or on-premises.
+- Run on .NET Core or .NET Framework.
+
+ASP.NET Core provides the following benefits:
+- A unified story for building web UI and web APIs.
+- Architected for testability.
+- Razor Pages makes coding page-focused scenarios easier and more productive.
+- Blazor lets you use C# in the browser alongside JavaScript. Share server-side and client-side app logic all written with .NET.
+- Ability to develop and run on Windows, macOS, and Linux.
+- Open-source and community-focused.
+- Integration of modern, client-side frameworks and development workflows.
+- Support for hosting Remote Procedure Call (RPC) services using gRPC.
+- A cloud-ready, environment-based configuration system.
+- Built-in dependency injection.
+- A lightweight, high-performance, and modular HTTP request pipeline.
+- Ability to host on the following:
+    - Kestrel
+    - IIS
+    - HTTP.sys
+    - Nginx
+    - Apache
+    - Docker
+- Side-by-side versioning.
+- Tooling that simplifies modern web development.
+
+ASP.NET Core Applications:
+- Web app	For 
+- Web API		
+- Real-time app		
+- Blazor app		
+- Remote Procedure Call app
+
+#### Web App
+
+###### Razor Pages
+
+Razor Pages can make coding page-focused scenarios easier and more productive than using controllers and views.
+
+```csharp
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddRazorPages(); // This line!
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapRazorPages();
+        });
+    }
+}
+```
+
+```html
+@page
+@model RazorPagesContacts.Pages.Customers.CreateModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<p>Enter a customer name:</p>
+
+<form method="post">
+    Name:
+    <input asp-for="Customer.Name" />
+    <input type="submit" />
+</form>
+```
+
+###### MVC 
+
+###### Blazor 
+
+#### Web API
