@@ -170,4 +170,27 @@ Using .NET for client-side web development offers the following advantages:
 - Stay productive with Visual Studio on Windows, Linux, and macOS.
 - Build on a common set of languages, frameworks, and tools that are stable, feature-rich, and easy to use.
 
+```csharp
+<div>
+    <h1>@Title</h1>
+
+    @ChildContent
+
+    <button @onclick="OnYes">Yes!</button>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private void OnYes()
+    {
+        Console.WriteLine("Write to the console in C#! 'Yes' button was selected.");
+    }
+}
+```
+
 #### Web API
