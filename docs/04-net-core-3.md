@@ -17,7 +17,11 @@ NET Core Platform contains the following main parts:
 - **SDK & Compiler** − A set of SDK tools and language compilers that enable the base developer experience, available in the .NET Core SDK.
 - **‘dotnet’ app host** − It is used to launch .NET Core apps. It selects the runtime and hosts the runtime, provides an assembly loading policy and launches the app. The same host is also used to launch SDK tools in much the same way.
 
-![.net core](images/dotNetCore.png)
+![.net core](images/dotnet-core-architecture.png)
+There are some key aspects that you can decipher from the architecture. The runtimes shown in Figure 2 will be serving the following purposes:
+- **CoreCLR** is the runtime that is optimized for multi-platform and cloud base deployments. You will be using this when you are building applications on ASP.NET Core.
+- **.NET Native** (also referred as MRT – Managed Runtime – at times) is the CLR for Universal Apps and is optimized to run on any device and platform natively, which runs Windows. This will follow AOT (ahead of time) compilation instead of erstwhile JIT compilation, and will be targeted for specific platforms say Linux-64 bit and so on. This will ensure a better runtime performance.
+- **Unified BCL (Base Class Library)** consists of the basic/fundamental classes that are a part of .NET Core. This also is called as CoreFX. .NET Core follows the NuGet model for delivery of packages for BCL.
 
 ## Introduction to ASP.NET Core
 
