@@ -194,3 +194,5 @@ Using .NET for client-side web development offers the following advantages:
 ```
 
 #### Web API
+
+ASP.NET Core supports creating RESTful services, also known as web APIs, using C#. To handle requests, a web API uses controllers. Controllers in a web API are classes that derive from `ControllerBase`. This article shows how to use controllers for handling web API requests.
