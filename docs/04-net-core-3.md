@@ -17,7 +17,7 @@ NET Core Platform contains the following main parts:
 - **SDK & Compiler** − A set of SDK tools and language compilers that enable the base developer experience, available in the .NET Core SDK.
 - **‘dotnet’ app host** − It is used to launch .NET Core apps. It selects the runtime and hosts the runtime, provides an assembly loading policy and launches the app. The same host is also used to launch SDK tools in much the same way.
 
-
+![.net core](images/dotNetCore.png)
 
 ## Introduction to ASP.NET Core
 
