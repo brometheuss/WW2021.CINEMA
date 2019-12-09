@@ -314,5 +314,17 @@ using (var context = new BloggingContext())
 https://docs.microsoft.com/en-us/ef/core/saving/
 
 ## CodeFirst
+
+### What is Code-First?
+
+Entity Framework introduced the Code-First approach with Entity Framework 4.1. Code-First is mainly useful in Domain Driven Design. 
+In the Code-First approach, you focus on the domain of your application and start creating classes for your domain entity rather 
+than design your database first and then create the classes which match your database design. The following figure illustrates the code-first approach. 
+
+![picture alt](images/)
+
+As you can see in the above figure, EF API will create the database based on your domain classes and configuration. 
+This means you need to start coding first in C# or VB.NET and then EF will create the database from your code. 
+
 ## DBFirst
 ## ModelFirst
