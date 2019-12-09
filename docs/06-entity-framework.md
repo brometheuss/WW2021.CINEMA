@@ -326,5 +326,15 @@ than design your database first and then create the classes which match your dat
 As you can see in the above figure, EF API will create the database based on your domain classes and configuration. 
 This means you need to start coding first in C# or VB.NET and then EF will create the database from your code. 
 
+### Code-First workflow?
+
+The following figure illustrates the code-first development workflow.
+
+![picture alt](images/ef-code-first.png)
+
+The development workflow in the code-first approach would be: 
+Create or modify domain classes -> configure these domain classes using Fluent-API or data annotation attributes -> 
+Create or update the database schema using automated migration or code-based migration.
+
 ## DBFirst
 ## ModelFirst
