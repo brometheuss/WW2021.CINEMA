@@ -179,3 +179,76 @@ Keywords in method overriding:
 ```
 
 ## Lambda Expression
+
+### What are Lambda expressions?
+
+Lambda expressions in C# are used like anonymous functions, with the difference that in Lambda expressions you don’t need to specify the type of the value
+that you input thus making it more flexible to use.
+The **‘=>’** is the lambda operator which is used in all lambda expressions. 
+The Lambda expression is divided into two parts, the left side is the input and the right is the expression.
+
+We have two types of Lambda expressions:
+*   Expression Lambda - Consists of the input and the expression
+```csharp
+input => expression;
+```
+*   statement Lambda - Consists of the input and a set of statements to be executed
+```csharp
+input => { statements };
+```
+
+### Example 
+
+```csharp
+// C# program to illustrate the 
+// Lambda Expression 
+using System; 
+using System.Collections.Generic; 
+using System.Linq; 
+
+namespace Lambda_Exressions { 
+class Program { 
+	static void Main(string[] args) 
+	{ 
+		// List to store numbers 
+		List<int> numbers = new List<int>() {36, 71, 12, 
+							15, 29, 18, 27, 17, 9, 34}; 
+
+		// foreach loop to dislay the list 
+		Console.Write("The list : "); 
+		foreach(var value in numbers) 
+		{ 
+			Console.Write("{0} ", value); 
+		} 
+		Console.WriteLine(); 
+
+		// Using lambda expression 
+		// to calculate square of 
+		// each value in the list 
+		var square = numbers.Select(x => x * x); 
+
+		// foreach loop to display squares 
+		Console.Write("Squares : "); 
+		foreach(var value in square) 
+		{ 
+			Console.Write("{0} ", value); 
+		} 
+		Console.WriteLine(); 
+
+		// Using Lambda exression to 
+		// find all numbers in the list 
+		// divisible by 3 
+		List<int> divBy3 = numbers.FindAll(x => (x % 3) == 0); 
+
+		// foreach loop to display divBy3 
+		Console.Write("Numbers Divisible by 3 : "); 
+		foreach(var value in divBy3) 
+		{ 
+			Console.Write("{0} ", value); 
+		} 
+		Console.WriteLine(); 
+	} 
+} 
+} 
+```
+
