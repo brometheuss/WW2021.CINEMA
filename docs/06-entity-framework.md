@@ -330,7 +330,7 @@ This means you need to start coding first in C# or VB.NET and then EF will creat
 
 The following figure illustrates the code-first development workflow.
 
-![picture alt](images/ef-code-first.png)
+![picture alt](images/ef-code-first-workflow.png)
 
 The development workflow in the code-first approach would be: 
 Create or modify domain classes -> configure these domain classes using Fluent-API or data annotation attributes -> 
