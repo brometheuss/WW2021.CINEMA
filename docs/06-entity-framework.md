@@ -341,4 +341,4 @@ You connect to an exisitng database and Visual Studio and EF build a data object
 In the model-first approach, you create entities, relationships, and inheritance hierarchies directly on the visual designer integrated in Visual Studio 
 and then generate entities, the context class, and the database script from your visual model.
 
-![picture alt](images/ef-database-first.png)
+![picture alt](images/ef-model-first.png)
