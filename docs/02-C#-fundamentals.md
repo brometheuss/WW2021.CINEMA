@@ -12,6 +12,12 @@ Methods that override virtual methods in a parent class require the override key
 
 
 ## OOP
+*   Abstraction – Refers to the process of exposing only the relevant and essential data to the user without showing unnecessary information.
+*   Polymorphism – Allows you to use an entity in multiple forms.
+*   Encapsulation – Prevents the data from unwanted access by binding of code and data in a single unit called object.
+*   Inheritance – Promotes the reusability of code and eliminate the use of redundant code. 
+    It is the property through which a child class obtains all the features defined in its parent class. 
+
 
 ## SOLID
 
