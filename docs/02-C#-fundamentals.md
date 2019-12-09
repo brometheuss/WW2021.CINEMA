@@ -87,14 +87,95 @@ A user can implement function overloading by defining two or more functions in a
 C# can distinguish the methods with different method signatures.
 
 Method overloading can be done by changing:
-
 *   The number of parameters.
 *   The data types of the parameters of methods.
 *   The Order of the parameters of methods.
 
-csharp
+```csharp
+// C# program to demonstrate the function 
+// overloading by changing the Number 
+// of parameters 
 
-### What is method overriding
+class GFG { 
 
+	// adding two integer values. 
+	public int Add(int x, int y) 
+	{ 
+		int sum = x + y; 
+		return sum; 
+	} 
+
+	// adding three integer values. 
+	public int Add(int x, int y, int z) 
+	{ 
+		int sum = x + y + z; 
+		return sum; 
+	} 
+
+	// Main Method 
+	public static void Main(String[] args) 
+	{ 
+
+		// Creating Object 
+		GFG ob = new GFG(); 
+
+		int sum1 = ob.Add(1, 2); 
+		Console.WriteLine("sum of the two "
+						+ "integer value : " + sum1); 
+
+		int sum2 = ob.Add(1, 2, 3); 
+		Console.WriteLine("sum of the three "
+						+ "integer value : " + sum2);
+    }
+}
+```
+
+### What is method overriding?
+
+Method Overriding is a technique that allows the invoking of functions from another class (base class) in the derived class. 
+Creating a method in the derived class with the same signature as a method in the base class is called as method overriding.
+In simple words, Overriding is a feature that allows a subclass or child class to provide a specific implementation of a method that is already provided by
+one of its super-classes or parent classes. When a method in a subclass has the same name, 
+same parameters or signature and same return type(or sub-type) as a method in its super-class, 
+then the method in the subclass is said to override the method in the super-class.
+
+Keywords in method overriding:
+*   Virtual - base class method which is going to be override.
+*   Override - sub class method which is overriding base class method.
+*   Base - By using base keyword, we can call a base class method that has been overridden by another method in derived class.
+
+```csharp
+// C# program to demonstrate the function 
+// overriding 
+
+    class baseClass  
+    {  
+        public virtual void Greetings()  
+        {  
+            Console.WriteLine("baseClass Saying Hello!");  
+        }  
+    }  
+    class subClass : baseClass  
+    {  
+        public override void Greetings()  
+        {  
+            base.Greetings();  
+            Console.WriteLine("subClass Saying Hello!");  
+        }  
+    }  
+    class Program  
+    {  
+        static void Main(string[] args)  
+        {  
+            baseClass obj1 = new baseClass();  
+            obj1.Greetings();
+
+            subClass obj2 = new subClass();  
+            obj2.Greetings();
+
+            Console.ReadLine();  
+        }  
+    }  
+```
 
 ## Lambda Expression
