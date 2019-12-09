@@ -321,7 +321,7 @@ Entity Framework introduced the Code-First approach with Entity Framework 4.1. C
 In the Code-First approach, you focus on the domain of your application and start creating classes for your domain entity rather 
 than design your database first and then create the classes which match your database design. The following figure illustrates the code-first approach. 
 
-![picture alt](images/)
+![picture alt](images/ef-code-first.png)
 
 As you can see in the above figure, EF API will create the database based on your domain classes and configuration. 
 This means you need to start coding first in C# or VB.NET and then EF will create the database from your code. 
