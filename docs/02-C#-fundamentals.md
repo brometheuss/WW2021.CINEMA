@@ -50,9 +50,51 @@ Attributes and behavior of an object are defined by the class definition.
 A class acts as a blue-print that defines properties, states and behaviors that are common to a number of objects.
 An object is an instance of the class.
 
+## Constructor and Destructor
+
+###	Explain the concept of constructor?
+Constructor is a special method of a class, which is called automatically when the instance of class is created. 
+It is created with the same name as the class and initializes all class members whenever you access the class. Main features of constructor are:
+*	Constructors do not have any return type.
+*   Constructor can be overloaded.
+
+### Explain the concept of destructor?
+
+A destructor is a special method for a class and is invoked automatically when an object is finally destroyed. 
+The name of destructor is same as the class name but with prefix tilde (~). Destructor is used to free the dynamic allocated memory. Main features of destructor are:
+*   Destructors do not have any return type.
+*   Destructors are always public.
+*   Destructors cannot be overloaded. 
 
 ## Properties
 
+### Give a brief description of properties in C#?
+
+In C#, a property is a way to expose an internal data element of a class. 
+You can create a property by defining an externally available name and then writing the “set” and “get” property accessors.
+
 ## Method overriding/overloading
+
+### What are methods?
+
+Method is a block of code that contains a series of statements and represents the behavior of a class. 
+While declaring a method we need to specify the access specifier, return type, name of the method, and the method parameters.
+
+### What is method overloading?
+
+Method Overloading is the common way of implementing polymorphism. It is the ability to redefine a function in more than one form. 
+A user can implement function overloading by defining two or more functions in a class sharing the same name. 
+C# can distinguish the methods with different method signatures.
+
+Method overloading can be done by changing:
+
+*   The number of parameters.
+*   The data types of the parameters of methods.
+*   The Order of the parameters of methods.
+
+csharp
+
+### What is method overriding
+
 
 ## Lambda Expression
