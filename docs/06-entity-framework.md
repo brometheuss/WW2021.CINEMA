@@ -317,24 +317,36 @@ https://docs.microsoft.com/en-us/ef/core/saving/
 
 ### What is Code-First?
 
-Entity Framework introduced the Code-First approach with Entity Framework 4.1. Code-First is mainly useful in Domain Driven Design. 
 In the Code-First approach, you focus on the domain of your application and start creating classes for your domain entity rather 
 than design your database first and then create the classes which match your database design. The following figure illustrates the code-first approach. 
 
 ![picture alt](images/ef-code-first.png)
 
 As you can see in the above figure, EF API will create the database based on your domain classes and configuration. 
-This means you need to start coding first in C# or VB.NET and then EF will create the database from your code. 
+This means you need to start coding first in C# and then EF will create the database from your code.
 
 ### Code-First workflow
 
+Database First approach allows developers to build software applications from their existing databases. 
+You connect to an exisitng database and Visual Studio and EF build a data object model and the complete application for you with very little code. 
 The following figure illustrates the code-first development workflow.
 
-![picture alt](images/ef-code-first-workflow.png)
+![picture alt](images/ef-db-first.png)
 
-The development workflow in the code-first approach would be: 
-Create or modify domain classes -> configure these domain classes using Fluent-API or data annotation attributes -> 
-Create or update the database schema using automated migration or code-based migration.
+## DbFirst
 
-## DBFirst
+### What is Database-First?
+
+Entity Framework's Database First approach allows developers to build software applications from their existing databases. 
+You connect to an exisitng database and Visual Studio and EF build a data object model and the complete application for you with very little code.
+
+![picture alt](images/ef-code-first.png)
+
+### Code-First workflow
+
+The following figure illustrates the db-first development workflow.
+
+
+
+
 ## ModelFirst
