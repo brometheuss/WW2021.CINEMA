@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using WinterWorkShop.Cinema.Data;
+using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.API
 {
@@ -33,6 +34,7 @@ namespace WinterWorkShop.Cinema.API
             });
 
             services.AddControllers();
+            services.AddTransient<IMoviesRepository, MoviesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

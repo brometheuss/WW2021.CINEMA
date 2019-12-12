@@ -14,9 +14,9 @@ namespace WinterWorkShop.Cinema.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options) 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace WinterWorkShop.Cinema.Data
 
         public int Year { get; set; }
 
-        //public float Rating { get; set; }
+        public double? Rating { get; set; }
 
         public bool Current { get; set; }
     }
