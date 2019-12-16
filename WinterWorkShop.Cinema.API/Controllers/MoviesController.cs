@@ -16,13 +16,15 @@ namespace WinterWorkShop.Cinema.API.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMoviesRepository _moviesRepository;
+        private readonly CinemaContext _cinemaContext;
 
         private readonly ILogger<MoviesController> _logger;
 
-        public MoviesController(ILogger<MoviesController> logger, IMoviesRepository moviesRepository)
+        public MoviesController(ILogger<MoviesController> logger, CinemaContext cinemaContext, IMoviesRepository moviesRepository)
         {
             _logger = logger;
             _moviesRepository = moviesRepository;
+            _cinemaContext = cinemaContext;
         }
 
         [HttpGet]
