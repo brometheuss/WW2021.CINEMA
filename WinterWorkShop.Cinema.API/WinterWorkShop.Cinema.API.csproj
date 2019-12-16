@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinterWorkShop.Cinema.Repositories\WinterWorkShop.Cinema.Repositories.csproj" />
+    <ProjectReference Include="..\WinterWorkShop.Cinema.Domain\WinterWorkShop.Cinema.Domain.csproj" />
   </ItemGroup>
 
 </Project>

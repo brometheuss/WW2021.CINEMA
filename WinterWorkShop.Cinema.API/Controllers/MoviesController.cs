@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Data;
+using WinterWorkShop.Cinema.Domain.Interfaces;
+using WinterWorkShop.Cinema.Domain.Models;
 using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.API.Controllers
@@ -17,14 +19,14 @@ namespace WinterWorkShop.Cinema.API.Controllers
     {
         private readonly IMoviesRepository _moviesRepository;
         private readonly CinemaContext _cinemaContext;
+        private readonly IMovieService _movieService;
 
         private readonly ILogger<MoviesController> _logger;
 
-        public MoviesController(ILogger<MoviesController> logger, CinemaContext cinemaContext, IMoviesRepository moviesRepository)
+        public MoviesController(ILogger<MoviesController> logger, IMovieService movieService)
         {
             _logger = logger;
-            _moviesRepository = moviesRepository;
-            _cinemaContext = cinemaContext;
+            _movieService = movieService;            
         }
 
         [HttpGet]
@@ -36,9 +38,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
         }
 
         [HttpGet]
+        [Route("current")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
         {
-            var data = await _moviesRepository.GetAll();
+            var data = _movieService.GetAllMovies(true);
             return Ok(data);
         }
 
@@ -50,17 +53,17 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var data = _moviesRepository.Insert(new Movie
+            MovieDomainModel domainModel = new MovieDomainModel
             {
-                Title = movieModel.Title,
                 Current = movieModel.Current,
-                Year = movieModel.Year,
-                Rating = movieModel.Rating
-            });
+                Rating = movieModel.Rating,
+                Title = movieModel.Title,
+                Year = movieModel.Year
+            };
 
-            _moviesRepository.Save();
+            var data = _movieService.AddMovie(domainModel);
 
-            return Created("movies//" + data.Entity.Id, data.Entity);
+            return Created("movies//" + data.Id, data);
         }
 
         [HttpPut]
