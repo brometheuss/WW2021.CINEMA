@@ -43,7 +43,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent)
         {
-            var data = _moviesRepository.Get(x => x.Current);
+            var data = _moviesRepository.GetCurrentMovies();
 
             List<MovieDomainModel> result = new List<MovieDomainModel>();
             MovieDomainModel model;

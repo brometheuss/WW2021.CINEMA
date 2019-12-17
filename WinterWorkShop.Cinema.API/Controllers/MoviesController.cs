@@ -33,7 +33,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("{id}")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync(Guid id)
         {
-            var data = _moviesRepository.GetById(id);
+            var data = _moviesRepository.GetByIdAsync(id);
             return Ok(data);
         }
 
@@ -75,7 +75,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var movieToUpdate = _moviesRepository.GetById(id);
+            var movieToUpdate = await _moviesRepository.GetByIdAsync(id);
 
             movieToUpdate.Title = movieModel.Title;
             movieToUpdate.Current = movieModel.Current;

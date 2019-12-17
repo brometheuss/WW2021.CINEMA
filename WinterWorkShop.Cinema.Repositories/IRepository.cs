@@ -12,7 +12,7 @@ namespace WinterWorkShop.Cinema.Repositories
 
         Task<IEnumerable<T>> GetAll();
 
-        T GetById(object id);
+        Task<T> GetByIdAsync(object id);
 
         EntityEntry<T> Insert(T obj);
 
