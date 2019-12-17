@@ -64,7 +64,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public MovieDomainModel GetMovieById(Guid id)
         {
-            var data = _moviesRepository.GetById(id);
+            var data =  _moviesRepository.GetByIdAsync(id).Result;
 
             MovieDomainModel domainModel = new MovieDomainModel
             {
