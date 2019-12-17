@@ -29,14 +29,16 @@ namespace WinterWorkShop.Cinema.API.Controllers
             _movieService = movieService;            
         }
 
+        //Get_Movie_By_Id
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync(Guid id)
         {
-            var data = _moviesRepository.GetById(id);
+            var data = _movieService.GetMovieById(id);
             return Ok(data);
         }
 
+        //Get_All_Movies
         [HttpGet]
         [Route("current")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
@@ -45,6 +47,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Ok(data);
         }
 
+        //Add_Movie
         [HttpPost]
         public async Task<ActionResult> Post(MovieModel movieModel)
         {
@@ -66,6 +69,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Created("movies//" + data.Id, data);
         }
 
+        //Update_Movie
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody]MovieModel movieModel)
@@ -75,28 +79,26 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var movieToUpdate = _moviesRepository.GetById(id);
+            var movieToUpdate = _movieService.GetMovieById(id);
 
             movieToUpdate.Title = movieModel.Title;
             movieToUpdate.Current = movieModel.Current;
             movieToUpdate.Year = movieModel.Year;
             movieToUpdate.Rating = movieModel.Rating;
-
-            _moviesRepository.Update(movieToUpdate);
-
-            _moviesRepository.Save();
+            
+            _movieService.UpdateMovie(movieToUpdate);
 
             return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
         }
 
+        //Delete_Movie
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            var deletedMovie = _moviesRepository.Delete(id);
-            _moviesRepository.Save();
+            var deletedMovie = _movieService.DeleteMovie(id);
 
-            return Accepted("movies//" + deletedMovie.Entity.Id, deletedMovie.Entity);
+            return Accepted("movies//" + deletedMovie.Id, deletedMovie);
         }
     }
 }

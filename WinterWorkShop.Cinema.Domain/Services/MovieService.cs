@@ -64,7 +64,62 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public MovieDomainModel GetMovieById(Guid id)
         {
-            throw new NotImplementedException();
+            var data = _moviesRepository.GetById(id);
+
+            MovieDomainModel domainModel = new MovieDomainModel
+            {
+                Current = data.Current,
+                Rating = data.Rating ?? 0,
+                Title = data.Title,
+                Year = data.Year                
+            };
+
+            return domainModel;
+        }
+
+        public MovieDomainModel UpdateMovie(MovieDomainModel updateMovie) {
+
+            Movie movie = new Movie()
+            {
+                Id = updateMovie.Id,
+                Title = updateMovie.Title,
+                Current = updateMovie.Current,
+                Year = updateMovie.Year,
+                Rating = updateMovie.Rating
+            };
+
+
+            var data = _moviesRepository.Update(movie);
+            _moviesRepository.Save();
+
+
+            MovieDomainModel domainModel = new MovieDomainModel()
+            {
+                Id = data.Entity.Id,
+                Title = data.Entity.Title,
+                Current = data.Entity.Current,
+                Year = data.Entity.Year,
+                Rating = data.Entity.Rating ?? 0
+            };
+
+            return domainModel;
+        }
+
+        public MovieDomainModel DeleteMovie(Guid id)
+        {
+            var data = _moviesRepository.Delete(id);
+
+            MovieDomainModel domainModel = new MovieDomainModel
+            {
+                Id = data.Entity.Id,
+                Title = data.Entity.Title,
+                Current = data.Entity.Current,
+                Year = data.Entity.Year,
+                Rating = data.Entity.Rating ?? 0
+
+            };
+            
+            return domainModel;
         }
     }
 }

@@ -62,11 +62,22 @@ namespace WinterWorkShop.Cinema.Repositories
             return _table.Add(obj);
         }
 
-        public void Update(T obj)
+        public EntityEntry<T> Update(T obj)
         {
-            _table.Attach(obj);
+            var data = _table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
+
+            return data;
         }
+
+        // mozda moze i ovako (probati)
+        //public EntityEntry<T> Update(T obj)
+        //{
+        //    _table.Attach(obj);
+        //    var data = _context.Entry(obj);
+        //    data.State = EntityState.Modified;
+        //    return data;
+        //}
 
         public EntityEntry<T> Delete(object id)
         {

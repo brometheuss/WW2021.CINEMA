@@ -15,7 +15,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent);
 
         /// <summary>
-        /// Get movie by ID
+        /// Get a movie by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -27,5 +27,19 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         /// <param name="newMovie"></param>
         /// <returns></returns>
         MovieDomainModel AddMovie(MovieDomainModel newMovie);
+
+        /// <summary>
+        /// Update a movie to DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        MovieDomainModel UpdateMovie(MovieDomainModel updateMovie);
+
+        /// <summary>
+        /// Delete a movie by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        MovieDomainModel DeleteMovie(Guid id);
     }
 }
