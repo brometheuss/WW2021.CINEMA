@@ -36,8 +36,15 @@ namespace WinterWorkShop.Cinema.API
             });
 
             services.AddControllers();
+
+            //Repositories
             services.AddTransient<IMoviesRepository, MoviesRepository>();
+            services.AddTransient<IProjectionsRepository, ProjectionsRepository>();
+
+            //Business Logic
             services.AddTransient<IMovieService, MovieService>();
+            services.AddTransient<IProjectionService, ProjectionService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
