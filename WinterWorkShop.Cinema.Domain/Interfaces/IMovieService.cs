@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Domain.Models;
 
 namespace WinterWorkShop.Cinema.Domain.Interfaces
@@ -19,7 +20,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        MovieDomainModel GetMovieById(Guid id);
+        Task<MovieDomainModel> GetMovieByIdAsync(Guid id);
 
         /// <summary>
         /// Adds new movie to DB

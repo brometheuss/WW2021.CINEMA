@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
@@ -62,9 +63,9 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return result;
         }
 
-        public MovieDomainModel GetMovieById(Guid id)
+        public async Task<MovieDomainModel> GetMovieByIdAsync(Guid id)
         {
-            var data =  _moviesRepository.GetByIdAsync(id).Result;
+            var data = await _moviesRepository.GetByIdAsync(id);
 
             MovieDomainModel domainModel = new MovieDomainModel
             {

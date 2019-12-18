@@ -29,16 +29,23 @@ namespace WinterWorkShop.Cinema.API.Controllers
             _movieService = movieService;
         }
 
-        //Get_Movie_By_Id
+        /// <summary>
+        /// Gets Movie by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync(Guid id)
         {
-            var data = _movieService.GetMovieById(id);
+            var data = _movieService.GetMovieByIdAsync(id);
             return Ok(data);
         }
 
-        //Get_All_Movies
+        /// <summary>
+        /// Gets all current movies
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("current")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
@@ -47,7 +54,11 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Ok(data);
         }
 
-        //Add_Movie
+        /// <summary>
+        /// Adds a new movie
+        /// </summary>
+        /// <param name="movieModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult> Post(MovieModel movieModel)
         {
@@ -69,7 +80,12 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Created("movies//" + data.Id, data);
         }
 
-        //Update_Movie
+        /// <summary>
+        /// Updates a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movieModel"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody]MovieModel movieModel)
@@ -79,7 +95,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var movieToUpdate = _movieService.GetMovieById(id);
+            var movieToUpdate = await _movieService.GetMovieByIdAsync(id);
 
             movieToUpdate.Title = movieModel.Title;
             movieToUpdate.Current = movieModel.Current;
@@ -91,7 +107,11 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
         }
 
-        //Delete_Movie
+        /// <summary>
+        /// Delete a movie by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
