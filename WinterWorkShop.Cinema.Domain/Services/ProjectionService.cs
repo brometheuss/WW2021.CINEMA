@@ -28,7 +28,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 {
                     Id = item.Id,
                     MovieId = item.MovieId,
-                    SalaId = item.SalaId,
+                    AuditoriumId = item.SalaId,
                     ProjectionTime = item.DateTime
                 };
                 result.Add(model);

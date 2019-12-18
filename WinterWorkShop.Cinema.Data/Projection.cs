@@ -19,5 +19,7 @@ namespace WinterWorkShop.Cinema.Data
         public Guid MovieId { get; set; }
 
         public virtual Movie Movie { get; set; }
+
+        public virtual Auditorium Auditorium { get; set; }
     }
 }

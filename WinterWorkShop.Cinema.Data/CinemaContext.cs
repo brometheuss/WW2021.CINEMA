@@ -10,6 +10,8 @@ namespace WinterWorkShop.Cinema.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Projection> Projections { get; set; }
 
+        public DbSet<Auditorium> Auditoriums { get; set; }
+
         public CinemaContext(DbContextOptions options)
             : base(options)
         {
@@ -18,6 +20,30 @@ namespace WinterWorkShop.Cinema.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Cinema>()
+                .HasMany(x => x.Auditoriums)
+                .WithOne(x => x.Cinema)
+                .IsRequired();
+
+            modelBuilder.Entity<Auditorium>()
+                .HasOne(x => x.Cinema)
+                .WithMany(x => x.Auditoriums)
+                .HasForeignKey(x => x.CinemaId)
+                .IsRequired();
+
+
+            modelBuilder.Entity<Auditorium>()               
+               .HasMany(x => x.Projections)
+               .WithOne(x => x.Auditorium)
+               .IsRequired();
+
+            modelBuilder.Entity<Projection>()
+                .HasOne(x => x.Auditorium)
+                .WithMany(x => x.Projections)
+                .HasForeignKey(x => x.SalaId)
+                .IsRequired();
+
 
             modelBuilder.Entity<Projection>()
                 .HasOne(x => x.Movie)
