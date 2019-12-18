@@ -43,10 +43,12 @@ namespace WinterWorkShop.Cinema.API
             //Repositories
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IProjectionsRepository, ProjectionsRepository>();
+            services.AddTransient<IAuditoriumsRepository, AuditoriumsRepository>();
 
             //Business Logic
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IProjectionService, ProjectionService>();
+            services.AddTransient<IAuditoriumService, AuditoriumService>();
 
         }
 

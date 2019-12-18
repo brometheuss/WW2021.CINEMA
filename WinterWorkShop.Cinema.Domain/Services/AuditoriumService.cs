@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.Domain.Services
 {
-    public class AuditoriumService
+    public class AuditoriumService : IAuditoriumService
     {
-        private readonly IAuditoriumRepository _auditoriumRepository;
+        private readonly IAuditoriumsRepository _auditoriumsRepository;
 
-        public AuditoriumService(IAuditoriumRepository auditoriumRepository)
+        public AuditoriumService(IAuditoriumsRepository auditoriumsRepository)
         {
-            _auditoriumRepository = auditoriumRepository;
+            _auditoriumsRepository = auditoriumsRepository;
         }
 
         public async System.Threading.Tasks.Task<IEnumerable<AuditoriumDomainModel>> GetAllAsync()
         {
-            var data = await _auditoriumRepository.GetAll();
+            var data = await _auditoriumsRepository.GetAll();
 
             List<AuditoriumDomainModel> result = new List<AuditoriumDomainModel>();
             AuditoriumDomainModel model;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
@@ -10,20 +11,20 @@ namespace WinterWorkShop.Cinema.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ProjectionsController : ControllerBase
+    public class AuditoriumController : ControllerBase
     {
-        private readonly IProjectionService _projectionService;
+        private readonly IAuditoriumService _auditoriumService;
 
-        public ProjectionsController(IProjectionService projectionService)
+        public AuditoriumController(IAuditoriumService auditoriumservice)
         {
-            _projectionService = projectionService;
+            _auditoriumService = auditoriumservice;
         }
 
         [HttpGet]
         [Route("current")]
-        public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<AuditoriumDomainModel>>> GetAsync()
         {
-            var data = await _projectionService.GetAllAsync();
+            var data = await _auditoriumService.GetAllAsync();
             return Ok(data);
         }
     }

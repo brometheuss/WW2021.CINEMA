@@ -8,12 +8,12 @@ using WinterWorkShop.Cinema.Data;
 
 namespace WinterWorkShop.Cinema.Repositories
 {
-    public interface IAuditoriumRepository : IRepository<Auditorium> { }
-    public class AuditoriumRepository
+    public interface IAuditoriumsRepository : IRepository<Auditorium> { }
+    public class AuditoriumsRepository : IAuditoriumsRepository
     {
         private CinemaContext _cinemaContext;
 
-        public AuditoriumRepository(CinemaContext cinemaContext)
+        public AuditoriumsRepository(CinemaContext cinemaContext)
         {
             _cinemaContext = cinemaContext;
         }
