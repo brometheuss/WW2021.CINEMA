@@ -69,6 +69,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             MovieDomainModel domainModel = new MovieDomainModel
             {
+                Id = data.Id,
                 Current = data.Current,
                 Rating = data.Rating ?? 0,
                 Title = data.Title,
@@ -109,6 +110,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
         public MovieDomainModel DeleteMovie(Guid id)
         {
             var data = _moviesRepository.Delete(id);
+            _moviesRepository.Save();
 
             MovieDomainModel domainModel = new MovieDomainModel
             {

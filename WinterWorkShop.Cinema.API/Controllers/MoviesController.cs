@@ -16,9 +16,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
     [ApiController]
     [Route("[controller]")]
     public class MoviesController : ControllerBase
-    {
-        private readonly IMoviesRepository _moviesRepository;
-        private readonly CinemaContext _cinemaContext;
+    {      
         private readonly IMovieService _movieService;
 
         private readonly ILogger<MoviesController> _logger;
@@ -36,9 +34,9 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetAsync(Guid id)
+        public async Task<ActionResult<IEnumerable<MovieDomainModel>>> GetAsync(Guid id)
         {
-            var data = _movieService.GetMovieByIdAsync(id);
+            var data = await _movieService.GetMovieByIdAsync(id);
             return Ok(data);
         }
 
