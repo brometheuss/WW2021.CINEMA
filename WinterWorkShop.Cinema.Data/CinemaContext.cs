@@ -9,7 +9,7 @@ namespace WinterWorkShop.Cinema.Data
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Projection> Projections { get; set; }
-
+        public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Auditorium> Auditoriums { get; set; }
 
         public CinemaContext(DbContextOptions options)
