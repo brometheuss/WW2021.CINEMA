@@ -20,6 +20,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
             _auditoriumService = auditoriumservice;
         }
 
+        /// <summary>
+        /// Gets all auditoriums
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<IEnumerable<AuditoriumDomainModel>>> GetAsync()

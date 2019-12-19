@@ -19,6 +19,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
             _projectionService = projectionService;
         }
 
+        /// <summary>
+        /// Gets all projections
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
