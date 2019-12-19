@@ -19,6 +19,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
             _cinemaService = cinemaService;
         }
 
+        /// <summary>
+        /// Gets all cinemas
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<IEnumerable<CinemaDomainModel>>> GetAsync()
