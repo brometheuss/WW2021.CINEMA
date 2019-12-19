@@ -21,7 +21,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         }
 
         [HttpGet]
-        [Route("current")]
+        [Route("all")]
         public async Task<ActionResult<IEnumerable<AuditoriumDomainModel>>> GetAsync()
         {
             var data = await _auditoriumService.GetAllAsync();

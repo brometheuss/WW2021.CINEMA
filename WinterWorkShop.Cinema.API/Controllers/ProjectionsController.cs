@@ -20,7 +20,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         }
 
         [HttpGet]
-        [Route("current")]
+        [Route("all")]
         public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
         {
             var data = await _projectionService.GetAllAsync();
