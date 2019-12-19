@@ -15,6 +15,8 @@ namespace WinterWorkShop.Cinema.Data
         
         public virtual ICollection<Projection> Projections { get; set; }
 
+        public virtual ICollection<Seat> Seats { get; set; }
+
         public virtual Cinema Cinema { get; set; }
     }
 }
