@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 using WinterWorkShop.Cinema.Repositories;
@@ -16,7 +17,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             _projectionsRepository = projectionsRepository;
         }
 
-        public async System.Threading.Tasks.Task<IEnumerable<ProjectionDomainModel>> GetAllAsync()
+        public async Task<IEnumerable<ProjectionDomainModel>> GetAllAsync()
         {
             var data = await _projectionsRepository.GetAll();
 

@@ -20,7 +20,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         }
 
         /// <summary>
-        /// Gets all projections
+        /// Gets all seats
         /// </summary>
         /// <returns></returns>
         [HttpGet]
