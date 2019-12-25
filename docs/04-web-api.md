@@ -236,8 +236,10 @@ public class MoviesController : ControllerBase
     }
 }
 ```
-This example show us that this action have route:
-http://localhost:55430/movies/current
+This example show us that this action have route.
+![picture alt](images/route-postman.png)
+This example show us response when we have matched route in postman and in controller.
+![picture alt](images/route-matched-controller-action-postman.png)
 
 Paragraph about routing:
 https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-3.0
