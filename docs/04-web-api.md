@@ -16,7 +16,7 @@ REST is acronym for Representational State Transfer. It is architectural style f
 
 *   **Client–server** – By separating the user interface concerns from the data storage concerns, 
     we improve the portability of the user interface across multiple platforms and improve scalability by simplifying the server components.
-*   Stateless – Each request from client to server must contain all of the information necessary to understand the request,
+*   **Stateless** – Each request from client to server must contain all of the information necessary to understand the request,
     and cannot take advantage of any stored context on the server. Session state is therefore kept entirely on the client.
 *   **Cacheable** – Cache constraints require that the data within a response to a request be implicitly or
     explicitly labeled as cacheable or non-cacheable. If a response is cacheable, then a client cache is given the right to reuse 
@@ -32,7 +32,7 @@ REST is acronym for Representational State Transfer. It is architectural style f
     This simplifies clients by reducing the number of features required to be pre-implemented.
 
 
-These principles need to be satisfied if we an interface to be referred as RESTful.
+These principles need to be satisfied if we want an interface to be referred as RESTful.
 
 ### What is RESTful?
 
@@ -41,7 +41,7 @@ architecture.
 
 ### HTTP verbs
 
-**GET**
+**HTTPGET**
 
 We use **GET**  to retrieve a resource. 
 
@@ -62,7 +62,7 @@ public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
 }
 ```
 
-**PUT**
+**HTTPPUT**
 
 We use **PUT** to change the state of or update a resource.
 
@@ -98,9 +98,9 @@ public async Task<ActionResult> Put(Guid id, [FromBody]MovieModel movieModel)
 }
 ```
 
-**POST**
+**HTTPPOST**
 
-We use **POST** to create that resource.
+We use **POST** to create a resource.
 
 **Example**
 ```csharp
@@ -133,9 +133,9 @@ public async Task<ActionResult> Post(MovieModel movieModel)
 }
 ```
 
-**DELETE**
+**HTTPDELETE**
 
-We use **DELETE** to remove resource.
+We use **DELETE** to remove a resource.
 
 **Example**
 ```csharp
