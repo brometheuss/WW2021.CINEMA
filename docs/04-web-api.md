@@ -3,7 +3,7 @@ In this section we will cover fundamentals of Web Api
 
 ASP .NET Core supports creating RESTful services, also known as web APIs, using C#.
 To handle requests, a web API uses controllers. Controllers in a web API are classes that derive from ControllerBase.
-This article shows how to use controllers for handling web API requests.
+This document shows how to use controllers for handling web API requests.
 
 More about this topic on:
 https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.0
@@ -12,7 +12,7 @@ https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.0
 
 ### What is REST?
 
-REST is acronym for Representational State Transfer. It is architectural style for distributed hypermedia systems.
+REST is acronym for **RE**presentational **S**tate **T**ransfer. It is architectural style for distributed hypermedia systems.
 
 ### Guiding Principles of REST
 
