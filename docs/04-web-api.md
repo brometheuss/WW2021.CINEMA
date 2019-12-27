@@ -1,7 +1,7 @@
 # Introduction
 In this section we will cover fundamentals of Web Api
 
-ASP.NET Core supports creating RESTful services, also known as web APIs, using C#.
+ASP .NET Core supports creating RESTful services, also known as web APIs, using C#.
 To handle requests, a web API uses controllers. Controllers in a web API are classes that derive from ControllerBase.
 This article shows how to use controllers for handling web API requests.
 
@@ -248,12 +248,12 @@ https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnet
 
 ## Startup class
 
-ASP.NET Core apps use a Startup class, which is named Startup by convention. The Startup class:
+ASP .NET Core apps use a Startup class, which is named Startup by convention. The Startup class:
 
 *   Optionally includes a ConfigureServices method to configure the app's services. A service is a reusable component that provides app functionality. Services are registered in ConfigureServices and consumed across the app via dependency injection (DI) or ApplicationServices.
 *   Includes a Configure method to create the app's request processing pipeline.
 
-ConfigureServices and Configure are called by the ASP.NET Core runtime when the app starts:
+ConfigureServices and Configure are called by the ASP .NET Core runtime when the app starts:
 
 **Example of Startup class**
 ```csharp
@@ -321,7 +321,7 @@ https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcor
 
 ## Configuration
 
-App configuration in ASP.NET Core is based on key-value pairs established by configuration providers. Configuration providers read configuration data into key-value pairs from a variety of configuration sources:
+App configuration in ASP .NET Core is based on key-value pairs established by configuration providers. Configuration providers read configuration data into key-value pairs from a variety of configuration sources:
 
 *   Azure Key Vault
 *   Azure App Configuration
