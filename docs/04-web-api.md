@@ -1,10 +1,12 @@
 # Introduction
-In this section we will fundamentals of Web Api
-https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.0
+In this section we will cover fundamentals of Web Api
 
 ASP.NET Core supports creating RESTful services, also known as web APIs, using C#.
 To handle requests, a web API uses controllers. Controllers in a web API are classes that derive from ControllerBase.
 This article shows how to use controllers for handling web API requests.
+
+More about this topic on:
+https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.0
 
 ## REST
 
@@ -246,10 +248,104 @@ https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnet
 
 ## Startup class
 
+ASP.NET Core apps use a Startup class, which is named Startup by convention. The Startup class:
+
+*   Optionally includes a ConfigureServices method to configure the app's services. A service is a reusable component that provides app functionality. Services are registered in ConfigureServices and consumed across the app via dependency injection (DI) or ApplicationServices.
+*   Includes a Configure method to create the app's request processing pipeline.
+
+ConfigureServices and Configure are called by the ASP.NET Core runtime when the app starts:
+
+**Example of Startup class**
+```csharp
+public class Startup
+{
+    public Startup(IConfiguration configuration)
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddDbContext<CinemaContext>(options =>
+        {
+            options
+            .UseSqlServer(Configuration.GetConnectionString("CinemaConnection"))
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);                 
+        });
+
+        services.AddControllers();
+
+        //Repositories
+        services.AddTransient<IMoviesRepository, MoviesRepository>();
+        services.AddTransient<IProjectionsRepository, ProjectionsRepository>();
+        services.AddTransient<IAuditoriumsRepository, AuditoriumsRepository>();
+        services.AddTransient<ICinemasRepository, CinemasRepository>();
+        services.AddTransient<ISeatsRepository, SeatsRepository>();
+
+        //Business Logic
+        services.AddTransient<IMovieService, MovieService>();
+        services.AddTransient<IProjectionService, ProjectionService>();
+        services.AddTransient<IAuditoriumService, AuditoriumService>();
+        services.AddTransient<ICinemaService, CinemaService>();
+        services.AddTransient<ISeatService, SeatService>();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    }
+}
+```
+
 Paragraph about Startup class:
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/startup?view=aspnetcore-3.0
  
 
 ## Configuration
 
-appsettings.json
+App configuration in ASP.NET Core is based on key-value pairs established by configuration providers. Configuration providers read configuration data into key-value pairs from a variety of configuration sources:
+
+*   Azure Key Vault
+*   Azure App Configuration
+*   Command-line arguments
+*   Custom providers (installed or created)
+*   Directory files
+*   Environment variables
+*   In-memory .NET objects
+*   Settings files
+
+**Example of appsettings.json**
+```json
+{
+  "ConnectionStrings": {
+    "CinemaConnection": "Data Source=AJERINIC-NEW;Initial Catalog=Cinema;Integrated Security=True;Connect Timeout=30;
+                            Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  },
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
+    },
+    "AllowedHosts": "*"
+}
+```
