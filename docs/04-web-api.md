@@ -349,3 +349,5 @@ App configuration in ASP .NET Core is based on key-value pairs established by co
     "AllowedHosts": "*"
 }
 ```
+Paragraph about configuration:
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1
