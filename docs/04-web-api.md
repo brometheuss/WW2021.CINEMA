@@ -43,7 +43,7 @@ architecture.
 
 ### HTTP verbs
 
-**HTTPGET**
+**HTTP verb GET**
 
 We use **GET**  to retrieve a resource. 
 
@@ -64,7 +64,7 @@ public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
 }
 ```
 
-**HTTPPUT**
+**HTTP verb PUT**
 
 We use **PUT** to change the state of or update a resource.
 
@@ -100,7 +100,7 @@ public async Task<ActionResult> Put(Guid id, [FromBody]MovieModel movieModel)
 }
 ```
 
-**HTTPPOST**
+**HTTP verb POST**
 
 We use **POST** to create a resource.
 
@@ -135,7 +135,7 @@ public async Task<ActionResult> Post(MovieModel movieModel)
 }
 ```
 
-**HTTPDELETE**
+**HTTP verb DELETE**
 
 We use **DELETE** to remove a resource.
 
