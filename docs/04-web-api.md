@@ -183,6 +183,23 @@ a new version.
 The second difference is when it comes to idempotency. HTTP PUT is said to be idempotent since it always yields the same results every after making several requests.
 On the other hand, HTTP PATCH is basically said to be non-idempotent. However, it can be made to be idempotent based on where it is implemented.
 
+### PUT vs POST
+
+The fundamental difference between the **POST** and **PUT** requests is reflected in the different meaning of the Request-URI. 
+
+The POST method is used to request that the origin server accept the entity enclosed in the request as a new subordinate of the resource identified by the 
+Request-URI in the Request-Line. It essentially means that POST request-URI should be of a collection URI.
+Use POST when you want to add a child resource under resources collection.
+POST is NOT idempotent. So if you retry the request N times, you will end up having N resources with N different URIs created on server.
+
+PUT method requests for the enclosed entity be stored under the supplied Request-URI. 
+If the Request-URI refers to an already existing resource – an update operation will happen, otherwise create operation should happen 
+if Request-URI is a valid resource URI (assuming client is allowed to determine resource identifier).
+Use PUT when you want to modify a singular resource which is already a part of resources collection. PUT replaces the resource in its entirety.
+PUT method is idempotent. So if you send retry a request multiple times, that should be equivalent to single request modification.
+
+
+
 ### REST vs HTTP
 
 A lot of people prefer to compare HTTP with REST. **REST and HTTP are not same.**
