@@ -5,8 +5,16 @@ ASP .NET Core supports creating RESTful services, also known as web APIs, using 
 To handle requests, a web API uses controllers. Controllers in a web API are classes that derive from ControllerBase.
 This document shows how to use controllers for handling web API requests.
 
+##Web-API
+
+### What is Web-API?
+
+WebAPI is a framework which helps you to build/develop HTTP services.
+
 More about this topic on:
 https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.0
+
+
 
 ## REST
 
@@ -40,6 +48,11 @@ These principles need to be satisfied if we want an interface to be referred as 
 
 A **RESTful** API is an application program interface (API) that uses HTTP requests to **GET**, **PUT**, **POST** and **DELETE** data. Based on **REST** 
 architecture.
+
+### WebAPI vs REST 
+
+A WEB API could be or not REST compliant. 
+Most of them are open source and all of them are an interface to access server resources via an HTTP protocol, which is only a subset of all the REST capabilities.
 
 ### HTTP verbs
 
@@ -158,15 +171,50 @@ public async Task<ActionResult> Delete(Guid id)
 }
 ```
 
-More about these topics you can find on link: https://restfulapi.net
-
 ### PUT vs PATCH
 
 The only similarity between the two is that they can both be used to update resources in a given location.
 
-The main difference between PUT and PATCH requests is witnessed in the way the server processes the enclosed entity to update the resource identified by the Request-URI. When making a PUT request, the enclosed entity is viewed as the modified version of the resource saved on the original server, and the client is requesting to replace it. However, with PATCH, the enclosed entity boasts a set of instructions that describe how a resource stored on the original server should be partially modified to create a new version.
+The main difference between PUT and PATCH requests is witnessed in the way the server processes the enclosed entity to update the resource identified by the Request-URI.
+When making a PUT request, the enclosed entity is viewed as the modified version of the resource saved on the original server, and the client is requesting to replace it.
+However, with PATCH, the enclosed entity boasts a set of instructions that describe how a resource stored on the original server should be partially modified to create
+a new version.
 
-The second difference is when it comes to idempotency. HTTP PUT is said to be idempotent since it always yields the same results every after making several requests. On the other hand, HTTP PATCH is basically said to be non-idempotent. However, it can be made to be idempotent based on where it is implemented.
+The second difference is when it comes to idempotency. HTTP PUT is said to be idempotent since it always yields the same results every after making several requests.
+On the other hand, HTTP PATCH is basically said to be non-idempotent. However, it can be made to be idempotent based on where it is implemented.
+
+### REST vs HTTP
+
+A lot of people prefer to compare HTTP with REST. **REST and HTTP are not same.**
+
+No, they are not. **HTTP** stands for **H**yperText **T**ransfer **P**rotocol and is a way to transfer files. 
+This protocol is used to link pages of hypertext in what we call the world-wide-web. However, there are other transfer protocols available, 
+like FTP and gopher, yet they are less popular.
+
+**RE**presentational **S**tate **T**ransfer, or **REST**, is a set of constraints that ensure a scalable, fault-tolerant and easily extendible system. 
+The world-wide-web is an example of such system (and the biggest example, one might say). 
+REST by itself is not a new invention, but it's the documentation on such systems like the world-wide-web.
+
+One thing that confuses people, is that REST and HTTP seem to be hand-in-hand. 
+After all, the world-wide-web itself runs on HTTP, and it makes sense, a RESTful API does the same. 
+However, there is nothing in the REST constraints that makes the usage of HTTP as a transfer protocol mandatory. 
+It's perfectly possible to use other transfer protocols like SNMP, SMTP and others to use, and your API could still very well be a RESTful API.
+
+In practice, most - if not all - **RESTful APIs** currently use **HTTP* as a transport layer, since the infrastructure, 
+servers and client libraries for **HTTP** are widely available already.
+
+### What is Idempotent REST API?
+
+An **IDEMPOTENT** HTTP method is an HTTP method that can be called many times without different outcomes. 
+It would not matter if the method is called only once, or ten times over. The result should be the same. 
+It essentially means that the result of a successfully performed request is independent of the number of times it is executed.
+
+
+More about these topics you can find on links: 
+
+*   https://restfulapi.net
+*   https://restfulapi.net/rest-put-vs-post/
+*   https://restfulapi.net/idempotent-rest-apis/
 
 ## Controllers
 
