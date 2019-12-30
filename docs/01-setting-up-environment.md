@@ -8,8 +8,9 @@ In order to prepare for the workshop, there are several tools that need to be in
 
 1. Visual Studio 2019 Community - https://visualstudio.microsoft.com/vs/
 2. Visual Studio Code - https://code.visualstudio.com/
-3. Microsoft SQL Server 2019 Developer - https://www.microsoft.com/en-us/sql-server/sql-server-downloads
-4. Postman - https://www.getpostman.com/downloads/
+3. Install node - https://nodejs.org/en/download/
+4. Microsoft SQL Server 2019 Developer - https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+5. Postman - https://www.getpostman.com/downloads/
 
 optional - Azure Data Studio instead of SQL Server Management Strudio https://docs.microsoft.com/en-us/sql/azure-data-studio/download?view=sql-server-ver15
 
