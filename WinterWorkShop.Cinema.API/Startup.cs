@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WinterWorkShop.Cinema.API.TokenServiceExtensions;
 using WinterWorkShop.Cinema.Data;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Services;
@@ -39,6 +40,9 @@ namespace WinterWorkShop.Cinema.API
             });
 
             services.AddControllers();
+
+            //JWT token
+            services.AddJwtBearerAuthentication(Configuration);
 
             //Repositories
             services.AddTransient<IMoviesRepository, MoviesRepository>();
@@ -69,6 +73,8 @@ namespace WinterWorkShop.Cinema.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

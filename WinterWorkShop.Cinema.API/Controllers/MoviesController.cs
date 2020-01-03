@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -13,8 +14,9 @@ using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("[api/controller]")]
     public class MoviesController : ControllerBase
     {      
         private readonly IMovieService _movieService;
@@ -57,6 +59,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <param name="movieModel"></param>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<ActionResult> Post(MovieModel movieModel)
         {
@@ -84,6 +87,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="id"></param>
         /// <param name="movieModel"></param>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody]MovieModel movieModel)
@@ -110,6 +114,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("{id}")]
         public async Task<ActionResult> Delete(Guid id)
