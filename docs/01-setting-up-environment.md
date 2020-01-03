@@ -6,11 +6,16 @@ In order to prepare for the workshop, there are several tools that need to be in
 
 ## Required Tools
 
-1. Visual Studio 2019 Community - https://visualstudio.microsoft.com/vs/
-2. Microsoft SQL Server 2019 Developer - https://www.microsoft.com/en-us/sql-server/sql-server-downloads
-3. Postman - https://www.getpostman.com/downloads/
+**BackEnd**
+1.  Visual Studio 2019 Community - https://visualstudio.microsoft.com/vs/
+2.  Microsoft SQL Server 2019 Developer - https://www.microsoft.com/en-us/sql-server/sql-server-downloads
+3.  Postman - https://www.getpostman.com/downloads/
 
 optional - Azure Data Studio instead of SQL Server Management Strudio https://docs.microsoft.com/en-us/sql/azure-data-studio/download?view=sql-server-ver15
+
+**FrontEnd**
+1.  Visual Studio Code - https://code.visualstudio.com/
+2.  NodeJS - https://nodejs.org/en/download/
 
 ## Git Basics
 
@@ -29,8 +34,6 @@ Branches are used to develop features isolated from each other.
 The master branch is the "default" branch when you create a repository. 
 Use other branches for development and merge them back to the master branch upon completion. 
 
-
-
 ### How git works?
 
 Here is a basic overview of how Git works:
@@ -38,10 +41,10 @@ Here is a basic overview of how Git works:
 *   Create a "repository" (project) with a git hosting tool (like Bitbucket)
 *   Copy (or clone) the repository to your local machine
 *   Add a file to your local repo and "commit" (save) the changes
-*   "Push" your changes to your master branch
+*   Create a "branch" (version), make a change, commit the change
 *   Make a change to your file with a git hosting tool and commit
 *   "Pull" the changes to your local machine
-*   Create a "branch" (version), make a change, commit the change
+*   "Push" your changes to your feature branch
 *   Open a "pull request" (propose changes to the master branch)
 *   "Merge" your branch to the master branch
 
