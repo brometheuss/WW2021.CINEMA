@@ -10,7 +10,7 @@ using WinterWorkShop.Cinema.API.TokenServiceExtensions;
 namespace WinterWorkShop.Cinema.API.Controllers
 {
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class DemoAuthenticationController : ControllerBase    
     {
         private readonly IConfiguration _configuration;

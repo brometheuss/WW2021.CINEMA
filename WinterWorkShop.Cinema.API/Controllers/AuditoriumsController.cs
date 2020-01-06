@@ -12,7 +12,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class AuditoriumsController : ControllerBase
     {
         private readonly IAuditoriumService _auditoriumService;

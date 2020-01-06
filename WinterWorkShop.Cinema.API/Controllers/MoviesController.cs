@@ -16,7 +16,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class MoviesController : ControllerBase
     {      
         private readonly IMovieService _movieService;
