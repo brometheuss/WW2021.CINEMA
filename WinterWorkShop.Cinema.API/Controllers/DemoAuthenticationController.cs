@@ -9,8 +9,6 @@ using WinterWorkShop.Cinema.API.TokenServiceExtensions;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
     public class DemoAuthenticationController : ControllerBase    
     {
         private readonly IConfiguration _configuration;
@@ -23,7 +21,6 @@ namespace WinterWorkShop.Cinema.API.Controllers
         // NOT FOR PRODUCTION USE!!!
         // you will need a robust auth implementation for production
         // i.e. try IdentityServer4
-        [AllowAnonymous]
         [Route("/get-token")]
         public IActionResult GenerateToken(string name = "aspnetcore-workshop-demo", bool admin = false)
         {

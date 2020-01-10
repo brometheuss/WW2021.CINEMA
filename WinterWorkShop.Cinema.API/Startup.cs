@@ -36,7 +36,6 @@ namespace WinterWorkShop.Cinema.API
                 options
                 .UseSqlServer(Configuration.GetConnectionString("CinemaConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                    
             });
 
             services.AddControllers();
