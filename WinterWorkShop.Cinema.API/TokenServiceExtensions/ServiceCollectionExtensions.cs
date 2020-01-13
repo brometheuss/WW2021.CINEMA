@@ -32,5 +32,10 @@ namespace WinterWorkShop.Cinema.API.TokenServiceExtensions
                         options.TokenValidationParameters = tokenValidationParameters;
                     });
         }
+
+        public static void AddOpenApi(this IServiceCollection services)
+        {
+            services.AddOpenApiDocument();
+        }
     }
 }

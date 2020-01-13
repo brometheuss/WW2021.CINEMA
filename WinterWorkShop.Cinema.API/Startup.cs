@@ -40,6 +40,8 @@ namespace WinterWorkShop.Cinema.API
 
             services.AddControllers();
 
+            services.AddOpenApi();
+
             // JWT token
             services.AddJwtBearerAuthentication(Configuration);
 
@@ -66,6 +68,10 @@ namespace WinterWorkShop.Cinema.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseOpenApi();
+
+            app.UseSwaggerUi3();
 
             app.UseHttpsRedirection();
 
