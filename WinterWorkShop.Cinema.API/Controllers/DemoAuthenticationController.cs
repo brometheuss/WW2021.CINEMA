@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using NSwag.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using WinterWorkShop.Cinema.API.TokenServiceExtensions;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
+    [OpenApiIgnore]
     public class DemoAuthenticationController : ControllerBase    
     {
         private readonly IConfiguration _configuration;
