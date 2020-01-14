@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using NSwag.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ using WinterWorkShop.Cinema.API.TokenServiceExtensions;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
-    [ApiController]
-    [Route("[api/controller]")]
+    [OpenApiIgnore]
     public class DemoAuthenticationController : ControllerBase    
     {
         private readonly IConfiguration _configuration;
@@ -23,7 +23,6 @@ namespace WinterWorkShop.Cinema.API.Controllers
         // NOT FOR PRODUCTION USE!!!
         // you will need a robust auth implementation for production
         // i.e. try IdentityServer4
-        [AllowAnonymous]
         [Route("/get-token")]
         public IActionResult GenerateToken(string name = "aspnetcore-workshop-demo", bool admin = false)
         {

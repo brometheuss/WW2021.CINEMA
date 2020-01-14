@@ -11,7 +11,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("[api/controller]")]
+    [Route("api/[controller]")]
     public class SeatsController : ControllerBase
     {
         private readonly ISeatService _seatService;

@@ -36,28 +36,29 @@ namespace WinterWorkShop.Cinema.API
                 options
                 .UseSqlServer(Configuration.GetConnectionString("CinemaConnection"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                    
             });
 
             services.AddControllers();
 
-            //JWT token
+            services.AddOpenApi();
+
+            // JWT token
             services.AddJwtBearerAuthentication(Configuration);
 
-            //Repositories
+            // Repositories
             services.AddTransient<IMoviesRepository, MoviesRepository>();
             services.AddTransient<IProjectionsRepository, ProjectionsRepository>();
             services.AddTransient<IAuditoriumsRepository, AuditoriumsRepository>();
             services.AddTransient<ICinemasRepository, CinemasRepository>();
             services.AddTransient<ISeatsRepository, SeatsRepository>();
 
-            //Business Logic
+            // Business Logic
             services.AddTransient<IMovieService, MovieService>();
             services.AddTransient<IProjectionService, ProjectionService>();
             services.AddTransient<IAuditoriumService, AuditoriumService>();
             services.AddTransient<ICinemaService, CinemaService>();
             services.AddTransient<ISeatService, SeatService>();
-
+            services.AddTransient<ILevi9PaymentService, Levi9PaymentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +68,10 @@ namespace WinterWorkShop.Cinema.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseOpenApi();
+
+            app.UseSwaggerUi3();
 
             app.UseHttpsRedirection();
 
