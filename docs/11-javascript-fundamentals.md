@@ -1,6 +1,6 @@
 # JavaScript
 
-, often abbreviated as JS, is a high-level, just-in-time compiled, multi-paradigm programming language that conforms to the ECMAScript specification. JavaScript has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.
+often abbreviated as JS, is a high-level, just-in-time compiled, multi-paradigm programming language that conforms to the ECMAScript specification. JavaScript has curly-bracket syntax, dynamic typing, prototype-based object-orientation, and first-class functions.
 Alongside HTML and CSS, JavaScript is one of the core technologies of the World Wide Web. JavaScript enables interactive web pages and is an essential part of web applications. The vast majority of websites use it, and major web browsers have a dedicated JavaScript engine to execute it
 This is a crash course in JavaScript. It is intended for people who already have a bit of programming experience in other languages.
 This will hopefully give a basic idea of the most-commonly-used language features, but it is not indended to be a comprehensive guide.
@@ -16,10 +16,7 @@ To declare a function called addTwoNumbers, which accepts two parameters and add
 function addTwoNumbers (param1, param2) {
   return param1 + param2;
 }
-```
-
 // or equivalently:
-```js
 let addTwoNumbers = function (param1, param2) {
   return param1 + param2;
 }
