@@ -13,5 +13,5 @@ We will cover those topics:
 8.  [Interfaces and Dependency Injection](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F07-interfaces-and-dependency-injection.md&version=GBmaster&_a=preview)
 9.  [Unit Testing](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F09-unit-testing.md&version=GBmaster&_a=preview)
 10.  [Securing API](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F10-securing-api.md&version=GBmaster&_a=contents)
-11. JavaScript Fundamentals
-12. React
+11. [JavaScript Fundamentals](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F11-javascript-fundamentals.md&version=GBmaster&_a=preview)
+12. [React](https://dev.azure.com/divanisevic/_git/WinterWorkShop.Cinema?path=%2Fdocs%2F12-reactjs.md&version=GBmaster&_a=preview)
