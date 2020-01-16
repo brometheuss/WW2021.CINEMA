@@ -38,12 +38,12 @@ namespace WinterWorkShop.Cinema.API
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
-            services.AddControllers();
-
-            services.AddOpenApi();
-
             // JWT token
             services.AddJwtBearerAuthentication(Configuration);
+
+            services.AddControllers();
+
+            services.AddOpenApi();            
 
             // Repositories
             services.AddTransient<IMoviesRepository, MoviesRepository>();
@@ -69,17 +69,17 @@ namespace WinterWorkShop.Cinema.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseOpenApi();
-
-            app.UseSwaggerUi3();
-
             app.UseHttpsRedirection();
-
+            
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
-            app.UseAuthentication();
+            app.UseOpenApi();
+
+            app.UseSwaggerUi3();
 
             app.UseEndpoints(endpoints =>
             {

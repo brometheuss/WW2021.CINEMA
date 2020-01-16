@@ -35,26 +35,31 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Ok(data);
         }
 
+        /// <summary>
+        /// Adds a new projection
+        /// </summary>
+        /// <param name="projectionModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<ProjectionDomainModel>> PostAsync(CreateProjectionModel model)
+        public async Task<ActionResult<ProjectionDomainModel>> PostAsync(CreateProjectionModel projectionModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (model.ProjectionTime < DateTime.Now)
+            if (projectionModel.ProjectionTime < DateTime.Now)
             {
-                ModelState.AddModelError(nameof(model.ProjectionTime), Messages.PROJECTION_IN_PAST);
+                ModelState.AddModelError(nameof(projectionModel.ProjectionTime), Messages.PROJECTION_IN_PAST);
                 return BadRequest(ModelState);
             }
 
             ProjectionDomainModel domainModel = new ProjectionDomainModel
             {
-                AuditoriumId = model.SalaId,
-                MovieId = model.MovieId,
-                ProjectionTime = model.ProjectionTime
+                AuditoriumId = projectionModel.SalaId,
+                MovieId = projectionModel.MovieId,
+                ProjectionTime = projectionModel.ProjectionTime
             };
 
             var result = await _projectionService.CreateProjection(domainModel);
