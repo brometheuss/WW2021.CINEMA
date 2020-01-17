@@ -110,6 +110,11 @@ namespace WinterWorkShop.Cinema.Domain.Services
         public MovieDomainModel DeleteMovie(Guid id)
         {
             var data = _moviesRepository.Delete(id);
+            if (data == null)
+            {
+                return null;
+            }
+
             _moviesRepository.Save();
 
             MovieDomainModel domainModel = new MovieDomainModel

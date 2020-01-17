@@ -26,6 +26,12 @@ namespace WinterWorkShop.Cinema.Repositories
         public EntityEntry<Movie> Delete(object id)
         {
             Movie existing = _cinemaContext.Movies.Find(id);
+
+            if (existing ==null)
+            {
+                return null;
+            }
+
             return _cinemaContext.Movies.Remove(existing);
         }
 
