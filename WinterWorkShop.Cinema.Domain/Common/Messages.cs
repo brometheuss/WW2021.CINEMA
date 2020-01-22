@@ -2,6 +2,11 @@
 {
     public static class Messages
     {
+        #region Auditoriums
+        public const string MOVIE_GET_ALL_AUDITORIUMS_ERROR = "Error occured while getting all auditoriums, please try again";
+        #endregion
+
+        #region Movies
         public const string PROJECTIONS_AT_SAME_TIME = "Cannot create new projection, there are projections at same time alredy.";
         public const string PROJECTION_IN_PAST = "Projection time cannot be in past.";
         public const string MOVIE_DOES_NOT_EXIST = "Movie does not exist.";
@@ -12,5 +17,8 @@
         public const string MOVIE_GET_ALL_CURRENT_MOVIES_ERROR = "Error occured while getting current movies, please try again";
         public const string MOVIE_GET_BY_ID = "Error occured while getting movie by Id, please try again";
         public const string MOVIE_GET_ALL_MOVIES_ERROR = "Error occured while getting all movies, please try again";
+        #endregion
+
+        
     }
 }
