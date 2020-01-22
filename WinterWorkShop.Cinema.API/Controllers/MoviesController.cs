@@ -39,8 +39,35 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("{id}")]
         public async Task<ActionResult<IEnumerable<MovieDomainModel>>> GetAsync(Guid id)
         {
-            var data = await _movieService.GetMovieByIdAsync(id);
-            return Ok(data);
+            MovieDomainModel movie;
+            try 
+            {
+                movie = await _movieService.GetMovieByIdAsync(id);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+            if (movie != null)
+            {
+                return Ok(movie);
+            }
+            else
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_GET_BY_ID,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
         }
 
         /// <summary>
@@ -51,8 +78,36 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("current")]
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
         {
-            var data = _movieService.GetAllMovies(true);
-            return Ok(data);
+            IEnumerable<MovieDomainModel> movieDomainModels;
+            try 
+            {
+                movieDomainModels = _movieService.GetAllMovies(true);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            if (movieDomainModels != null)
+            {
+                return Ok(movieDomainModels);
+            }
+            else 
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_GET_ALL_CURRENT_MOVIES_ERROR,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }            
         }
 
         /// <summary>
@@ -62,7 +117,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<ActionResult> Post(MovieModel movieModel)
+        public async Task<ActionResult> Post([FromBody]MovieModel movieModel)
         {
             if (!ModelState.IsValid)
             {
@@ -77,9 +132,39 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 Year = movieModel.Year
             };
 
-            var data = _movieService.AddMovie(domainModel);
+            MovieDomainModel createMovie;
 
-            return Created("movies//" + data.Id, data);
+            try
+            {
+                createMovie = _movieService.AddMovie(domainModel);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            if (createMovie != null)
+            {
+                return Created("movies//" + createMovie.Id, createMovie);
+            }
+            else
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_CREATION_ERROR,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+
         }
 
         /// <summary>
@@ -98,16 +183,44 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var movieToUpdate = await _movieService.GetMovieByIdAsync(id);
+            MovieDomainModel movieToUpdate;
 
-            movieToUpdate.Title = movieModel.Title;
-            movieToUpdate.Current = movieModel.Current;
-            movieToUpdate.Year = movieModel.Year;
-            movieToUpdate.Rating = movieModel.Rating;
+            movieToUpdate = await _movieService.GetMovieByIdAsync(id);
 
-            _movieService.UpdateMovie(movieToUpdate);
+            if (movieToUpdate != null)
+            {
+                movieToUpdate.Title = movieModel.Title;
+                movieToUpdate.Current = movieModel.Current;
+                movieToUpdate.Year = movieModel.Year;
+                movieToUpdate.Rating = movieModel.Rating;
 
-            return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
+                try
+                {
+                    _movieService.UpdateMovie(movieToUpdate);
+                }
+                catch (DbUpdateException e)
+                {
+                    ErrorResponseModel errorResponse = new ErrorResponseModel
+                    {
+                        ErrorMessage = e.InnerException.Message ?? e.Message,
+                        StatusCode = System.Net.HttpStatusCode.BadRequest
+                    };
+
+                    return BadRequest(errorResponse);
+                }
+
+                return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
+            }
+            else
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }            
         }
 
         /// <summary>

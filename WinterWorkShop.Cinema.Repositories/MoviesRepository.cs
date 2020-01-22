@@ -27,7 +27,7 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             Movie existing = _cinemaContext.Movies.Find(id);
 
-            if (existing ==null)
+            if (existing == null)
             {
                 return null;
             }
@@ -42,7 +42,16 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<Movie> GetByIdAsync(object id)
         {
-            return await _cinemaContext.Movies.FindAsync(id);
+            Movie existing = await _cinemaContext.Movies.FindAsync(id);
+
+            if (existing != null)
+            {
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public IEnumerable<Movie> GetCurrentMovies()
@@ -51,12 +60,30 @@ namespace WinterWorkShop.Cinema.Repositories
                 .AsParallel()
                 .Where(x => x.Current);
 
-            return data;
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public EntityEntry<Movie> Insert(Movie obj)
         {
-            return _cinemaContext.Movies.Add(obj);
+            var existing = _cinemaContext.Movies.Add(obj);
+
+            if (existing != null)
+            {
+                return existing;
+            }
+            else
+            {
+                return null;
+            }
+
+            //return _cinemaContext.Movies.Add(obj);
         }
 
         public void Save()

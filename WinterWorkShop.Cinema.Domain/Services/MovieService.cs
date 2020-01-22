@@ -18,65 +18,88 @@ namespace WinterWorkShop.Cinema.Domain.Services
             _moviesRepository = moviesRepository;
         }
 
-        public MovieDomainModel AddMovie(MovieDomainModel newMovie)
-        {
-            var data = _moviesRepository.Insert(new Movie
-            {
-                Title = newMovie.Title,
-                Current = newMovie.Current,
-                Year = newMovie.Year,
-                Rating = newMovie.Rating
-            });
-
-            _moviesRepository.Save();
-
-            MovieDomainModel movie = new MovieDomainModel
-            {
-                Id = data.Entity.Id,
-                Current = data.Entity.Current,
-                Rating = data.Entity.Rating ?? 0,
-                Title = data.Entity.Title,
-                Year = data.Entity.Year
-            };
-
-            return movie;
-        }
-
         public IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent)
         {
             var data = _moviesRepository.GetCurrentMovies();
 
-            List<MovieDomainModel> result = new List<MovieDomainModel>();
-            MovieDomainModel model;
-            foreach (var item in data)
+            if (data != null)
             {
-                model = new MovieDomainModel
+                List<MovieDomainModel> result = new List<MovieDomainModel>();
+                MovieDomainModel model;
+                foreach (var item in data)
                 {
-                    Current = item.Current,
-                    Id = item.Id,
-                    Rating = item.Rating ?? 0,
-                    Title = item.Title
-                };
-                result.Add(model);
-            }
+                    model = new MovieDomainModel
+                    {
+                        Current = item.Current,
+                        Id = item.Id,
+                        Rating = item.Rating ?? 0,
+                        Title = item.Title
+                    };
+                    result.Add(model);
+                }
 
-            return result;
+                return result;
+            }
+            else 
+            {
+                return null;
+            }
+            
         }
 
         public async Task<MovieDomainModel> GetMovieByIdAsync(Guid id)
         {
             var data = await _moviesRepository.GetByIdAsync(id);
 
-            MovieDomainModel domainModel = new MovieDomainModel
+            if (data != null)
             {
-                Id = data.Id,
-                Current = data.Current,
-                Rating = data.Rating ?? 0,
-                Title = data.Title,
-                Year = data.Year                
+                MovieDomainModel domainModel = new MovieDomainModel
+                {
+                    Id = data.Id,
+                    Current = data.Current,
+                    Rating = data.Rating ?? 0,
+                    Title = data.Title,
+                    Year = data.Year
+                };
+
+                return domainModel;
+            }
+            else 
+            {
+                return null;
+            }            
+        }
+
+        public MovieDomainModel AddMovie(MovieDomainModel newMovie)
+        {
+            Movie movieToCreate = new Movie()
+            {
+                Title = newMovie.Title,
+                Current = newMovie.Current,
+                Year = newMovie.Year,
+                Rating = newMovie.Rating
             };
 
-            return domainModel;
+            var data = _moviesRepository.Insert(movieToCreate);
+            if (data != null)
+            {
+                _moviesRepository.Save();
+
+                MovieDomainModel domainModel = new MovieDomainModel()
+                {
+                    Id = data.Entity.Id,
+                    Title = data.Entity.Title,
+                    Current = data.Entity.Current,
+                    Year = data.Entity.Year,
+                    Rating = data.Entity.Rating ?? 0
+                };
+
+                return domainModel;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public MovieDomainModel UpdateMovie(MovieDomainModel updateMovie) {
@@ -89,22 +112,27 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Year = updateMovie.Year,
                 Rating = updateMovie.Rating
             };
-
-
+            
             var data = _moviesRepository.Update(movie);
-            _moviesRepository.Save();
-
-
-            MovieDomainModel domainModel = new MovieDomainModel()
+            if (data != null)
             {
-                Id = data.Entity.Id,
-                Title = data.Entity.Title,
-                Current = data.Entity.Current,
-                Year = data.Entity.Year,
-                Rating = data.Entity.Rating ?? 0
-            };
+                _moviesRepository.Save();
 
-            return domainModel;
+                MovieDomainModel domainModel = new MovieDomainModel()
+                {
+                    Id = data.Entity.Id,
+                    Title = data.Entity.Title,
+                    Current = data.Entity.Current,
+                    Year = data.Entity.Year,
+                    Rating = data.Entity.Rating ?? 0
+                };
+
+                return domainModel;
+            }
+            else
+            {
+                return null;
+            }           
         }
 
         public MovieDomainModel DeleteMovie(Guid id)
