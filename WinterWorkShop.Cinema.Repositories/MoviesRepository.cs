@@ -80,10 +80,8 @@ namespace WinterWorkShop.Cinema.Repositories
             }
             else
             {
-                return null;
+                return null; 
             }
-
-            //return _cinemaContext.Movies.Add(obj);
         }
 
         public void Save()
