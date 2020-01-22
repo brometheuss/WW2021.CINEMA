@@ -2,6 +2,10 @@
 {
     public static class Messages
     {
+        #region Payments
+        public const string PAYMENT_CREATION_ERROR = "Connection error, occured while creating new payment, please try again";
+        #endregion
+
         #region Auditoriums
         public const string MOVIE_GET_ALL_AUDITORIUMS_ERROR = "Error occured while getting all auditoriums, please try again";
         #endregion

@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WinterWorkShop.Cinema.API.Models;
+using WinterWorkShop.Cinema.Domain.Common;
+using WinterWorkShop.Cinema.Domain.Models;
 using WinterWorkShop.Cinema.Domain.Services;
 
 namespace WinterWorkShop.Cinema.API.Controllers
@@ -27,20 +30,35 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("")]
         public async Task<ActionResult<PaymentResponseModel>> Post()
         {
-            var result = await _paymentService.MakePayment();
+            PaymentResponse paymentResult;            
+                paymentResult = await _paymentService.MakePayment();
+            
 
-            PaymentResponseModel model = new PaymentResponseModel
+            if (paymentResult.Message != "Connection error.")
             {
-                IsSuccess = result.IsSuccess,
-                Message = result.Message
-            };
+                PaymentResponseModel model = new PaymentResponseModel
+                {
+                    IsSuccess = paymentResult.IsSuccess,
+                    Message = paymentResult.Message
+                };
 
-            if (!model.IsSuccess)
-            {
-                return BadRequest(model);
+                if (!model.IsSuccess)
+                {
+                    return BadRequest(model);
+                }
+
+                return Ok(model);
             }
+            else 
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.PAYMENT_CREATION_ERROR,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
 
-            return Ok(model);
+                return BadRequest(errorResponse);
+            }
         }
     }
 }
