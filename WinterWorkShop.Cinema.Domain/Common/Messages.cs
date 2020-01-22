@@ -6,6 +6,10 @@
         public const string MOVIE_GET_ALL_AUDITORIUMS_ERROR = "Error occured while getting all auditoriums, please try again";
         #endregion
 
+        #region Cinemas
+        public const string MOVIE_GET_ALL_CINEMAS_ERROR = "Error occured while getting all cinemas, please try again";
+        #endregion
+
         #region Movies        
         public const string MOVIE_DOES_NOT_EXIST = "Movie does not exist.";
         public const string MOVIE_PROPERTIE_TITLE_NOT_VALID = "The movie title cannot be longer than 50 characters.";
