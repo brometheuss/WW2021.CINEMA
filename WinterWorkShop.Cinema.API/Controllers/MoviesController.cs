@@ -37,7 +37,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<IEnumerable<MovieDomainModel>>> GetAsync(Guid id)
+        public async Task<ActionResult<MovieDomainModel>> GetAsync(Guid id)
         {
             MovieDomainModel movie;
             try 
