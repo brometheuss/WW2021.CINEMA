@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -33,35 +34,16 @@ namespace WinterWorkShop.Cinema.API.Controllers
         public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
         {
             IEnumerable<ProjectionDomainModel> projectionDomainModels;
-            try
-            {
-                projectionDomainModels = await _projectionService.GetAllAsync();
-            }
-            catch (DbUpdateException e)
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = e.InnerException.Message ?? e.Message,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+           
+             projectionDomainModels = await _projectionService.GetAllAsync();            
 
-                return BadRequest(errorResponse);
+            if (projectionDomainModels == null)
+            {
+                return Ok(new List<ProjectionDomainModel>());
+                
             }
 
-            if (projectionDomainModels != null)
-            {
-                return Ok(projectionDomainModels);
-            }
-            else
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = Messages.PROJECTION_GET_ALL_PROJECTIONS_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
-
-                return BadRequest(errorResponse);
-            }
+            return Ok(projectionDomainModels);
         }
 
         /// <summary>

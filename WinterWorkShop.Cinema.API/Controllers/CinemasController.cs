@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.API.Models;
@@ -31,37 +31,17 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<IEnumerable<CinemaDomainModel>>> GetAsync()
-        {           
+        {
             IEnumerable<CinemaDomainModel> cinemaDomainModels;
-            try
-            {
-                cinemaDomainModels = await _cinemaService.GetAllAsync();
-            }
-            catch (DbUpdateException e)
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = e.InnerException.Message ?? e.Message,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
 
-                return BadRequest(errorResponse);
+            cinemaDomainModels = await _cinemaService.GetAllAsync();
+
+            if (cinemaDomainModels == null)
+            {
+                return Ok(new List<CinemaDomainModel>());
             }
 
-            if (cinemaDomainModels != null)
-            {
-                return Ok(cinemaDomainModels);
-            }
-            else
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = Messages.CINEMA_GET_ALL_CINEMAS_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
-
-                return BadRequest(errorResponse);
-            }
+            return NotFound(cinemaDomainModels);
         }
     }
 }

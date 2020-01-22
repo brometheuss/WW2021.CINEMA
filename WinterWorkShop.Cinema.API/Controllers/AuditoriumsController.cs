@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
@@ -34,35 +34,15 @@ namespace WinterWorkShop.Cinema.API.Controllers
         public async Task<ActionResult<IEnumerable<AuditoriumDomainModel>>> GetAsync()
         {
             IEnumerable<AuditoriumDomainModel> auditoriumDomainModels;
-            try
-            {
-                auditoriumDomainModels = await _auditoriumService.GetAllAsync();
-            }
-            catch (DbUpdateException e)
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = e.InnerException.Message ?? e.Message,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
 
-                return BadRequest(errorResponse);
-            }
+            auditoriumDomainModels = await _auditoriumService.GetAllAsync();
 
-            if (auditoriumDomainModels != null)
+            if (auditoriumDomainModels == null)
             {
-                return Ok(auditoriumDomainModels);
+                return Ok(new List<AuditoriumDomainModel>());
             }
-            else
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = Messages.AUDITORIUM_GET_ALL_AUDITORIUMS_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+            return Ok(auditoriumDomainModels);
 
-                return BadRequest(errorResponse);
-            }               
         }
     }
 }

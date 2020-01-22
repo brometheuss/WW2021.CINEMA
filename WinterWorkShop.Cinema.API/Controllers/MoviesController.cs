@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -40,34 +41,15 @@ namespace WinterWorkShop.Cinema.API.Controllers
         public async Task<ActionResult<MovieDomainModel>> GetAsync(Guid id)
         {
             MovieDomainModel movie;
-            try 
-            {
-                movie = await _movieService.GetMovieByIdAsync(id);
-            }
-            catch (DbUpdateException e)
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = e.InnerException.Message ?? e.Message,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
 
-                return BadRequest(errorResponse);
-            }
-            if (movie != null)
-            {
-                return Ok(movie);
-            }
-            else
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = Messages.MOVIE_GET_BY_ID,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
+            movie = await _movieService.GetMovieByIdAsync(id);
 
-                return BadRequest(errorResponse);
+            if (movie == null)
+            {
+                return Ok(new MovieDomainModel());
             }
+
+            return Ok(movie);
         }
 
         /// <summary>
@@ -79,35 +61,15 @@ namespace WinterWorkShop.Cinema.API.Controllers
         public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
         {
             IEnumerable<MovieDomainModel> movieDomainModels;
-            try 
-            {
-                movieDomainModels = _movieService.GetAllMovies(true);
-            }
-            catch (DbUpdateException e)
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = e.InnerException.Message ?? e.Message,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
 
-                return BadRequest(errorResponse);
+            movieDomainModels = _movieService.GetAllMovies(true);
+
+            if (movieDomainModels == null)
+            {
+                return Ok(new List<MovieDomainModel>());
             }
 
-            if (movieDomainModels != null)
-            {
-                return Ok(movieDomainModels);
-            }
-            else 
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel
-                {
-                    ErrorMessage = Messages.MOVIE_GET_ALL_CURRENT_MOVIES_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
-                };
-
-                return BadRequest(errorResponse);
-            }            
+            return Ok(movieDomainModels);
         }
 
         /// <summary>

@@ -30,8 +30,9 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("")]
         public async Task<ActionResult<PaymentResponseModel>> Post()
         {
-            PaymentResponse paymentResult;            
-                paymentResult = await _paymentService.MakePayment();
+            PaymentResponse paymentResult;
+
+            paymentResult = await _paymentService.MakePayment();
             
 
             if (paymentResult.Message != "Connection error.")
