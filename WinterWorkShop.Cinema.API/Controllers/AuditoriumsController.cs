@@ -57,7 +57,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
-                    ErrorMessage = Messages.MOVIE_GET_ALL_AUDITORIUMS_ERROR,
+                    ErrorMessage = Messages.AUDITORIUM_GET_ALL_AUDITORIUMS_ERROR,
                     StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
 
