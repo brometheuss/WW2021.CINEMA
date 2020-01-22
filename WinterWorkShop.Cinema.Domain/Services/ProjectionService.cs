@@ -23,30 +23,28 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _projectionsRepository.GetAll();
 
-            if (data != null)
-            {
-                List<ProjectionDomainModel> result = new List<ProjectionDomainModel>();
-                ProjectionDomainModel model;
-                foreach (var item in data)
-                {
-                    model = new ProjectionDomainModel
-                    {
-                        Id = item.Id,
-                        MovieId = item.MovieId,
-                        AuditoriumId = item.SalaId,
-                        ProjectionTime = item.DateTime
-                    };
-                    result.Add(model);
-                }
-
-                return result;
-            }
-            else 
+            if (data == null)
             {
                 return null;
             }
 
-            
+            List<ProjectionDomainModel> result = new List<ProjectionDomainModel>();
+            ProjectionDomainModel model;
+            foreach (var item in data)
+            {
+                model = new ProjectionDomainModel
+                {
+                    Id = item.Id,
+                    MovieId = item.MovieId,
+                    AuditoriumId = item.SalaId,
+                    ProjectionTime = item.DateTime
+                };
+                result.Add(model);
+            }
+
+            return result;
+
+
         }
 
         public async Task<CreateProjectionResultModel> CreateProjection(ProjectionDomainModel domainModel)
@@ -75,29 +73,27 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             var insertedProjection = _projectionsRepository.Insert(newProjection);
 
-            if (insertedProjection != null)
+            if (insertedProjection == null)
             {
-                _projectionsRepository.Save();
-                CreateProjectionResultModel result = new CreateProjectionResultModel
-                {
-                    IsSuccessful = true,
-                    ErrorMessage = null,
-                    Projection = new ProjectionDomainModel
-                    {
-                        Id = insertedProjection.Entity.Id,
-                        AuditoriumId = insertedProjection.Entity.SalaId,
-                        MovieId = insertedProjection.Entity.MovieId,
-                        ProjectionTime = insertedProjection.Entity.DateTime
-                    }
-                };
+                return null; 
+            }
 
-                return result;
-            }
-            else 
+            _projectionsRepository.Save();
+            CreateProjectionResultModel result = new CreateProjectionResultModel
             {
-                return null;
-            }
-           
+                IsSuccessful = true,
+                ErrorMessage = null,
+                Projection = new ProjectionDomainModel
+                {
+                    Id = insertedProjection.Entity.Id,
+                    AuditoriumId = insertedProjection.Entity.SalaId,
+                    MovieId = insertedProjection.Entity.MovieId,
+                    ProjectionTime = insertedProjection.Entity.DateTime
+                }
+            };
+
+            return result;
+
         }
     }
 }

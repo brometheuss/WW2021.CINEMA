@@ -28,14 +28,12 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = await _cinemaContext.Seats.ToListAsync();
 
-            if (data != null)
-            {
-                return data;
-            }
-            else
+            if (data == null)
             {
                 return null;
             }
+
+            return data;
         }
 
         public async Task<Seat> GetByIdAsync(object id)

@@ -21,26 +21,24 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _auditoriumsRepository.GetAll();
 
-            if (data != null)
+            if (data == null)
             {
-                List<AuditoriumDomainModel> result = new List<AuditoriumDomainModel>();
-                AuditoriumDomainModel model;
-                foreach (var item in data)
-                {
-                    model = new AuditoriumDomainModel
-                    {
-                        Id = item.Id,
-                        CinemaId = item.CinemaId
-                    };
-                    result.Add(model);
-                }
-
-                return result;
+                return null;                
             }
-            else 
+
+            List<AuditoriumDomainModel> result = new List<AuditoriumDomainModel>();
+            AuditoriumDomainModel model;
+            foreach (var item in data)
             {
-                return null;
-            }            
+                model = new AuditoriumDomainModel
+                {
+                    Id = item.Id,
+                    CinemaId = item.CinemaId
+                };
+                result.Add(model);
+            }
+
+            return result;
         }
     }
 }

@@ -59,14 +59,12 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = _cinemaContext.Projections.Add(obj);
 
-            if (data != null)
-            {
-                return data;
-            }
-            else
+            if (data == null)
             {
                 return null;
             }
+
+            return data;
         }
 
         public void Save()

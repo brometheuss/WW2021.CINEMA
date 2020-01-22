@@ -22,52 +22,48 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = _moviesRepository.GetCurrentMovies();
 
-            if (data != null)
-            {
-                List<MovieDomainModel> result = new List<MovieDomainModel>();
-                MovieDomainModel model;
-                foreach (var item in data)
-                {
-                    model = new MovieDomainModel
-                    {
-                        Current = item.Current,
-                        Id = item.Id,
-                        Rating = item.Rating ?? 0,
-                        Title = item.Title
-                    };
-                    result.Add(model);
-                }
-
-                return result;
-            }
-            else 
+            if (data == null)
             {
                 return null;
             }
-            
+
+            List<MovieDomainModel> result = new List<MovieDomainModel>();
+            MovieDomainModel model;
+            foreach (var item in data)
+            {
+                model = new MovieDomainModel
+                {
+                    Current = item.Current,
+                    Id = item.Id,
+                    Rating = item.Rating ?? 0,
+                    Title = item.Title
+                };
+                result.Add(model);
+            }
+
+            return result;
+
         }
 
         public async Task<MovieDomainModel> GetMovieByIdAsync(Guid id)
         {
             var data = await _moviesRepository.GetByIdAsync(id);
 
-            if (data != null)
-            {
-                MovieDomainModel domainModel = new MovieDomainModel
-                {
-                    Id = data.Id,
-                    Current = data.Current,
-                    Rating = data.Rating ?? 0,
-                    Title = data.Title,
-                    Year = data.Year
-                };
-
-                return domainModel;
-            }
-            else 
+            if (data == null)
             {
                 return null;
-            }            
+            }
+
+            MovieDomainModel domainModel = new MovieDomainModel
+            {
+                Id = data.Id,
+                Current = data.Current,
+                Rating = data.Rating ?? 0,
+                Title = data.Title,
+                Year = data.Year
+            };
+
+            return domainModel;
         }
 
         public MovieDomainModel AddMovie(MovieDomainModel newMovie)
@@ -81,25 +77,23 @@ namespace WinterWorkShop.Cinema.Domain.Services
             };
 
             var data = _moviesRepository.Insert(movieToCreate);
-            if (data != null)
-            {
-                _moviesRepository.Save();
-
-                MovieDomainModel domainModel = new MovieDomainModel()
-                {
-                    Id = data.Entity.Id,
-                    Title = data.Entity.Title,
-                    Current = data.Entity.Current,
-                    Year = data.Entity.Year,
-                    Rating = data.Entity.Rating ?? 0
-                };
-
-                return domainModel;
-            }
-            else
+            if (data == null)
             {
                 return null;
             }
+
+            _moviesRepository.Save();
+
+            MovieDomainModel domainModel = new MovieDomainModel()
+            {
+                Id = data.Entity.Id,
+                Title = data.Entity.Title,
+                Current = data.Entity.Current,
+                Year = data.Entity.Year,
+                Rating = data.Entity.Rating ?? 0
+            };
+
+            return domainModel;
         }
 
         public MovieDomainModel UpdateMovie(MovieDomainModel updateMovie) {
@@ -114,30 +108,29 @@ namespace WinterWorkShop.Cinema.Domain.Services
             };
             
             var data = _moviesRepository.Update(movie);
-            if (data != null)
-            {
-                _moviesRepository.Save();
 
-                MovieDomainModel domainModel = new MovieDomainModel()
-                {
-                    Id = data.Entity.Id,
-                    Title = data.Entity.Title,
-                    Current = data.Entity.Current,
-                    Year = data.Entity.Year,
-                    Rating = data.Entity.Rating ?? 0
-                };
-
-                return domainModel;
-            }
-            else
+            if (data == null)
             {
                 return null;
-            }           
+            }
+            _moviesRepository.Save();
+
+            MovieDomainModel domainModel = new MovieDomainModel()
+            {
+                Id = data.Entity.Id,
+                Title = data.Entity.Title,
+                Current = data.Entity.Current,
+                Year = data.Entity.Year,
+                Rating = data.Entity.Rating ?? 0
+            };
+
+            return domainModel;
         }
 
         public MovieDomainModel DeleteMovie(Guid id)
         {
             var data = _moviesRepository.Delete(id);
+
             if (data == null)
             {
                 return null;

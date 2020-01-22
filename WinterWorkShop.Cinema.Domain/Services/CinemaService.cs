@@ -21,26 +21,24 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _cinemasRepository.GetAll();
 
-            if (data != null)
-            {
-                List<CinemaDomainModel> result = new List<CinemaDomainModel>();
-                CinemaDomainModel model;
-                foreach (var item in data)
-                {
-                    model = new CinemaDomainModel
-                    {
-                        Id = item.Id,
-                        Name = item.Name
-                    };
-                    result.Add(model);
-                }
-
-                return result;
-            }
-            else
+            if (data == null)
             {
                 return null;
             }
+
+            List<CinemaDomainModel> result = new List<CinemaDomainModel>();
+            CinemaDomainModel model;
+            foreach (var item in data)
+            {
+                model = new CinemaDomainModel
+                {
+                    Id = item.Id,
+                    Name = item.Name
+                };
+                result.Add(model);
+            }
+
+            return result;
         }
     }
 
