@@ -26,7 +26,16 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<IEnumerable<Seat>> GetAll()
         {
-            return await _cinemaContext.Seats.ToListAsync();
+            var data = await _cinemaContext.Seats.ToListAsync();
+
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Seat> GetByIdAsync(object id)

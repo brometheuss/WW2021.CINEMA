@@ -32,6 +32,10 @@
         public const string PROJECTION_IN_PAST = "Projection time cannot be in past.";
         #endregion
 
+        #region Cinemas
+        public const string SEAT_GET_ALL_SEATS_ERROR = "Error occured while getting all seats, please try again";
+        #endregion
+
 
     }
 }
