@@ -7,11 +7,11 @@
         #endregion
 
         #region Auditoriums
-        public const string MOVIE_GET_ALL_AUDITORIUMS_ERROR = "Error occured while getting all auditoriums, please try again";
+        public const string AUDITORIUM_GET_ALL_AUDITORIUMS_ERROR = "Error occured while getting all auditoriums, please try again";
         #endregion
 
         #region Cinemas
-        public const string MOVIE_GET_ALL_CINEMAS_ERROR = "Error occured while getting all cinemas, please try again";
+        public const string CINEMA_GET_ALL_CINEMAS_ERROR = "Error occured while getting all cinemas, please try again";
         #endregion
 
         #region Movies        
@@ -26,6 +26,8 @@
         #endregion
 
         #region Projections
+        public const string PROJECTION_GET_ALL_PROJECTIONS_ERROR = "Error occured while getting all projections, please try again";
+        public const string PROJECTION_CREATION_ERROR = "Error occured while creating new projection, please try again";
         public const string PROJECTIONS_AT_SAME_TIME = "Cannot create new projection, there are projections at same time alredy.";
         public const string PROJECTION_IN_PAST = "Projection time cannot be in past.";
         #endregion

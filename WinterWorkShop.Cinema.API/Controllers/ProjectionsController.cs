@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
@@ -31,8 +32,36 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("all")]
         public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
         {
-            var data = await _projectionService.GetAllAsync();
-            return Ok(data);
+            IEnumerable<ProjectionDomainModel> projectionDomainModels;
+            try
+            {
+                projectionDomainModels = await _projectionService.GetAllAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            if (projectionDomainModels != null)
+            {
+                return Ok(projectionDomainModels);
+            }
+            else
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.PROJECTION_GET_ALL_PROJECTIONS_ERROR,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
         }
 
         /// <summary>
@@ -63,14 +92,37 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 ProjectionTime = projectionModel.ProjectionTime
             };
 
-            var result = await _projectionService.CreateProjection(domainModel);
+            CreateProjectionResultModel createProjectionResultModel;
 
-            if (!result.IsSuccessful)
+            try
             {
-                return BadRequest(result.ErrorMessage);
+                createProjectionResultModel = await _projectionService.CreateProjection(domainModel);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
             }
 
-            return Created("projections//" + result.Projection.Id, result.Projection);
+            if (createProjectionResultModel.IsSuccessful)
+            {
+                return Created("projections//" + createProjectionResultModel.Projection.Id, createProjectionResultModel.Projection);
+            }
+            else
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_CREATION_ERROR,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
         }
     }
 }

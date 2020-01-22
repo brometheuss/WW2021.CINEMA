@@ -31,7 +31,16 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<IEnumerable<Projection>> GetAll()
         {
-            return await _cinemaContext.Projections.ToListAsync();
+            var data = await _cinemaContext.Projections.ToListAsync();
+
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Projection> GetByIdAsync(object id)
@@ -48,7 +57,16 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public EntityEntry<Projection> Insert(Projection obj)
         {
-            return _cinemaContext.Projections.Add(obj);
+            var data = _cinemaContext.Projections.Add(obj);
+
+            if (data != null)
+            {
+                return data;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public void Save()
