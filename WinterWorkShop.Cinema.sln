@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinterWorkShop.Cinema.Repos
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinterWorkShop.Cinema.Domain", "WinterWorkShop.Cinema.Domain\WinterWorkShop.Cinema.Domain.csproj", "{894863B9-DC2F-4D72-B1FE-CAE76FEB1F1C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinterWorkShop.Cinema.Tests", "WinterWorkShop.Cinema.API.Tests\WinterWorkShop.Cinema.Tests.csproj", "{BA970A2B-7955-49BC-9129-ACB101FD427D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{894863B9-DC2F-4D72-B1FE-CAE76FEB1F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{894863B9-DC2F-4D72-B1FE-CAE76FEB1F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{894863B9-DC2F-4D72-B1FE-CAE76FEB1F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA970A2B-7955-49BC-9129-ACB101FD427D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA970A2B-7955-49BC-9129-ACB101FD427D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA970A2B-7955-49BC-9129-ACB101FD427D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA970A2B-7955-49BC-9129-ACB101FD427D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
