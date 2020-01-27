@@ -39,8 +39,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (projectionDomainModels == null)
             {
-                return NotFound(new List<ProjectionDomainModel>());
-                
+                projectionDomainModels = new List<ProjectionDomainModel>();
             }
 
             return Ok(projectionDomainModels);

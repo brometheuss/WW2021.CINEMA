@@ -66,7 +66,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (movieDomainModels == null)
             {
-                return Ok(new List<MovieDomainModel>());
+                movieDomainModels = new List<MovieDomainModel>();
             }
 
             return Ok(movieDomainModels);
@@ -211,10 +211,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
                     ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError
                 };
 
-                return BadRequest(errorResponse);
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
             }
 
             return Accepted("movies//" + deletedMovie.Id, deletedMovie);
