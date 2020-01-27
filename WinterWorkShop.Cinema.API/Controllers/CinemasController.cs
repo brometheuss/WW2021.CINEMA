@@ -27,7 +27,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <summary>
         /// Gets all cinemas
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of cinemas</returns>
         [HttpGet]
         [Route("all")]
         public async Task<ActionResult<IEnumerable<CinemaDomainModel>>> GetAsync()
@@ -38,10 +38,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (cinemaDomainModels == null)
             {
-                return Ok(new List<CinemaDomainModel>());
+                return NotFound(new List<CinemaDomainModel>());
             }
 
-            return NotFound(cinemaDomainModels);
+            return Ok(cinemaDomainModels);
         }
     }
 }
