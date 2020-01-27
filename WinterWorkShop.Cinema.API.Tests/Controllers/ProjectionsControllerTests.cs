@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.API.Controllers;
+using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 
@@ -15,10 +17,10 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
     public class ProjectionsControllerTests
     {
         private Mock<IProjectionService> _projectionService;
-        
+
 
         [TestMethod]
-        public void GetAsync_Return_All_Projections() 
+        public void GetAsync_Return_All_Projections()
         {
             //Arrange
             List<ProjectionDomainModel> projectionsDomainModelsList = new List<ProjectionDomainModel>();
@@ -32,7 +34,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 ProjectionTime = DateTime.Now.AddDays(1)
             };
             projectionsDomainModelsList.Add(projectionDomainModel);
-            IEnumerable<ProjectionDomainModel> projectionDomainModels = projectionsDomainModelsList;            
+            IEnumerable<ProjectionDomainModel> projectionDomainModels = projectionsDomainModelsList;
             var responseTask = Task.FromResult(projectionDomainModels);
             var expectedResultCount = 1;
             var expectedStatusCode = 200;
@@ -43,11 +45,11 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
 
             //Act
             var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultList = ((OkObjectResult) result).Value;
-            List<ProjectionDomainModel> projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
+            var resultList = ((OkObjectResult)result).Value;
+            var projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
 
             //Assert
-            Assert.IsNotNull(projectionDomainModelResultList);            
+            Assert.IsNotNull(projectionDomainModelResultList);
             Assert.AreEqual(expectedResultCount, projectionDomainModelResultList.Count);
             Assert.AreEqual(projectionDomainModel.Id, projectionDomainModelResultList[0].Id);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
@@ -77,6 +79,226 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             Assert.AreEqual(expectedResultCount, projectionDomainModelResultList.Count);
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
             Assert.AreEqual(expectedStatusCode, ((OkObjectResult)result).StatusCode);
+        }
+
+        // if (!ModelState.IsValid) - false
+        // if (projectionModel.ProjectionTime < DateTime.Now) - false
+        // try  await _projectionService.CreateProjection(domainModel) - return valid mock
+        // if (createProjectionResultModel.IsSuccessful) - true
+        // return Created
+        [TestMethod]
+        public void PostAsync_Create_createProjectionResultModel_IsSuccessful_True_Projection() 
+        {
+            //Arrange
+            var expectedStatusCode = 201;
+
+            CreateProjectionModel createProjectionModel = new CreateProjectionModel()
+            {
+                MovieId = Guid.NewGuid(),
+                ProjectionTime = DateTime.Now.AddDays(1),
+                SalaId = 1
+            };
+            CreateProjectionResultModel createProjectionResultModel = new CreateProjectionResultModel
+            {
+                Projection = new ProjectionDomainModel
+                {
+                    Id = Guid.NewGuid(),
+                    AditoriumName = "ImeSale",
+                    AuditoriumId = createProjectionModel.SalaId,
+                    MovieId = createProjectionModel.MovieId,
+                    MovieTitle = "ImeFilma",
+                    ProjectionTime = createProjectionModel.ProjectionTime
+                },
+                IsSuccessful = true
+            };
+            var responseTask = Task.FromResult(createProjectionResultModel);
+
+
+            _projectionService = new Mock<IProjectionService>();
+            _projectionService.Setup(x => x.CreateProjection(It.IsAny<ProjectionDomainModel>())).Returns(responseTask);
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+
+            //Act
+            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var createdResult = ((CreatedResult)result).Value;
+            ProjectionDomainModel projectionDomainModel = (ProjectionDomainModel)createdResult;
+
+            //Assert
+            Assert.IsNotNull(projectionDomainModel);
+            Assert.AreEqual(createProjectionModel.MovieId, projectionDomainModel.MovieId);
+            Assert.IsInstanceOfType(result, typeof(CreatedResult));
+            Assert.AreEqual(expectedStatusCode, ((CreatedResult)result).StatusCode);
+        }
+
+        // if (!ModelState.IsValid) - false
+        // if (projectionModel.ProjectionTime < DateTime.Now) - false
+        // try  await _projectionService.CreateProjection(domainModel) - throw DbUpdateException
+        // return BadRequest
+        [TestMethod]
+        public void PostAsync_Create_Throw_DbException_Projection()
+        {
+            //Arrange
+            var expectedMessage = "Inner exception error message.";
+            var expectedStatusCode = 400;
+
+            CreateProjectionModel createProjectionModel = new CreateProjectionModel()
+            {
+                MovieId = Guid.NewGuid(),
+                ProjectionTime = DateTime.Now.AddDays(1),
+                SalaId = 1
+            };
+            CreateProjectionResultModel createProjectionResultModel = new CreateProjectionResultModel
+            {
+                Projection = new ProjectionDomainModel
+                {
+                    Id = Guid.NewGuid(),
+                    AditoriumName = "ImeSale",
+                    AuditoriumId = createProjectionModel.SalaId,
+                    MovieId = createProjectionModel.MovieId,
+                    MovieTitle = "ImeFilma",
+                    ProjectionTime = createProjectionModel.ProjectionTime
+                },
+                IsSuccessful = true
+            };
+            var responseTask = Task.FromResult(createProjectionResultModel);
+            Exception exception = new Exception("Inner exception error message.");
+            DbUpdateException dbUpdateException = new DbUpdateException("Error.", exception);
+
+            _projectionService = new Mock<IProjectionService>();
+            _projectionService.Setup(x => x.CreateProjection(It.IsAny<ProjectionDomainModel>())).Throws(dbUpdateException);
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+
+            //Act
+            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultResponse = (BadRequestObjectResult)result;
+            var badObjectResult = ((BadRequestObjectResult)result).Value;
+            var errorResult = (ErrorResponseModel)badObjectResult;
+
+            //Assert
+            Assert.IsNotNull(resultResponse);
+            Assert.AreEqual(expectedMessage, errorResult.ErrorMessage);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(expectedStatusCode, resultResponse.StatusCode);
+        }
+
+
+        // if (!ModelState.IsValid) - false
+        // if (projectionModel.ProjectionTime < DateTime.Now) - false
+        // try  await _projectionService.CreateProjection(domainModel) - return valid mock
+        // if (createProjectionResultModel.IsSuccessful) - false
+        // return BadRequest
+        [TestMethod]
+        public void PostAsync_Create_createProjectionResultModel_IsSuccessful_False_Return_BadRequest()
+        {
+            //Arrange
+            var expectedMessage = "Error occured while creating new movie, please try again.";
+            var expectedStatusCode = 400;
+
+            CreateProjectionModel createProjectionModel = new CreateProjectionModel()
+            {
+                MovieId = Guid.NewGuid(),
+                ProjectionTime = DateTime.Now.AddDays(1),
+                SalaId = 1
+            };
+            CreateProjectionResultModel createProjectionResultModel = new CreateProjectionResultModel
+            {
+                Projection = new ProjectionDomainModel
+                {
+                    Id = Guid.NewGuid(),
+                    AditoriumName = "ImeSale",
+                    AuditoriumId = createProjectionModel.SalaId,
+                    MovieId = createProjectionModel.MovieId,
+                    MovieTitle = "ImeFilma",
+                    ProjectionTime = createProjectionModel.ProjectionTime
+                },
+                IsSuccessful = false
+            };
+            var responseTask = Task.FromResult(createProjectionResultModel);
+
+
+            _projectionService = new Mock<IProjectionService>();
+            _projectionService.Setup(x => x.CreateProjection(It.IsAny<ProjectionDomainModel>())).Returns(responseTask);
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+
+            //Act
+            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultResponse = (BadRequestObjectResult)result;
+            var badObjectResult = ((BadRequestObjectResult)result).Value;
+            var errorResult = (ErrorResponseModel)badObjectResult;
+
+            //Assert
+            Assert.IsNotNull(resultResponse);
+            Assert.AreEqual(expectedMessage, errorResult.ErrorMessage);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(expectedStatusCode, resultResponse.StatusCode);
+        }
+
+        // if (!ModelState.IsValid) - true
+        // return BadRequest
+        [TestMethod]
+        public void PostAsync_With_UnValid_ModelState_Return_BadRequest()
+        {
+            //Arrange
+            var expectedMessage = "Invalid Model State";
+            var expectedStatusCode = 400;
+
+            CreateProjectionModel createProjectionModel = new CreateProjectionModel()
+            {
+                MovieId = Guid.NewGuid(),
+                ProjectionTime = DateTime.Now.AddDays(1),
+                SalaId = 0
+            };
+
+            _projectionService = new Mock<IProjectionService>();
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+            projectionsController.ModelState.AddModelError("key","Invalid Model State");
+
+            //Act
+            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultResponse = (BadRequestObjectResult)result;
+            var createdResult = ((BadRequestObjectResult)result).Value;
+            var errorResponse = ((SerializableError)createdResult).GetValueOrDefault("key");
+            var message = (string[])errorResponse;
+
+            //Assert
+            Assert.IsNotNull(resultResponse);
+            Assert.AreEqual(expectedMessage, message[0]);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(expectedStatusCode, resultResponse.StatusCode);
+        }
+
+        // if (!ModelState.IsValid) - false
+        // if (projectionModel.ProjectionTime < DateTime.Now) - true
+        // return BadRequest
+        [TestMethod]
+        public void PostAsync_With_UnValid_ProjectionDate_Return_BadRequest()
+        {
+            //Arrange
+            var expectedMessage = "Projection time cannot be in past.";
+            var expectedStatusCode = 400;
+
+            CreateProjectionModel createProjectionModel = new CreateProjectionModel()
+            {
+                MovieId = Guid.NewGuid(),
+                ProjectionTime = DateTime.Now.AddDays(-1),
+                SalaId = 0
+            };
+
+            _projectionService = new Mock<IProjectionService>();
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+
+            //Act
+            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultResponse = (BadRequestObjectResult)result;
+            var createdResult = ((BadRequestObjectResult)result).Value;
+            var errorResponse = ((SerializableError)createdResult).GetValueOrDefault(nameof(createProjectionModel.ProjectionTime));
+            var message = (string[])errorResponse;
+
+            //Assert
+            Assert.IsNotNull(resultResponse);
+            Assert.AreEqual(expectedMessage, message[0]);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(expectedStatusCode, resultResponse.StatusCode);
         }
     }
 }
