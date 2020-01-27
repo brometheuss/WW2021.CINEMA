@@ -60,7 +60,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             //Arrange
             IEnumerable<ProjectionDomainModel> projectionDomainModels = null;
             var responseTask = Task.FromResult(projectionDomainModels);
-            var expectedResult = true;
+            var expectedResultCount = 0;
             var expectedStatusCode = 200;
 
             _projectionService = new Mock<IProjectionService>();
@@ -68,13 +68,15 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultList = ((OkObjectResult)result).Value;
+            List<ProjectionDomainModel> projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
 
             //Assert
-            Assert.IsNotNull(result);
-            //Assert.AreEqual(expectedResult, result.IsCompleted);
-            //Assert.IsInstanceOfType(result.GetResult().Result, typeof(Microsoft.AspNetCore.Mvc.OkObjectResult));
-            Assert.AreEqual(expectedStatusCode, ((Microsoft.AspNetCore.Mvc.OkObjectResult)result.Result).StatusCode);
+            Assert.IsNotNull(projectionDomainModelResultList);
+            Assert.AreEqual(expectedResultCount, projectionDomainModelResultList.Count);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.AreEqual(expectedStatusCode, ((OkObjectResult)result).StatusCode);
         }
     }
 }
