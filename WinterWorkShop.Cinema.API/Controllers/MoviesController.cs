@@ -20,7 +20,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
     [ApiController]
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase
-    {      
+    {
         private readonly IMovieService _movieService;
 
         private readonly ILogger<MoviesController> _logger;
@@ -66,7 +66,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (movieDomainModels == null)
             {
-                return Ok(new List<MovieDomainModel>());
+                movieDomainModels = new List<MovieDomainModel>();
             }
 
             return Ok(movieDomainModels);
@@ -111,22 +111,18 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            if (createMovie != null)
-            {
-                return Created("movies//" + createMovie.Id, createMovie);
-            }
-            else
+            if (createMovie == null)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
                     ErrorMessage = Messages.MOVIE_CREATION_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError
                 };
 
-                return BadRequest(errorResponse);
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
             }
 
-
+            return Created("movies//" + createMovie.Id, createMovie);
         }
 
         /// <summary>
@@ -149,31 +145,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             movieToUpdate = await _movieService.GetMovieByIdAsync(id);
 
-            if (movieToUpdate != null)
-            {
-                movieToUpdate.Title = movieModel.Title;
-                movieToUpdate.Current = movieModel.Current;
-                movieToUpdate.Year = movieModel.Year;
-                movieToUpdate.Rating = movieModel.Rating;
-
-                try
-                {
-                    _movieService.UpdateMovie(movieToUpdate);
-                }
-                catch (DbUpdateException e)
-                {
-                    ErrorResponseModel errorResponse = new ErrorResponseModel
-                    {
-                        ErrorMessage = e.InnerException.Message ?? e.Message,
-                        StatusCode = System.Net.HttpStatusCode.BadRequest
-                    };
-
-                    return BadRequest(errorResponse);
-                }
-
-                return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
-            }
-            else
+            if (movieToUpdate == null)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
@@ -182,7 +154,30 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 };
 
                 return BadRequest(errorResponse);
-            }            
+            }
+
+            movieToUpdate.Title = movieModel.Title;
+            movieToUpdate.Current = movieModel.Current;
+            movieToUpdate.Year = movieModel.Year;
+            movieToUpdate.Rating = movieModel.Rating;
+
+            try
+            {
+                _movieService.UpdateMovie(movieToUpdate);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
+
         }
 
         /// <summary>
@@ -200,7 +195,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             {
                 deletedMovie = _movieService.DeleteMovie(id);
             }
-            catch(DbUpdateException e)
+            catch (DbUpdateException e)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
@@ -216,10 +211,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
                     ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError
                 };
 
-                return BadRequest(errorResponse);
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
             }
 
             return Accepted("movies//" + deletedMovie.Id, deletedMovie);
