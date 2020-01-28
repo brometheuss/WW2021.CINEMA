@@ -23,10 +23,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext = cinemaContext;
         }
 
-        public EntityEntry<Projection> Delete(object id)
+        public Projection Delete(object id)
         {
             Projection existing = _cinemaContext.Projections.Find(id);
-            return _cinemaContext.Projections.Remove(existing);
+            var result = _cinemaContext.Projections.Remove(existing);
+
+            return result.Entity;
         }
 
         public async Task<IEnumerable<Projection>> GetAll()

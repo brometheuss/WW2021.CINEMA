@@ -8,7 +8,7 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        EntityEntry<T> Delete(object id);
+        T Delete(object id);
 
         Task<IEnumerable<T>> GetAll();
 

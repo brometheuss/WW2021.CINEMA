@@ -18,10 +18,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext = cinemaContext;
         }
 
-        public EntityEntry<Seat> Delete(object id)
+        public Seat Delete(object id)
         {
             Seat existing = _cinemaContext.Seats.Find(id);
-            return _cinemaContext.Seats.Remove(existing);
+            var result = _cinemaContext.Seats.Remove(existing);
+
+            return result.Entity;
         }
 
         public async Task<IEnumerable<Seat>> GetAll()

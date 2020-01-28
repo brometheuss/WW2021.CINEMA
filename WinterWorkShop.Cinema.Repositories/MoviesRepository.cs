@@ -23,7 +23,7 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext = cinemaContext;
         }
 
-        public EntityEntry<Movie> Delete(object id)
+        public Movie Delete(object id)
         {
             Movie existing = _cinemaContext.Movies.Find(id);
 
@@ -32,7 +32,9 @@ namespace WinterWorkShop.Cinema.Repositories
                 return null;
             }
 
-            return _cinemaContext.Movies.Remove(existing);
+            var result = _cinemaContext.Movies.Remove(existing);
+
+            return result.Entity;
         }
 
         public async Task<IEnumerable<Movie>> GetAll()

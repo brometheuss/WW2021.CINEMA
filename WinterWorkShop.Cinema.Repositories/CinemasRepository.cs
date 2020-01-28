@@ -9,6 +9,7 @@ using WinterWorkShop.Cinema.Data;
 namespace WinterWorkShop.Cinema.Repositories
 {
     public interface ICinemasRepository : IRepository<Data.Cinema> { }
+
     public class CinemasRepository : ICinemasRepository
     {
         private CinemaContext _cinemaContext;
@@ -18,10 +19,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext = cinemaContext;
         }
 
-        public EntityEntry<Data.Cinema> Delete(object id)
+        public Data.Cinema Delete(object id)
         {
             Data.Cinema existing = _cinemaContext.Cinemas.Find(id);
-            return _cinemaContext.Cinemas.Remove(existing);
+            var result = _cinemaContext.Cinemas.Remove(existing);
+
+            return result.Entity;
         }
 
         public async Task<IEnumerable<Data.Cinema>> GetAll()
