@@ -45,8 +45,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
             }
 
             return result;
-
-
         }
 
         public async Task<CreateProjectionResultModel> CreateProjection(ProjectionDomainModel domainModel)
@@ -87,15 +85,14 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 ErrorMessage = null,
                 Projection = new ProjectionDomainModel
                 {
-                    Id = insertedProjection.Entity.Id,
-                    AuditoriumId = insertedProjection.Entity.SalaId,
-                    MovieId = insertedProjection.Entity.MovieId,
-                    ProjectionTime = insertedProjection.Entity.DateTime
+                    Id = insertedProjection.Id,
+                    AuditoriumId = insertedProjection.SalaId,
+                    MovieId = insertedProjection.MovieId,
+                    ProjectionTime = insertedProjection.DateTime
                 }
             };
 
             return result;
-
         }
     }
 }
