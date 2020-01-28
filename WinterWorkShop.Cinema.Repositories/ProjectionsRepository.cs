@@ -72,12 +72,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Projection> Update(Projection obj)
+        public Projection Update(Projection obj)
         {
             var updatedEntry = _cinemaContext.Projections.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }

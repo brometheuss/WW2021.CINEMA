@@ -83,7 +83,7 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Movie> Update(Movie obj)
+        public Movie Update(Movie obj)
         {
             var updatedEntry = _cinemaContext.Movies.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
@@ -93,7 +93,7 @@ namespace WinterWorkShop.Cinema.Repositories
                 return null;
             }
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }

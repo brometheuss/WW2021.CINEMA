@@ -51,12 +51,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Seat> Update(Seat obj)
+        public Seat Update(Seat obj)
         {
             var updatedEntry = _cinemaContext.Seats.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }

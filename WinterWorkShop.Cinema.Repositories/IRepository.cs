@@ -18,6 +18,6 @@ namespace WinterWorkShop.Cinema.Repositories
 
         void Save();
 
-        EntityEntry<T> Update(T obj);
+        T Update(T obj);
     }
 }
