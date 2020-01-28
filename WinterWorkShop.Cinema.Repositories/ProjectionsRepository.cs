@@ -11,7 +11,7 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IProjectionsRepository : IRepository<Projection> 
     {
-        IEnumerable<Projection> GetBySalaId(int salaId);
+        IEnumerable<Projection> GetBySalaId(int salaId);        
     }
 
     public class ProjectionsRepository : IProjectionsRepository
@@ -57,7 +57,7 @@ namespace WinterWorkShop.Cinema.Repositories
             return projectionsData;
         }
 
-        public EntityEntry<Projection> Insert(Projection obj)
+        public Projection Insert(Projection obj)
         {
             var data = _cinemaContext.Projections.Add(obj);
 
@@ -66,7 +66,7 @@ namespace WinterWorkShop.Cinema.Repositories
                 return null;
             }
 
-            return data;
+            return data.Entity;
         }
 
         public void Save()
@@ -74,12 +74,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Projection> Update(Projection obj)
+        public Projection Update(Projection obj)
         {
             var updatedEntry = _cinemaContext.Projections.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }

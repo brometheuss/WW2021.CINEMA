@@ -86,11 +86,11 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             MovieDomainModel domainModel = new MovieDomainModel()
             {
-                Id = data.Entity.Id,
-                Title = data.Entity.Title,
-                Current = data.Entity.Current,
-                Year = data.Entity.Year,
-                Rating = data.Entity.Rating ?? 0
+                Id = data.Id,
+                Title = data.Title,
+                Current = data.Current,
+                Year = data.Year,
+                Rating = data.Rating ?? 0
             };
 
             return domainModel;
@@ -117,11 +117,11 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             MovieDomainModel domainModel = new MovieDomainModel()
             {
-                Id = data.Entity.Id,
-                Title = data.Entity.Title,
-                Current = data.Entity.Current,
-                Year = data.Entity.Year,
-                Rating = data.Entity.Rating ?? 0
+                Id = data.Id,
+                Title = data.Title,
+                Current = data.Current,
+                Year = data.Year,
+                Rating = data.Rating ?? 0
             };
 
             return domainModel;

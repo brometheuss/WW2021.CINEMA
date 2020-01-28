@@ -68,7 +68,7 @@ namespace WinterWorkShop.Cinema.Repositories
             return data;
         }
 
-        public EntityEntry<Movie> Insert(Movie obj)
+        public Movie Insert(Movie obj)
         {
             var data = _cinemaContext.Movies.Add(obj);
 
@@ -77,7 +77,7 @@ namespace WinterWorkShop.Cinema.Repositories
                 return null;
             }
 
-            return data;
+            return data.Entity;
         }
 
         public void Save()
@@ -85,7 +85,7 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Movie> Update(Movie obj)
+        public Movie Update(Movie obj)
         {
             var updatedEntry = _cinemaContext.Movies.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
@@ -95,7 +95,7 @@ namespace WinterWorkShop.Cinema.Repositories
                 return null;
             }
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }

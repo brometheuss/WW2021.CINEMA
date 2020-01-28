@@ -43,9 +43,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Auditoriums.FindAsync(id);
         }
 
-        public EntityEntry<Auditorium> Insert(Auditorium obj)
+        public Auditorium Insert(Auditorium obj)
         {
-            return _cinemaContext.Auditoriums.Add(obj);
+            return _cinemaContext.Auditoriums.Add(obj).Entity;
         }
 
         public void Save()
@@ -53,12 +53,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Auditorium> Update(Auditorium obj)
+        public Auditorium Update(Auditorium obj)
         {
             var updatedEntry = _cinemaContext.Auditoriums.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }

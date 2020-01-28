@@ -14,10 +14,10 @@ namespace WinterWorkShop.Cinema.Repositories
 
         Task<T> GetByIdAsync(object id);
 
-        EntityEntry<T> Insert(T obj);
+        T Insert(T obj);
 
         void Save();
 
-        EntityEntry<T> Update(T obj);
+        T Update(T obj);
     }
 }

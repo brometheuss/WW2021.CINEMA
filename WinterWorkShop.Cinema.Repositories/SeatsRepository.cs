@@ -43,9 +43,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Seats.FindAsync(id);
         }
 
-        public EntityEntry<Seat> Insert(Seat obj)
+        public Seat Insert(Seat obj)
         {
-            return _cinemaContext.Seats.Add(obj);
+            return _cinemaContext.Seats.Add(obj).Entity;
         }
 
         public void Save()
@@ -53,12 +53,12 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.SaveChanges();
         }
 
-        public EntityEntry<Seat> Update(Seat obj)
+        public Seat Update(Seat obj)
         {
             var updatedEntry = _cinemaContext.Seats.Attach(obj);
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry;
+            return updatedEntry.Entity;
         }
     }
 }
