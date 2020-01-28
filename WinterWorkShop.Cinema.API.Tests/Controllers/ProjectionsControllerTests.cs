@@ -35,18 +35,18 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             };
             projectionsDomainModelsList.Add(projectionDomainModel);
             IEnumerable<ProjectionDomainModel> projectionDomainModels = projectionsDomainModelsList;
-            var responseTask = Task.FromResult(projectionDomainModels);
-            var expectedResultCount = 1;
-            var expectedStatusCode = 200;
+            Task<IEnumerable<ProjectionDomainModel>> responseTask = Task.FromResult(projectionDomainModels);
+            int expectedResultCount = 1;
+            int expectedStatusCode = 200;
 
             _projectionService = new Mock<IProjectionService>();
             _projectionService.Setup(x => x.GetAllAsync()).Returns(responseTask);
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultList = ((OkObjectResult)result).Value;
-            var projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
+            ActionResult result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            object resultList = ((OkObjectResult)result).Value;
+            List<ProjectionDomainModel> projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
 
             //Assert
             Assert.IsNotNull(projectionDomainModelResultList);
@@ -61,17 +61,17 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         {
             //Arrange
             IEnumerable<ProjectionDomainModel> projectionDomainModels = null;
-            var responseTask = Task.FromResult(projectionDomainModels);
-            var expectedResultCount = 0;
-            var expectedStatusCode = 200;
+            Task<IEnumerable<ProjectionDomainModel>> responseTask = Task.FromResult(projectionDomainModels);
+            int expectedResultCount = 0;
+            int expectedStatusCode = 200;
 
             _projectionService = new Mock<IProjectionService>();
             _projectionService.Setup(x => x.GetAllAsync()).Returns(responseTask);
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultList = ((OkObjectResult)result).Value;
+            ActionResult result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            object resultList = ((OkObjectResult)result).Value;
             List<ProjectionDomainModel> projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
 
             //Assert
@@ -90,7 +90,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         public void PostAsync_Create_createProjectionResultModel_IsSuccessful_True_Projection() 
         {
             //Arrange
-            var expectedStatusCode = 201;
+            int expectedStatusCode = 201;
 
             CreateProjectionModel createProjectionModel = new CreateProjectionModel()
             {
@@ -111,7 +111,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 },
                 IsSuccessful = true
             };
-            var responseTask = Task.FromResult(createProjectionResultModel);
+            Task<CreateProjectionResultModel> responseTask = Task.FromResult(createProjectionResultModel);
 
 
             _projectionService = new Mock<IProjectionService>();
@@ -119,8 +119,8 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var createdResult = ((CreatedResult)result).Value;
+            ActionResult result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            object createdResult = ((CreatedResult)result).Value;
             ProjectionDomainModel projectionDomainModel = (ProjectionDomainModel)createdResult;
 
             //Assert
@@ -138,8 +138,8 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         public void PostAsync_Create_Throw_DbException_Projection()
         {
             //Arrange
-            var expectedMessage = "Inner exception error message.";
-            var expectedStatusCode = 400;
+            string expectedMessage = "Inner exception error message.";
+            int expectedStatusCode = 400;
 
             CreateProjectionModel createProjectionModel = new CreateProjectionModel()
             {
@@ -160,7 +160,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 },
                 IsSuccessful = true
             };
-            var responseTask = Task.FromResult(createProjectionResultModel);
+            Task<CreateProjectionResultModel> responseTask = Task.FromResult(createProjectionResultModel);
             Exception exception = new Exception("Inner exception error message.");
             DbUpdateException dbUpdateException = new DbUpdateException("Error.", exception);
 
@@ -169,10 +169,10 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultResponse = (BadRequestObjectResult)result;
-            var badObjectResult = ((BadRequestObjectResult)result).Value;
-            var errorResult = (ErrorResponseModel)badObjectResult;
+            ActionResult result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            BadRequestObjectResult resultResponse = (BadRequestObjectResult)result;
+            object badObjectResult = ((BadRequestObjectResult)result).Value;
+            ErrorResponseModel errorResult = (ErrorResponseModel)badObjectResult;
 
             //Assert
             Assert.IsNotNull(resultResponse);
@@ -191,8 +191,8 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         public void PostAsync_Create_createProjectionResultModel_IsSuccessful_False_Return_BadRequest()
         {
             //Arrange
-            var expectedMessage = "Error occured while creating new movie, please try again.";
-            var expectedStatusCode = 400;
+            string expectedMessage = "Error occured while creating new movie, please try again.";
+            int expectedStatusCode = 400;
 
             CreateProjectionModel createProjectionModel = new CreateProjectionModel()
             {
@@ -213,7 +213,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 },
                 IsSuccessful = false
             };
-            var responseTask = Task.FromResult(createProjectionResultModel);
+            Task<CreateProjectionResultModel> responseTask = Task.FromResult(createProjectionResultModel);
 
 
             _projectionService = new Mock<IProjectionService>();
@@ -221,10 +221,10 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultResponse = (BadRequestObjectResult)result;
-            var badObjectResult = ((BadRequestObjectResult)result).Value;
-            var errorResult = (ErrorResponseModel)badObjectResult;
+            ActionResult result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            BadRequestObjectResult resultResponse = (BadRequestObjectResult)result;
+            object badObjectResult = ((BadRequestObjectResult)result).Value;
+            ErrorResponseModel errorResult = (ErrorResponseModel)badObjectResult;
 
             //Assert
             Assert.IsNotNull(resultResponse);
@@ -239,8 +239,8 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         public void PostAsync_With_UnValid_ModelState_Return_BadRequest()
         {
             //Arrange
-            var expectedMessage = "Invalid Model State";
-            var expectedStatusCode = 400;
+            string expectedMessage = "Invalid Model State";
+            int expectedStatusCode = 400;
 
             CreateProjectionModel createProjectionModel = new CreateProjectionModel()
             {
@@ -254,11 +254,11 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             projectionsController.ModelState.AddModelError("key","Invalid Model State");
 
             //Act
-            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultResponse = (BadRequestObjectResult)result;
-            var createdResult = ((BadRequestObjectResult)result).Value;
-            var errorResponse = ((SerializableError)createdResult).GetValueOrDefault("key");
-            var message = (string[])errorResponse;
+            ActionResult result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            BadRequestObjectResult resultResponse = (BadRequestObjectResult)result;
+            object createdResult = ((BadRequestObjectResult)result).Value;
+            object errorResponse = ((SerializableError)createdResult).GetValueOrDefault("key");
+            string[] message = (string[])errorResponse;
 
             //Assert
             Assert.IsNotNull(resultResponse);
@@ -274,8 +274,8 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         public void PostAsync_With_UnValid_ProjectionDate_Return_BadRequest()
         {
             //Arrange
-            var expectedMessage = "Projection time cannot be in past.";
-            var expectedStatusCode = 400;
+            string expectedMessage = "Projection time cannot be in past.";
+            int expectedStatusCode = 400;
 
             CreateProjectionModel createProjectionModel = new CreateProjectionModel()
             {
@@ -288,11 +288,11 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
-            var resultResponse = (BadRequestObjectResult)result;
-            var createdResult = ((BadRequestObjectResult)result).Value;
-            var errorResponse = ((SerializableError)createdResult).GetValueOrDefault(nameof(createProjectionModel.ProjectionTime));
-            var message = (string[])errorResponse;
+            ActionResult result = projectionsController.PostAsync(createProjectionModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            BadRequestObjectResult resultResponse = (BadRequestObjectResult)result;
+            object createdResult = ((BadRequestObjectResult)result).Value;
+            object errorResponse = ((SerializableError)createdResult).GetValueOrDefault(nameof(createProjectionModel.ProjectionTime));
+            string[] message = (string[])errorResponse;
 
             //Assert
             Assert.IsNotNull(resultResponse);
