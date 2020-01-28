@@ -41,9 +41,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Auditoriums.FindAsync(id);
         }
 
-        public EntityEntry<Auditorium> Insert(Auditorium obj)
+        public Auditorium Insert(Auditorium obj)
         {
-            return _cinemaContext.Auditoriums.Add(obj);
+            return _cinemaContext.Auditoriums.Add(obj).Entity;
         }
 
         public void Save()

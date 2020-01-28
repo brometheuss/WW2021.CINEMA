@@ -66,7 +66,7 @@ namespace WinterWorkShop.Cinema.Repositories
             return data;
         }
 
-        public EntityEntry<Movie> Insert(Movie obj)
+        public Movie Insert(Movie obj)
         {
             var data = _cinemaContext.Movies.Add(obj);
 
@@ -75,7 +75,7 @@ namespace WinterWorkShop.Cinema.Repositories
                 return null;
             }
 
-            return data;
+            return data.Entity;
         }
 
         public void Save()

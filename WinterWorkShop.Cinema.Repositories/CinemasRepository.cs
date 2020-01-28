@@ -42,9 +42,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Cinemas.FindAsync(id);
         }
 
-        public EntityEntry<Data.Cinema> Insert(Data.Cinema obj)
+        public Data.Cinema Insert(Data.Cinema obj)
         {
-            return _cinemaContext.Cinemas.Add(obj);
+            return _cinemaContext.Cinemas.Add(obj).Entity;
         }
 
         public void Save()

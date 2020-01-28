@@ -41,9 +41,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Seats.FindAsync(id);
         }
 
-        public EntityEntry<Seat> Insert(Seat obj)
+        public Seat Insert(Seat obj)
         {
-            return _cinemaContext.Seats.Add(obj);
+            return _cinemaContext.Seats.Add(obj).Entity;
         }
 
         public void Save()
