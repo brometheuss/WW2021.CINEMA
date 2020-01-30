@@ -45,7 +45,14 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public Seat Insert(Seat obj)
         {
-            return _cinemaContext.Seats.Add(obj).Entity;
+            var data = _cinemaContext.Seats.Add(obj).Entity;
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            return data;
         }
 
         public void Save()

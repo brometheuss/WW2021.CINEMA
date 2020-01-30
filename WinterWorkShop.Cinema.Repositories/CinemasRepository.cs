@@ -42,7 +42,14 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<Data.Cinema> GetByIdAsync(object id)
         {
-            return await _cinemaContext.Cinemas.FindAsync(id);
+            var data = await _cinemaContext.Cinemas.FindAsync(id);
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            return data;
         }
 
         public Data.Cinema Insert(Data.Cinema obj)

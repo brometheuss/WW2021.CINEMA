@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
@@ -43,6 +44,65 @@ namespace WinterWorkShop.Cinema.API.Controllers
             }
             return Ok(auditoriumDomainModels);
 
+        }
+
+        /// <summary>
+        /// Adds a new auditorium
+        /// </summary>
+        /// <param name="createAuditoriumModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        [Route("create")]
+        public async Task<ActionResult<AuditoriumDomainModel>> PostAsync(CreateAuditoriumModel createAuditoriumModel) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            AuditoriumDomainModel auditoriumDomainModel = new AuditoriumDomainModel
+            {
+                CinemaId = createAuditoriumModel.cinemaId,
+                Name = createAuditoriumModel.auditName
+            };
+
+            CreateAuditoriumResultModel createAuditoriumResultModel;
+
+            try 
+            {
+                createAuditoriumResultModel = await _auditoriumService.CreateAuditorium(auditoriumDomainModel, createAuditoriumModel.numberOfSeats, createAuditoriumModel.seatRows);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            if (createAuditoriumResultModel.IsSuccessful)
+            {
+                return Created("auditoriums//" + createAuditoriumResultModel.Id, createAuditoriumResultModel);
+            }
+            else
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel() 
+                {
+                    ErrorMessage = Messages.AUDITORIUM_CREATION_ERROR,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                if (createAuditoriumResultModel.ErrorMessage != null)
+                {
+                    errorResponse.ErrorMessage = createAuditoriumResultModel.ErrorMessage;
+                }                    
+
+                return BadRequest(errorResponse);
+            }
         }
     }
 }

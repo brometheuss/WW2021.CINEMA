@@ -2,13 +2,17 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
 
 namespace WinterWorkShop.Cinema.Repositories
 {
-    public interface IAuditoriumsRepository : IRepository<Auditorium> { }
+    public interface IAuditoriumsRepository : IRepository<Auditorium> 
+    {
+        IEnumerable<Auditorium> GetByAuditmName(string name);
+    }
     public class AuditoriumsRepository : IAuditoriumsRepository
     {
         private CinemaContext _cinemaContext;
@@ -16,6 +20,19 @@ namespace WinterWorkShop.Cinema.Repositories
         public AuditoriumsRepository(CinemaContext cinemaContext)
         {
             _cinemaContext = cinemaContext;
+        }
+
+
+        public IEnumerable<Auditorium> GetByAuditmName(string name)
+        {
+            var data =  _cinemaContext.Auditoriums.Where(x => x.AuditName == name);
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            return data;
         }
 
         public Auditorium Delete(object id)
@@ -45,7 +62,14 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public Auditorium Insert(Auditorium obj)
         {
-            return _cinemaContext.Auditoriums.Add(obj).Entity;
+            var data = _cinemaContext.Auditoriums.Add(obj).Entity;
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            return data;
         }
 
         public void Save()
