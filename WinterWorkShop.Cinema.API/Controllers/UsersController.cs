@@ -65,10 +65,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
         // <summary>
         /// Gets User by UserName
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="username"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{id}")]
+        [Route("{username}")]
         public async Task<ActionResult<UserDomainModel>> GetbyUserNameAsync(string username)
         {
             UserDomainModel model;
