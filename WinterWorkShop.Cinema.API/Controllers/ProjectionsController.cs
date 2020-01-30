@@ -90,20 +90,18 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            if (createProjectionResultModel.IsSuccessful)
-            {
-                return Created("projections//" + createProjectionResultModel.Projection.Id, createProjectionResultModel.Projection);
-            }
-            else
+            if (createProjectionResultModel == null)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
                     ErrorMessage = Messages.MOVIE_CREATION_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError
                 };
 
-                return BadRequest(errorResponse);
+                return BadRequest(errorResponse);                
             }
+
+            return Created("projections//" + createProjectionResultModel.Projection.Id, createProjectionResultModel.Projection);
         }
     }
 }
