@@ -36,7 +36,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 {
                     Id = item.Id,
                     MovieId = item.MovieId,
-                    AuditoriumId = item.SalaId,
+                    AuditoriumId = item.AuditoriumId,
                     ProjectionTime = item.DateTime,
                     MovieTitle = item.Movie.Title,
                     AditoriumName = item.Auditorium.AuditName
@@ -51,7 +51,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             int projectionTime = 3;
 
-            var projectionsAtSameTime = _projectionsRepository.GetBySalaId(domainModel.AuditoriumId)
+            var projectionsAtSameTime = _projectionsRepository.GetByAuditoriumId(domainModel.AuditoriumId)
                 .Where(x => x.DateTime < domainModel.ProjectionTime.AddHours(projectionTime) && x.DateTime > domainModel.ProjectionTime.AddHours(-projectionTime))
                 .ToList();
 
@@ -67,7 +67,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             var newProjection = new Data.Projection
             {
                 MovieId = domainModel.MovieId,
-                SalaId = domainModel.AuditoriumId,
+                AuditoriumId = domainModel.AuditoriumId,
                 DateTime = domainModel.ProjectionTime
             };
 
@@ -86,7 +86,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Projection = new ProjectionDomainModel
                 {
                     Id = insertedProjection.Id,
-                    AuditoriumId = insertedProjection.SalaId,
+                    AuditoriumId = insertedProjection.AuditoriumId,
                     MovieId = insertedProjection.MovieId,
                     ProjectionTime = insertedProjection.DateTime
                 }

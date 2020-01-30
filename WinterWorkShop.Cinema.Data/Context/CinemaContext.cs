@@ -79,7 +79,7 @@ namespace WinterWorkShop.Cinema.Data
             modelBuilder.Entity<Projection>()
                 .HasOne(x => x.Auditorium)
                 .WithMany(x => x.Projections)
-                .HasForeignKey(x => x.SalaId)
+                .HasForeignKey(x => x.AuditoriumId)
                 .IsRequired();
 
 

@@ -10,7 +10,7 @@ namespace WinterWorkShop.Cinema.API.Models
     {
         [Required]
         [Range(1, Int32.MaxValue)]
-        public int SalaId { get; set; }
+        public int AuditoriumId { get; set; }
 
         [Required]
         public DateTime ProjectionTime { get; set; }

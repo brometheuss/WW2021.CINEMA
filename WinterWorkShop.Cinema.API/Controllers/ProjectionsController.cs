@@ -68,7 +68,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             ProjectionDomainModel domainModel = new ProjectionDomainModel
             {
-                AuditoriumId = projectionModel.SalaId,
+                AuditoriumId = projectionModel.AuditoriumId,
                 MovieId = projectionModel.MovieId,
                 ProjectionTime = projectionModel.ProjectionTime
             };

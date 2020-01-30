@@ -11,7 +11,7 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IProjectionsRepository : IRepository<Projection> 
     {
-        IEnumerable<Projection> GetBySalaId(int salaId);        
+        IEnumerable<Projection> GetByAuditoriumId(int salaId);        
     }
 
     public class ProjectionsRepository : IProjectionsRepository
@@ -50,9 +50,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Projections.FindAsync(id);
         }
 
-        public IEnumerable<Projection> GetBySalaId(int salaId)
+        public IEnumerable<Projection> GetByAuditoriumId(int salaId)
         {
-            var projectionsData = _cinemaContext.Projections.Where(x => x.SalaId == salaId);
+            var projectionsData = _cinemaContext.Projections.Where(x => x.AuditoriumId == salaId);
 
             return projectionsData;
         }

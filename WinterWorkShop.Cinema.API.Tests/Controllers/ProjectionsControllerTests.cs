@@ -96,7 +96,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             {
                 MovieId = Guid.NewGuid(),
                 ProjectionTime = DateTime.Now.AddDays(1),
-                SalaId = 1
+                AuditoriumId = 1
             };
             CreateProjectionResultModel createProjectionResultModel = new CreateProjectionResultModel
             {
@@ -104,7 +104,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 {
                     Id = Guid.NewGuid(),
                     AditoriumName = "ImeSale",
-                    AuditoriumId = createProjectionModel.SalaId,
+                    AuditoriumId = createProjectionModel.AuditoriumId,
                     MovieId = createProjectionModel.MovieId,
                     MovieTitle = "ImeFilma",
                     ProjectionTime = createProjectionModel.ProjectionTime
@@ -145,7 +145,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             {
                 MovieId = Guid.NewGuid(),
                 ProjectionTime = DateTime.Now.AddDays(1),
-                SalaId = 1
+                AuditoriumId = 1
             };
             CreateProjectionResultModel createProjectionResultModel = new CreateProjectionResultModel
             {
@@ -153,7 +153,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 {
                     Id = Guid.NewGuid(),
                     AditoriumName = "ImeSale",
-                    AuditoriumId = createProjectionModel.SalaId,
+                    AuditoriumId = createProjectionModel.AuditoriumId,
                     MovieId = createProjectionModel.MovieId,
                     MovieTitle = "ImeFilma",
                     ProjectionTime = createProjectionModel.ProjectionTime
@@ -198,7 +198,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             {
                 MovieId = Guid.NewGuid(),
                 ProjectionTime = DateTime.Now.AddDays(1),
-                SalaId = 1
+                AuditoriumId = 1
             };
             CreateProjectionResultModel createProjectionResultModel = new CreateProjectionResultModel
             {
@@ -206,7 +206,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 {
                     Id = Guid.NewGuid(),
                     AditoriumName = "ImeSale",
-                    AuditoriumId = createProjectionModel.SalaId,
+                    AuditoriumId = createProjectionModel.AuditoriumId,
                     MovieId = createProjectionModel.MovieId,
                     MovieTitle = "ImeFilma",
                     ProjectionTime = createProjectionModel.ProjectionTime
@@ -246,7 +246,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             {
                 MovieId = Guid.NewGuid(),
                 ProjectionTime = DateTime.Now.AddDays(1),
-                SalaId = 0
+                AuditoriumId = 0
             };
 
             _projectionService = new Mock<IProjectionService>();
@@ -281,7 +281,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             {
                 MovieId = Guid.NewGuid(),
                 ProjectionTime = DateTime.Now.AddDays(-1),
-                SalaId = 0
+                AuditoriumId = 0
             };
 
             _projectionService = new Mock<IProjectionService>();

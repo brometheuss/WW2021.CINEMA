@@ -33,7 +33,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
                 Movie = new Movie { Title = "ImeFilma" },
                 MovieId = Guid.NewGuid(),
                 DateTime = DateTime.Now.AddDays(1),
-                SalaId = 1
+                AuditoriumId = 1
             };
 
             _projectionDomainModel = new ProjectionDomainModel
@@ -92,7 +92,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.IsNull(resultAction);
         }
 
-        // _projectionsRepository.GetBySalaId(domainModel.AuditoriumId) mocked to return list with projections
+        // _projectionsRepository.GetByAuditoriumId(domainModel.AuditoriumId) mocked to return list with projections
         // if (projectionsAtSameTime != null && projectionsAtSameTime.Count > 0) - true
         // return ErrorMessage
         [TestMethod]
@@ -104,7 +104,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             string expectedMessage = "Cannot create new projection, there are projections at same time alredy.";
 
             _mockProjectionsRepository = new Mock<IProjectionsRepository>();
-            _mockProjectionsRepository.Setup(x => x.GetBySalaId(It.IsAny<int>())).Returns(projectionsModelsList);
+            _mockProjectionsRepository.Setup(x => x.GetByAuditoriumId(It.IsAny<int>())).Returns(projectionsModelsList);
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
 
             //Act
@@ -116,7 +116,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.IsFalse(resultAction.IsSuccessful);
         }
 
-        // _projectionsRepository.GetBySalaId(domainModel.AuditoriumId) mocked to return empty list
+        // _projectionsRepository.GetByAuditoriumId(domainModel.AuditoriumId) mocked to return empty list
         // if (projectionsAtSameTime != null && projectionsAtSameTime.Count > 0) - false
         // _projectionsRepository.Insert(newProjection) mocked to return null
         //  if (insertedProjection == null) - true
@@ -129,7 +129,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _projection = null;
 
             _mockProjectionsRepository = new Mock<IProjectionsRepository>();
-            _mockProjectionsRepository.Setup(x => x.GetBySalaId(It.IsAny<int>())).Returns(projectionsModelsList);
+            _mockProjectionsRepository.Setup(x => x.GetByAuditoriumId(It.IsAny<int>())).Returns(projectionsModelsList);
             _mockProjectionsRepository.Setup(x => x.Insert(It.IsAny<Projection>())).Returns(_projection);
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
 
@@ -140,7 +140,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.IsNull(resultAction);
         }
 
-        // _projectionsRepository.GetBySalaId(domainModel.AuditoriumId) mocked to return empty list
+        // _projectionsRepository.GetByAuditoriumId(domainModel.AuditoriumId) mocked to return empty list
         // if (projectionsAtSameTime != null && projectionsAtSameTime.Count > 0) - false
         // _projectionsRepository.Insert(newProjection) mocked to return valid EntityEntry<Projection>
         //  if (insertedProjection == null) - false
@@ -152,7 +152,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             List<Projection> projectionsModelsList = new List<Projection>();
 
             _mockProjectionsRepository = new Mock<IProjectionsRepository>();
-            _mockProjectionsRepository.Setup(x => x.GetBySalaId(It.IsAny<int>())).Returns(projectionsModelsList);
+            _mockProjectionsRepository.Setup(x => x.GetByAuditoriumId(It.IsAny<int>())).Returns(projectionsModelsList);
             _mockProjectionsRepository.Setup(x => x.Insert(It.IsAny<Projection>())).Returns(_projection);
             _mockProjectionsRepository.Setup(x => x.Save());
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
