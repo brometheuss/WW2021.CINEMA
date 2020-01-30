@@ -43,9 +43,11 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public User GetByUserName(string username)
         {
-            var data = _cinemaContext.Users.Where(x => x.UserName == username).ToList();
+            var data = _cinemaContext.Users
+                .AsParallel()
+                .SingleOrDefault(x => x.UserName == username);
 
-            return data[0];
+            return data;
         }
 
         public User Insert(User obj)
