@@ -75,7 +75,11 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             if (insertedProjection == null)
             {
-                return null; 
+                return new CreateProjectionResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.PROJECTION_CREATION_ERROR
+                };
             }
 
             _projectionsRepository.Save();

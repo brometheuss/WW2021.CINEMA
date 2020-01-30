@@ -90,12 +90,12 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            if (createProjectionResultModel == null)
+            if (!createProjectionResultModel.IsSuccessful)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
-                    ErrorMessage = Messages.MOVIE_CREATION_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.InternalServerError
+                    ErrorMessage = createProjectionResultModel.ErrorMessage,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
 
                 return BadRequest(errorResponse);                
