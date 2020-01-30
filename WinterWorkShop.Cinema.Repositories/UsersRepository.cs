@@ -10,7 +10,7 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IUsersRepository : IRepository<User> 
     {
-        Task<User> GetByUserName(string username);
+        User GetByUserName(string username);
     }
     public class UsersRepository : IUsersRepository
     {
@@ -41,11 +41,11 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Users.FindAsync(id);
         }
 
-        public async Task<User> GetByUserName(string username)
+        public User GetByUserName(string username)
         {
-            var data = await _cinemaContext.Users.FindAsync(username);
+            var data = _cinemaContext.Users.Where(x => x.UserName == username).ToList();
 
-            return data;
+            return data[0];
         }
 
         public User Insert(User obj)

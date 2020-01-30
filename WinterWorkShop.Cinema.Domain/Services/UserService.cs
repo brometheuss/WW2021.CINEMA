@@ -65,7 +65,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public async Task<UserDomainModel> GetUserByUserName(string username)
         {
-            var data = await _usersRepository.GetByUserName(username);
+            var data = _usersRepository.GetByUserName(username);
 
             if (data == null)
             {

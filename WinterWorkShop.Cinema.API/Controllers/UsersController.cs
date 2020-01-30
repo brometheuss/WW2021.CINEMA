@@ -47,7 +47,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{id}")]
+        [Route("byID/{id}")]
         public async Task<ActionResult<UserDomainModel>> GetbyIdAsync(Guid id)
         {
             UserDomainModel model;
@@ -56,7 +56,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (model == null)
             {
-                return Ok(new MovieDomainModel());
+                return Ok(new UserDomainModel());
             }
 
             return Ok(model);
@@ -68,7 +68,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="username"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{username}")]
+        [Route("byUN/{username}")]
         public async Task<ActionResult<UserDomainModel>> GetbyUserNameAsync(string username)
         {
             UserDomainModel model;
@@ -77,7 +77,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (model == null)
             {
-                return Ok(new MovieDomainModel());
+                return Ok(new UserDomainModel());
             }
 
             return Ok(model);

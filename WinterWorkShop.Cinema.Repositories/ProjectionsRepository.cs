@@ -43,9 +43,9 @@ namespace WinterWorkShop.Cinema.Repositories
             return await _cinemaContext.Projections.FindAsync(id);
         }
 
-        public IEnumerable<Projection> GetByAuditoriumId(int salaId)
+        public IEnumerable<Projection> GetByAuditoriumId(int auditoriumId)
         {
-            var projectionsData = _cinemaContext.Projections.Where(x => x.AuditoriumId == salaId);
+            var projectionsData = _cinemaContext.Projections.Where(x => x.AuditoriumId == auditoriumId);
 
             return projectionsData;
         }
