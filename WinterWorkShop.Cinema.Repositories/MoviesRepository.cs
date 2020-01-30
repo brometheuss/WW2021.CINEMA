@@ -46,11 +46,6 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = await _cinemaContext.Movies.FindAsync(id);
 
-            if (data == null)
-            {
-                return null;
-            }
-
             return data;
         }
 
@@ -58,26 +53,16 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = _cinemaContext.Movies
                 .AsParallel()
-                .Where(x => x.Current);
-
-            if (data == null)
-            {
-                return null;
-            }
+                .Where(x => x.Current);            
 
             return data;
         }
 
         public Movie Insert(Movie obj)
         {
-            var data = _cinemaContext.Movies.Add(obj);
+            var data = _cinemaContext.Movies.Add(obj).Entity;
 
-            if (data == null)
-            {
-                return null;
-            }
-
-            return data.Entity;
+            return data;
         }
 
         public void Save()
@@ -87,15 +72,10 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public Movie Update(Movie obj)
         {
-            var updatedEntry = _cinemaContext.Movies.Attach(obj);
+            var updatedEntry = _cinemaContext.Movies.Attach(obj).Entity;
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            if (updatedEntry == null)
-            {
-                return null;
-            }
-
-            return updatedEntry.Entity;
+            return updatedEntry;
         }
     }
 }

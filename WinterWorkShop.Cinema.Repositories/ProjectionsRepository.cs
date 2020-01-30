@@ -26,23 +26,16 @@ namespace WinterWorkShop.Cinema.Repositories
         public Projection Delete(object id)
         {
             Projection existing = _cinemaContext.Projections.Find(id);
-            var result = _cinemaContext.Projections.Remove(existing);
+            var result = _cinemaContext.Projections.Remove(existing).Entity;
 
-            return result.Entity;
+            return result;
         }
 
         public async Task<IEnumerable<Projection>> GetAll()
         {
             var data = await _cinemaContext.Projections.Include(x => x.Movie).Include(x => x.Auditorium).ToListAsync();
-
-            if (data != null)
-            {
-                return data;
-            }
-            else
-            {
-                return null;
-            }
+            
+            return data;           
         }
 
         public async Task<Projection> GetByIdAsync(object id)
@@ -59,14 +52,9 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public Projection Insert(Projection obj)
         {
-            var data = _cinemaContext.Projections.Add(obj);
+            var data = _cinemaContext.Projections.Add(obj).Entity;
 
-            if (data == null)
-            {
-                return null;
-            }
-
-            return data.Entity;
+            return data;
         }
 
         public void Save()
@@ -76,10 +64,10 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public Projection Update(Projection obj)
         {
-            var updatedEntry = _cinemaContext.Projections.Attach(obj);
+            var updatedEntry = _cinemaContext.Projections.Attach(obj).Entity;
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry.Entity;
+            return updatedEntry;
         }
     }
 }

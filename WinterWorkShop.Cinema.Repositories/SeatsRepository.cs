@@ -21,19 +21,14 @@ namespace WinterWorkShop.Cinema.Repositories
         public Seat Delete(object id)
         {
             Seat existing = _cinemaContext.Seats.Find(id);
-            var result = _cinemaContext.Seats.Remove(existing);
+            var result = _cinemaContext.Seats.Remove(existing).Entity;
 
-            return result.Entity;
+            return result;
         }
 
         public async Task<IEnumerable<Seat>> GetAll()
         {
             var data = await _cinemaContext.Seats.ToListAsync();
-
-            if (data == null)
-            {
-                return null;
-            }
 
             return data;
         }
@@ -47,11 +42,6 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = _cinemaContext.Seats.Add(obj).Entity;
 
-            if (data == null)
-            {
-                return null;
-            }
-
             return data;
         }
 
@@ -62,10 +52,10 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public Seat Update(Seat obj)
         {
-            var updatedEntry = _cinemaContext.Seats.Attach(obj);
+            var updatedEntry = _cinemaContext.Seats.Attach(obj).Entity;
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry.Entity;
+            return updatedEntry;
         }
     }
 }

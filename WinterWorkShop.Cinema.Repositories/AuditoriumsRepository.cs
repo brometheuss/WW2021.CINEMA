@@ -25,12 +25,7 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public IEnumerable<Auditorium> GetByAuditmName(string name)
         {
-            var data =  _cinemaContext.Auditoriums.Where(x => x.AuditName == name);
-
-            if (data == null)
-            {
-                return null;
-            }
+            var data =  _cinemaContext.Auditoriums.Where(x => x.AuditName == name);            
 
             return data;
         }
@@ -47,11 +42,6 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = await _cinemaContext.Auditoriums.ToListAsync();
 
-            if (data == null)
-            {
-                return null;
-            }
-
             return data;
         }
 
@@ -63,11 +53,6 @@ namespace WinterWorkShop.Cinema.Repositories
         public Auditorium Insert(Auditorium obj)
         {
             var data = _cinemaContext.Auditoriums.Add(obj).Entity;
-
-            if (data == null)
-            {
-                return null;
-            }
 
             return data;
         }

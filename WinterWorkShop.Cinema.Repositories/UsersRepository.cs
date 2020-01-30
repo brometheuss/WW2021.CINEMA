@@ -20,19 +20,14 @@ namespace WinterWorkShop.Cinema.Repositories
         public User Delete(object id)
         {
             User existing = _cinemaContext.Users.Find(id);
-            var result = _cinemaContext.Users.Remove(existing);
+            var result = _cinemaContext.Users.Remove(existing).Entity;
 
-            return result.Entity;
+            return result;
         }
 
         public async Task<IEnumerable<User>> GetAll()
         {
             var data = await _cinemaContext.Users.ToListAsync();
-
-            if (data == null)
-            {
-                return null;
-            }
 
             return data;
         }
@@ -54,10 +49,10 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public User Update(User obj)
         {
-            var updatedEntry = _cinemaContext.Users.Attach(obj);
+            var updatedEntry = _cinemaContext.Users.Attach(obj).Entity;
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
-            return updatedEntry.Entity;
+            return updatedEntry;
         }
     }
 }

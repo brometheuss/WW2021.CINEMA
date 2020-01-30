@@ -31,23 +31,12 @@ namespace WinterWorkShop.Cinema.Repositories
         {
             var data = await _cinemaContext.Cinemas.ToListAsync();
 
-            if (data == null)
-            {
-                return null;
-            }
-
             return data;
-
         }
 
         public async Task<Data.Cinema> GetByIdAsync(object id)
         {
             var data = await _cinemaContext.Cinemas.FindAsync(id);
-
-            if (data == null)
-            {
-                return null;
-            }
 
             return data;
         }
