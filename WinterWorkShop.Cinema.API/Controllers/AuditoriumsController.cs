@@ -71,7 +71,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             try 
             {
-                createAuditoriumResultModel = await _auditoriumService.CreateAuditorium(auditoriumDomainModel, createAuditoriumModel.numberOfSeats, createAuditoriumModel.seatRows);
+                createAuditoriumResultModel = await _auditoriumService.AddAuditorium(auditoriumDomainModel, createAuditoriumModel.numberOfSeats, createAuditoriumModel.seatRows);
             }
             catch (DbUpdateException e)
             {
@@ -84,25 +84,23 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            if (createAuditoriumResultModel.IsSuccessful)
+            if (createAuditoriumResultModel == null)
             {
-                return Created("auditoriums//" + createAuditoriumResultModel.Id, createAuditoriumResultModel);
-            }
-            else
-            {
-                ErrorResponseModel errorResponse = new ErrorResponseModel() 
+                ErrorResponseModel errorResponse = new ErrorResponseModel()
                 {
                     ErrorMessage = Messages.AUDITORIUM_CREATION_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                    StatusCode = System.Net.HttpStatusCode.InternalServerError
                 };
 
                 if (createAuditoriumResultModel.ErrorMessage != null)
                 {
                     errorResponse.ErrorMessage = createAuditoriumResultModel.ErrorMessage;
-                }                    
+                }
 
-                return BadRequest(errorResponse);
+                return StatusCode((int)errorResponse.StatusCode, errorResponse);                
             }
+
+            return Created("auditoriums//" + createAuditoriumResultModel.Id, createAuditoriumResultModel);
         }
     }
 }

@@ -6,8 +6,6 @@ namespace WinterWorkShop.Cinema.Domain.Models
 {
     public class CreateAuditoriumResultModel
     {
-        //public AuditoriumDomainModel Auditorium { get; set; }
-
         public int Id { get; set; }
 
         public string AuditoriumName { get; set; }

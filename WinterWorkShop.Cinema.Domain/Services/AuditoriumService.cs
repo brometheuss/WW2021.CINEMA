@@ -49,7 +49,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return result;
         }
 
-        public async Task<CreateAuditoriumResultModel> CreateAuditorium(AuditoriumDomainModel domainModel,int numberOfRows, int numberOfSeats) 
+        public async Task<CreateAuditoriumResultModel> AddAuditorium(AuditoriumDomainModel domainModel,int numberOfRows, int numberOfSeats) 
         {
             var cinema = await _cinemasRepository.GetByIdAsync(domainModel.CinemaId);
             if (cinema == null)
@@ -61,7 +61,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 };
             }
 
-            var sameAuditoriumName = _auditoriumsRepository.GetByAuditmName(domainModel.Name).ToList();
+            var sameAuditoriumName = _auditoriumsRepository.GetByAuditName(domainModel.Name).ToList();
             if (sameAuditoriumName != null && sameAuditoriumName.Count > 0) 
             {
                 return new CreateAuditoriumResultModel
@@ -128,13 +128,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Id = insertedAuditorium.Id,
                 AuditoriumName = insertedAuditorium.AuditName,
                 CinemaId = insertedAuditorium.CinemaId,
-                CinemaName = cinema.Name,
-                //Auditorium = new AuditoriumDomainModel
-                //{
-                //    Id = insertedAuditorium.Id,
-                //    Name = insertedAuditorium.AuditName,
-                //    CinemaId = insertedAuditorium.CinemaId,
-                //},
+                CinemaName = cinema.Name,                
                 SeatsList = seatList,
             };
 

@@ -11,7 +11,7 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IAuditoriumsRepository : IRepository<Auditorium> 
     {
-        IEnumerable<Auditorium> GetByAuditmName(string name);
+        IEnumerable<Auditorium> GetByAuditName(string name);
     }
     public class AuditoriumsRepository : IAuditoriumsRepository
     {
@@ -23,7 +23,7 @@ namespace WinterWorkShop.Cinema.Repositories
         }
 
 
-        public IEnumerable<Auditorium> GetByAuditmName(string name)
+        public IEnumerable<Auditorium> GetByAuditName(string name)
         {
             var data =  _cinemaContext.Auditoriums.Where(x => x.AuditName == name);            
 

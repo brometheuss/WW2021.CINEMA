@@ -10,6 +10,6 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
     {
         Task<IEnumerable<AuditoriumDomainModel>> GetAllAsync();
 
-        Task<CreateAuditoriumResultModel> CreateAuditorium(AuditoriumDomainModel domainModel, int numberOfRows, int numberOfSeats);
+        Task<CreateAuditoriumResultModel> AddAuditorium(AuditoriumDomainModel domainModel, int numberOfRows, int numberOfSeats);
     }
 }
