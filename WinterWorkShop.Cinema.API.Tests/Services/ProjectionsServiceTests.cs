@@ -120,13 +120,14 @@ namespace WinterWorkShop.Cinema.Tests.Services
         // if (projectionsAtSameTime != null && projectionsAtSameTime.Count > 0) - false
         // _projectionsRepository.Insert(newProjection) mocked to return null
         //  if (insertedProjection == null) - true
-        // return null 
+        // return CreateProjectionResultModel 
         [TestMethod]
         public void ProjectionService_CreateProjection_InsertMocked_ReturnNull()
         {
             //Arrange
             List<Projection> projectionsModelsList = new List<Projection>();
             _projection = null;
+            string expectedMessage = "Error occured while creating new projection, please try again.";
 
             _mockProjectionsRepository = new Mock<IProjectionsRepository>();
             _mockProjectionsRepository.Setup(x => x.GetByAuditoriumId(It.IsAny<int>())).Returns(projectionsModelsList);
@@ -137,7 +138,9 @@ namespace WinterWorkShop.Cinema.Tests.Services
             var resultAction = projectionsController.CreateProjection(_projectionDomainModel).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
-            Assert.IsNull(resultAction);
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(expectedMessage, resultAction.ErrorMessage);
+            Assert.IsFalse(resultAction.IsSuccessful);
         }
 
         // _projectionsRepository.GetByAuditoriumId(domainModel.AuditoriumId) mocked to return empty list

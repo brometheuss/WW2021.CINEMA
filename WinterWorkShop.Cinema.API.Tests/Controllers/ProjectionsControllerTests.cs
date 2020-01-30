@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.API.Controllers;
 using WinterWorkShop.Cinema.API.Models;
+using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 
@@ -191,7 +192,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         public void PostAsync_Create_createProjectionResultModel_IsSuccessful_False_Return_BadRequest()
         {
             //Arrange
-            string expectedMessage = "Error occured while creating new movie, please try again.";
+            string expectedMessage = "Error occured while creating new projection, please try again.";
             int expectedStatusCode = 400;
 
             CreateProjectionModel createProjectionModel = new CreateProjectionModel()
@@ -211,7 +212,8 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                     MovieTitle = "ImeFilma",
                     ProjectionTime = createProjectionModel.ProjectionTime
                 },
-                IsSuccessful = false
+                IsSuccessful = false,
+                ErrorMessage = Messages.PROJECTION_CREATION_ERROR,
             };
             Task<CreateProjectionResultModel> responseTask = Task.FromResult(createProjectionResultModel);
 
