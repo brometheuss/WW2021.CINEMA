@@ -40,5 +40,47 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Ok(userDomainModels);
         }
+
+        /// <summary>
+        /// Gets User by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<UserDomainModel>> GetbyIdAsync(Guid id)
+        {
+            UserDomainModel model;
+
+            model = await _userService.GetUserByIdAsync(id);
+
+            if (model == null)
+            {
+                return Ok(new MovieDomainModel());
+            }
+
+            return Ok(model);
+        }
+
+        // <summary>
+        /// Gets User by UserName
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<ActionResult<UserDomainModel>> GetbyUserNameAsync(string username)
+        {
+            UserDomainModel model;
+
+            model = await _userService.GetUserByUserName(username);
+
+            if (model == null)
+            {
+                return Ok(new MovieDomainModel());
+            }
+
+            return Ok(model);
+        }
     }
 }

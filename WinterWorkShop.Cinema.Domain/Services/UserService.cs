@@ -34,14 +34,53 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    Surname = item.Surname,
-                    password = item.password,
+                    UserName = item.UserName,
                     IsAdmin = item.IsAdmin,
                 };
                 result.Add(model);
             }
 
             return result;
+        }
+
+        public async Task<UserDomainModel> GetUserByIdAsync(Guid id)
+        {
+            var data = await _usersRepository.GetByIdAsync(id);
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            UserDomainModel domainModel = new UserDomainModel
+            {
+                Id = data.Id,
+                Name = data.Name,
+                UserName = data.UserName,
+                IsAdmin = data.IsAdmin,
+            };
+
+            return domainModel;
+        }
+
+        public async Task<UserDomainModel> GetUserByUserName(string username)
+        {
+            var data = await _usersRepository.GetByUserName(username);
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            UserDomainModel domainModel = new UserDomainModel
+            {
+                Id = data.Id,
+                Name = data.Name,
+                UserName = data.UserName,
+                IsAdmin = data.IsAdmin,
+            };
+
+            return domainModel;
         }
     }
 }

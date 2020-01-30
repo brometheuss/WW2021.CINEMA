@@ -1,13 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
 
 namespace WinterWorkShop.Cinema.Repositories
 {
-    public interface IUsersRepository : IRepository<User> { }
+    public interface IUsersRepository : IRepository<User> 
+    {
+        Task<User> GetByUserName(string username);
+    }
     public class UsersRepository : IUsersRepository
     {
         private CinemaContext _cinemaContext;
@@ -35,6 +39,13 @@ namespace WinterWorkShop.Cinema.Repositories
         public async Task<User> GetByIdAsync(object id)
         {
             return await _cinemaContext.Users.FindAsync(id);
+        }
+
+        public async Task<User> GetByUserName(string username)
+        {
+            var data = await _cinemaContext.Users.FindAsync(username);
+
+            return data;
         }
 
         public User Insert(User obj)
