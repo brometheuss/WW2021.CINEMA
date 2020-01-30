@@ -81,29 +81,37 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             if (insertedAuditorium == null)
             {
-                return null;
+                return new CreateAuditoriumResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.AUDITORIUM_CREATION_ERROR
+                };
             }
 
             _auditoriumsRepository.Save();
 
             List<SeatDomainModel> seatList = new List<SeatDomainModel>();
 
-            for (int i = 0; i < numberOfRows; i++)
+            for (int i = 1; i <= numberOfRows; i++)
             {
-                for (int j = 0; j < numberOfSeats; j++)
+                for (int j = 1; j <= numberOfSeats; j++)
                 {
                     Seat newSeat = new Seat()
                     {
                         AuditoriumId = insertedAuditorium.Id,
-                        Row = i+1,
-                        Number = j+1,
+                        Row = i,
+                        Number = j,
                     };
 
                     Seat insertedSeat = _seatsRepository.Insert(newSeat);
 
                     if (insertedSeat == null)
                     {
-                        return null;
+                        return new CreateAuditoriumResultModel
+                        {
+                            IsSuccessful = false,
+                            ErrorMessage = Messages.AUDITORIUM_SEATS_CREATION_ERROR
+                        };
                     }
 
                     SeatDomainModel seatDomainModel = new SeatDomainModel

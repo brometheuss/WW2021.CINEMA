@@ -84,22 +84,17 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            if (createAuditoriumResultModel == null)
+            if (!createAuditoriumResultModel.IsSuccessful)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel()
                 {
-                    ErrorMessage = Messages.AUDITORIUM_CREATION_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.InternalServerError
+                    ErrorMessage = createAuditoriumResultModel.ErrorMessage,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
 
-                if (createAuditoriumResultModel.ErrorMessage != null)
-                {
-                    errorResponse.ErrorMessage = createAuditoriumResultModel.ErrorMessage;
-                }
-
-                return StatusCode((int)errorResponse.StatusCode, errorResponse);                
+                return BadRequest(errorResponse);
             }
-
+            
             return Created("auditoriums//" + createAuditoriumResultModel.Id, createAuditoriumResultModel);
         }
     }
