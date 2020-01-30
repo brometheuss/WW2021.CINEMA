@@ -6,12 +6,21 @@ In order to prepare for the workshop, there are several tools that need to be in
 
 ## Required Tools
 
+**Source Control**
+1. Create GitHub account - https://github.com/
+    
+    You should choose one account to work on per team, others should be added as contributors to repository.
+
+
+
 **BackEnd**
 1.  Visual Studio 2019 Community - https://visualstudio.microsoft.com/vs/
 2.  Microsoft SQL Server 2019 Developer - https://www.microsoft.com/en-us/sql-server/sql-server-downloads
 3.  Postman - https://www.getpostman.com/downloads/
 
 optional - Azure Data Studio instead of SQL Server Management Strudio https://docs.microsoft.com/en-us/sql/azure-data-studio/download?view=sql-server-ver15
+
+
 
 **FrontEnd**
 1.  Visual Studio Code - https://code.visualstudio.com/
