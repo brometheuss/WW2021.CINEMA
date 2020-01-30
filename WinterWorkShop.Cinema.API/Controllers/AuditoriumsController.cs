@@ -71,7 +71,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             try 
             {
-                createAuditoriumResultModel = await _auditoriumService.AddAuditorium(auditoriumDomainModel, createAuditoriumModel.numberOfSeats, createAuditoriumModel.seatRows);
+                createAuditoriumResultModel = await _auditoriumService.CreateAuditorium(auditoriumDomainModel, createAuditoriumModel.numberOfSeats, createAuditoriumModel.seatRows);
             }
             catch (DbUpdateException e)
             {
