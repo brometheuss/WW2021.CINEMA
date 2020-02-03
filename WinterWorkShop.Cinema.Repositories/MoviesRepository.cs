@@ -52,7 +52,6 @@ namespace WinterWorkShop.Cinema.Repositories
         public IEnumerable<Movie> GetCurrentMovies()
         {
             var data = _cinemaContext.Movies
-                .AsParallel()
                 .Where(x => x.Current);            
 
             return data;

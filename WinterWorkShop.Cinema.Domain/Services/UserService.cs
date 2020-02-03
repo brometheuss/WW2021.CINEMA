@@ -33,7 +33,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 model = new UserDomainModel
                 {
                     Id = item.Id,
-                    Name = item.Name,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
                     UserName = item.UserName,
                     IsAdmin = item.IsAdmin,
                 };
@@ -55,7 +56,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
             UserDomainModel domainModel = new UserDomainModel
             {
                 Id = data.Id,
-                Name = data.Name,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
                 UserName = data.UserName,
                 IsAdmin = data.IsAdmin,
             };
@@ -75,7 +77,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
             UserDomainModel domainModel = new UserDomainModel
             {
                 Id = data.Id,
-                Name = data.Name,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
                 UserName = data.UserName,
                 IsAdmin = data.IsAdmin,
             };
