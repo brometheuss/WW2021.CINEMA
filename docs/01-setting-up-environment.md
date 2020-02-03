@@ -10,7 +10,7 @@ In order to prepare for the workshop, there are several tools that need to be in
 1. Create GitHub account - https://github.com/
     
     You should choose one account to work on per team, others should be added as contributors to repository.
-
+2. Install Git - https://git-scm.com/download/win
 
 
 **BackEnd**
