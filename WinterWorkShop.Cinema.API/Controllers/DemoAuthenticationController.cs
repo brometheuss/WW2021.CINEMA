@@ -29,7 +29,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             var jwt = JwtTokenGenerator
                 .Generate(name, admin, _configuration["Tokens:Issuer"], _configuration["Tokens:Key"]);
 
-            return Ok(jwt);
+            return Ok(new {token = jwt});
         }
     }
 }

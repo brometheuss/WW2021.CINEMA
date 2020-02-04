@@ -61,6 +61,15 @@ namespace WinterWorkShop.Cinema.API
             services.AddTransient<ISeatService, SeatService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ILevi9PaymentService, Levi9PaymentService>();
+
+            // Allow Cors for client app
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy",
+                    corsBuilder => corsBuilder.WithOrigins("http://localhost:3000")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +91,8 @@ namespace WinterWorkShop.Cinema.API
             app.UseOpenApi();
 
             app.UseSwaggerUi3();
+
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
