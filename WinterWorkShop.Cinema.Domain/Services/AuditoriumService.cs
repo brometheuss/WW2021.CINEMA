@@ -61,7 +61,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 };
             }
 
-            var sameAuditoriumName = _auditoriumsRepository.GetByAuditName(domainModel.Name).ToList();
+            var auditorium = await _auditoriumsRepository.GetByAuditName(domainModel.Name, domainModel.CinemaId);
+            var sameAuditoriumName = auditorium.ToList();
             if (sameAuditoriumName != null && sameAuditoriumName.Count > 0) 
             {
                 return new CreateAuditoriumResultModel
