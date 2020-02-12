@@ -46,7 +46,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (movie == null)
             {
-                return Ok(new MovieDomainModel());
+                return NotFound(Messages.MOVIE_DOES_NOT_EXIST);
             }
 
             return Ok(movie);

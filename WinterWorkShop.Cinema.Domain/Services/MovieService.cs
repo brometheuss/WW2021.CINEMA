@@ -36,7 +36,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     Current = item.Current,
                     Id = item.Id,
                     Rating = item.Rating ?? 0,
-                    Title = item.Title
+                    Title = item.Title,
+                    Year = item.Year
                 };
                 result.Add(model);
             }

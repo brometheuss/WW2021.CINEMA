@@ -47,6 +47,8 @@
         public const string SEAT_GET_ALL_SEATS_ERROR = "Error occured while getting all seats, please try again.";
         #endregion
 
-
+        #region User
+        public const string USER_NOT_FOUND = "User does not exist.";
+        #endregion
     }
 }

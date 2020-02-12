@@ -10,8 +10,9 @@ namespace WinterWorkShop.Cinema.Data
     {
         public Guid Id { get; set; }
 
-        [Column("FirstName")]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         [Column("userName")]
         public string UserName { get; set; }        

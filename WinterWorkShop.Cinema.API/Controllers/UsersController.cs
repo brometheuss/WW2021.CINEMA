@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 
@@ -47,7 +48,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("byID/{id}")]
+        [Route("{id}")]
         public async Task<ActionResult<UserDomainModel>> GetbyIdAsync(Guid id)
         {
             UserDomainModel model;
@@ -56,7 +57,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (model == null)
             {
-                return Ok(new UserDomainModel());
+                return NotFound(Messages.USER_NOT_FOUND);
             }
 
             return Ok(model);
@@ -68,7 +69,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="username"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("byUserName/{username}")]
+        [Route("byusername/{username}")]
         public async Task<ActionResult<UserDomainModel>> GetbyUserNameAsync(string username)
         {
             UserDomainModel model;
@@ -77,7 +78,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if (model == null)
             {
-                return Ok(new UserDomainModel());
+                return NotFound(Messages.USER_NOT_FOUND);
             }
 
             return Ok(model);
