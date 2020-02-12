@@ -102,8 +102,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 };
             }
 
-            _seatsRepository.Save();
-
             CreateAuditoriumResultModel resultModel = new CreateAuditoriumResultModel
             {
                 IsSuccessful = true,
