@@ -67,7 +67,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return domainModel;
         }
 
-        public MovieDomainModel AddMovie(MovieDomainModel newMovie)
+        public async Task<MovieDomainModel> AddMovie(MovieDomainModel newMovie)
         {
             Movie movieToCreate = new Movie()
             {
@@ -97,7 +97,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return domainModel;
         }
 
-        public MovieDomainModel UpdateMovie(MovieDomainModel updateMovie) {
+        public async Task<MovieDomainModel> UpdateMovie(MovieDomainModel updateMovie) {
 
             Movie movie = new Movie()
             {
@@ -128,7 +128,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return domainModel;
         }
 
-        public MovieDomainModel DeleteMovie(Guid id)
+        public async Task<MovieDomainModel> DeleteMovie(Guid id)
         {
             var data = _moviesRepository.Delete(id);
 

@@ -27,20 +27,20 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         /// </summary>
         /// <param name="newMovie"></param>
         /// <returns></returns>
-        MovieDomainModel AddMovie(MovieDomainModel newMovie);
+        Task<MovieDomainModel> AddMovie(MovieDomainModel newMovie);
 
         /// <summary>
         /// Update a movie to DB
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        MovieDomainModel UpdateMovie(MovieDomainModel updateMovie);
+        Task<MovieDomainModel> UpdateMovie(MovieDomainModel updateMovie);
 
         /// <summary>
         /// Delete a movie by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        MovieDomainModel DeleteMovie(Guid id);
+        Task<MovieDomainModel> DeleteMovie(Guid id);
     }
 }
