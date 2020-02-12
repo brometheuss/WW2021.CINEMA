@@ -120,9 +120,9 @@ namespace WinterWorkShop.Cinema.Tests.Services
         // if (projectionsAtSameTime != null && projectionsAtSameTime.Count > 0) - false
         // _projectionsRepository.Insert(newProjection) mocked to return null
         //  if (insertedProjection == null) - true
-        // return CreateProjectionResultModel 
+        // return CreateProjectionResultModel  with errorMessage
         [TestMethod]
-        public void ProjectionService_CreateProjection_InsertMocked_ReturnNull()
+        public void ProjectionService_CreateProjection_InsertMockedNull_ReturnErrorMessage()
         {
             //Arrange
             List<Projection> projectionsModelsList = new List<Projection>();
@@ -166,6 +166,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNotNull(resultAction);
             Assert.AreEqual(_projection.Id, resultAction.Projection.Id);
+            Assert.IsNull(resultAction.ErrorMessage);
             Assert.IsTrue(resultAction.IsSuccessful);
         }
 

@@ -85,7 +85,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         // if (!ModelState.IsValid) - false
         // if (projectionModel.ProjectionTime < DateTime.Now) - false
         // try  await _projectionService.CreateProjection(domainModel) - return valid mock
-        // if (createProjectionResultModel.IsSuccessful) - true
+        // if (!createProjectionResultModel.IsSuccessful) - false
         // return Created
         [TestMethod]
         public void PostAsync_Create_createProjectionResultModel_IsSuccessful_True_Projection() 
@@ -186,7 +186,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         // if (!ModelState.IsValid) - false
         // if (projectionModel.ProjectionTime < DateTime.Now) - false
         // try  await _projectionService.CreateProjection(domainModel) - return valid mock
-        // if (createProjectionResultModel.IsSuccessful) - false
+        // if (!createProjectionResultModel.IsSuccessful) - true
         // return BadRequest
         [TestMethod]
         public void PostAsync_Create_createProjectionResultModel_IsSuccessful_False_Return_BadRequest()
