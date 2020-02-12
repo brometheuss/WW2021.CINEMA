@@ -98,7 +98,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             try
             {
-                createMovie = _movieService.AddMovie(domainModel);
+                createMovie = await _movieService.AddMovie(domainModel);
             }
             catch (DbUpdateException e)
             {
@@ -161,9 +161,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
             movieToUpdate.Year = movieModel.Year;
             movieToUpdate.Rating = movieModel.Rating;
 
+            MovieDomainModel movieDomainModel;
             try
             {
-                _movieService.UpdateMovie(movieToUpdate);
+                movieDomainModel = await _movieService.UpdateMovie(movieToUpdate);
             }
             catch (DbUpdateException e)
             {
@@ -176,7 +177,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            return Accepted("movies//" + movieToUpdate.Id, movieToUpdate);
+            return Accepted("movies//" + movieDomainModel.Id, movieDomainModel);
 
         }
 
@@ -193,7 +194,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             MovieDomainModel deletedMovie;
             try
             {
-                deletedMovie = _movieService.DeleteMovie(id);
+                deletedMovie = await _movieService.DeleteMovie(id);
             }
             catch (DbUpdateException e)
             {
