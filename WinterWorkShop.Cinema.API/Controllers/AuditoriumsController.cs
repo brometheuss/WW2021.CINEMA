@@ -31,7 +31,6 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<AuditoriumDomainModel>>> GetAsync()
         {
             IEnumerable<AuditoriumDomainModel> auditoriumDomainModels;

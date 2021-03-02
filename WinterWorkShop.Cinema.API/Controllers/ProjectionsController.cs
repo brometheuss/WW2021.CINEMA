@@ -30,7 +30,6 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
         {
             IEnumerable<ProjectionDomainModel> projectionDomainModels;
@@ -52,7 +51,6 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = "admin")]
-        [Route("")]
         public async Task<ActionResult<ProjectionDomainModel>> PostAsync(CreateProjectionModel projectionModel)
         {
             if (!ModelState.IsValid)

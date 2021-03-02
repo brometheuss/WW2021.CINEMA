@@ -27,7 +27,6 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<UserDomainModel>>> GetAsync()
         {
             IEnumerable<UserDomainModel> userDomainModels;
@@ -69,7 +68,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="username"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("byusername/{username}")]
+        [Route("username/{username}")]
         public async Task<ActionResult<UserDomainModel>> GetbyUserNameAsync(string username)
         {
             UserDomainModel model;
