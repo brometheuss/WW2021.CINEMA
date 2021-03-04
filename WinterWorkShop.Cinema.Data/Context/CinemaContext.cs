@@ -105,9 +105,13 @@ namespace WinterWorkShop.Cinema.Data
                 .WithOne(x => x.Movie)
                 .IsRequired();
 
-            //Composite key 
+            //Composite key -> movie-actor
             modelBuilder.Entity<MovieActor>()
-                .HasKey(ma => new { ma.MovieId, ma.ActorId });
+                .HasKey(ma => new 
+                { 
+                    ma.MovieId,
+                    ma.ActorId 
+                });
 
             modelBuilder.Entity<MovieActor>()
                 .HasOne(m => m.Movie)
@@ -120,6 +124,26 @@ namespace WinterWorkShop.Cinema.Data
                 .HasOne(a => a.Actor)
                 .WithMany(ma => ma.MovieActors)
                 .HasForeignKey(a => a.ActorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            //Composite key -> reservation-seat
+            modelBuilder.Entity<ReservationSeat>()
+                .HasKey(rs => new
+                {
+                    rs.ReservationId,
+                    rs.SeatId
+                });
+
+            modelBuilder.Entity<ReservationSeat>()
+                .HasOne(r => r.Reservation)
+                .WithMany(rs => rs.ReservationSeats)
+                .HasForeignKey(r => r.ReservationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ReservationSeat>()
+                .HasOne(s => s.Seat)
+                .WithMany(rs => rs.ReservationSeats)
+                .HasForeignKey(s => s.SeatId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

@@ -18,6 +18,7 @@ namespace WinterWorkShop.Cinema.Data
 
         [Column("userName")]
         public string UserName { get; set; }
+        public bool IsAdmin { get; set; }
 
         public int RoleId { get; set; }
 
