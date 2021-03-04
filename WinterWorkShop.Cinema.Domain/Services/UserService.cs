@@ -36,7 +36,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     UserName = item.UserName,
-                    IsAdmin = item.IsAdmin,
+                    IsAdmin = item.IsAdmin
                 };
                 result.Add(model);
             }
@@ -59,7 +59,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 UserName = data.UserName,
-                IsAdmin = data.IsAdmin,
+                IsAdmin = data.IsAdmin
             };
 
             return domainModel;
@@ -80,7 +80,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 UserName = data.UserName,
-                IsAdmin = data.IsAdmin,
+                IsAdmin = data.IsAdmin
             };
 
             return domainModel;

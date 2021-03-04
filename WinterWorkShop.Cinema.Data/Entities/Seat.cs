@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using WinterWorkShop.Cinema.Data.Entities;
 
 namespace WinterWorkShop.Cinema.Data
 {
@@ -18,5 +19,6 @@ namespace WinterWorkShop.Cinema.Data
         public int Number { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
+        public virtual ICollection<ReservationSeat> ReservationSeats { get; set; }
     }
 }
