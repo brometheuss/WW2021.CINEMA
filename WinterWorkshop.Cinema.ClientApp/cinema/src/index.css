@@ -1,0 +1,237 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.btn-search {
+  background-color: royalblue;
+  border: 2px solid royalblue;
+  color: #FFF;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.form-heading  {
+  margin-left: 48px;
+  margin-bottom: 20px;
+
+}
+
+.search-bar {
+  width: 400px;
+  border-radius: 5px;
+  border: 1px solid lightgrey;
+  height: 30px;
+  padding-left: 7px;
+}
+
+.search-form-second {
+  margin-left: 60px;
+}
+
+.btn-projection-time {
+  margin-right: 4px !important;
+}
+
+.filter {
+  margin: 25px 0 20px 0;
+  padding-left: 15px;
+}
+
+.filter-heading {
+  margin: 0 15px 0 5px;
+}
+
+.select-dropdown {
+  margin-right: 10px;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+}
+
+.select-dropdown:disabled {
+  background-color: #f0f0f0;
+}
+
+.date-picker {
+  height: 26px;
+  border: 0;  
+}
+
+.react-date-picker__wrapper {
+  border-radius: 5px;
+  border: 1px solid lightgrey !important;
+  margin-right: 10px;
+}
+
+.react-date-picker__clear-button {
+  display: none !important;
+}
+
+.mystyle {
+  background-color: red;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-clear-button
+ {
+    display: none;
+    -webkit-appearance: none;
+}
+
+.number-div {
+  text-align: center;
+}
+
+.number-heading {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#numberOf-Seats {
+  border: 1px solid rgba(128, 128, 128, 0.13);
+  border-radius: 5px;
+  width: 60px;
+  text-align: center;
+}
+
+.hidden {
+  display:none !important;
+}
+
+.payment {
+  text-align: center;
+}
+
+.payment-table {
+  width: 40%;
+  margin: 20px auto 5px auto;
+    -webkit-box-shadow: 0 2px 2px #ccc;
+    -moz-box-shadow: 0 2px 2px #ccc;
+    box-shadow: 0 2px 2px #ccc;
+}
+
+.payment-table__head {
+  background-color: rgba(211, 211, 211, 0.425);
+}
+
+.payment-table__cell {
+  border: 1px solid grey;
+  text-align: center;
+}
+
+.btn-payment {
+  width: 115px;
+  margin: 10px 0 16px 0;
+  padding-left: 15px;
+}
+
+.btn-payment__icon {
+  margin-left: 5px;
+}
+
+.seat {
+  margin: 0 2px;
+  border: 0;
+  background: transparent;
+}
+
+.table-cinema-auditorium {
+  margin-bottom: 16px;
+}
+
+ .couch-icon {
+  color: blue;
+  pointer-events: none;
+  border-radius: 10px;
+  z-index: 100;
+}
+
+.couch-icon.active {
+  color: red;
+}
+
+.year-filter {
+  padding-left: 60px;
+  margin: 0px 0 10px 0;
+}
+
+.rendering-seats{
+  background-color: transparent !important;
+  border: 0 ;
+  margin: 0 ;
+  padding: 0 ;
+}
+
+.form-header {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.btn-add-new {
+  border-radius: 15px !important;
+  width: 8% !important;
+  margin-left: 495px !important;
+  background-color: rebeccapurple 
+}
+.add-new-form {
+  width: 35% !important;
+  margin-left: 32%;
+  margin-top: 25px;
+}
+
+.seat-taken svg {
+  color: red;
+}
+
+.seat-taken {
+  pointer-events: none;
+}
+
+.seat-current-reservation svg {
+  color: green;
+}
+
+.toast-class {
+  width: 600px;
+  text-align: center;
+}
+
+.input-reservation {
+  width: 20px;
+}
+
+.nice-green-color svg{
+  color: #cce85d;
+}
+
+.small-heading {
+  margin-left: 63px;
+}
+
+.img-style{
+  width: 1068px;
+  height: 350px;
+  margin-bottom: 15px;
+}
+
+.projections-title {
+  padding-left: 15px;
+}
+
+.avatar-img {
+  height: 180px;
+  width: 160px;
+}
+
+.user-info-container{
+  width: 500px;
+}
