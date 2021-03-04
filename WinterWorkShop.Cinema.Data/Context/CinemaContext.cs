@@ -14,7 +14,7 @@ namespace WinterWorkShop.Cinema.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Auditorium> Auditoriums { get; set; }
         public DbSet<Seat> Seats { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Actor> Actors { get; set; } 
 
         public CinemaContext(DbContextOptions options)
@@ -108,6 +108,19 @@ namespace WinterWorkShop.Cinema.Data
             //Composite key 
             modelBuilder.Entity<MovieActor>()
                 .HasKey(ma => new { ma.MovieId, ma.ActorId });
+
+            modelBuilder.Entity<MovieActor>()
+                .HasOne(m => m.Movie)
+                .WithMany(ma => ma.MovieActors)
+                .HasForeignKey(m => m.MovieId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
+            modelBuilder.Entity<MovieActor>()
+                .HasOne(a => a.Actor)
+                .WithMany(ma => ma.MovieActors)
+                .HasForeignKey(a => a.ActorId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
