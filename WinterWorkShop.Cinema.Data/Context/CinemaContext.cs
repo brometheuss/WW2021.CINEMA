@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WinterWorkShop.Cinema.Data.Entities;
 
 namespace WinterWorkShop.Cinema.Data
 {
@@ -13,6 +14,7 @@ namespace WinterWorkShop.Cinema.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Auditorium> Auditoriums { get; set; }
         public DbSet<Seat> Seats { get; set; }
+        public DbSet<Role> Role { get; set; }
 
         public CinemaContext(DbContextOptions options)
             : base(options)
