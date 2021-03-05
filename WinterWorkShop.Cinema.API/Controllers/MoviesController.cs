@@ -77,9 +77,9 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <param name="movieModel"></param>
         /// <returns></returns>
-        
+
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody]MovieModel movieModel)
+        public async Task<ActionResult> Post([FromBody] MovieModel movieModel)
         {
             if (!ModelState.IsValid)
             {
@@ -120,7 +120,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 };
 
                 return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
-            } 
+            }
 
             return Created("movies//" + createMovie.Id, createMovie);
         }
@@ -134,7 +134,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Authorize(Roles = "admin")]
         [HttpPut]
         [Route("{id}")]
-        public async Task<ActionResult> Put(Guid id, [FromBody]MovieModel movieModel)
+        public async Task<ActionResult> Put(Guid id, [FromBody] MovieModel movieModel)
         {
             if (!ModelState.IsValid)
             {
@@ -191,8 +191,9 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("{id}")]
         public async Task<ActionResult<MovieDomainModel>> Deactivate(Guid id)
         {
+
             var movie = await _movieService.GetMovieByIdAsync(id);
-            if(movie == null)
+            if (movie == null)
             {
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
@@ -220,6 +221,46 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
         }
 
+        /// <summary> 
+        /// Activates movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //[Authorize(Roles = "admin")]
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<ActionResult<MovieDomainModel>> Activate(Guid id)
+        {
+            
+            var movie = await _movieService.GetMovieByIdAsync(id);
+
+            if (movie == null)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                };
+
+                return BadRequest(errorResponse);
+            }
+            MovieDomainModel activated;
+            try
+            {
+                activated = await _movieService.ActivateMovie(id);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+                return BadRequest(errorResponse);
+            }
+
+            return Accepted("movies//" + activated.Id, activated);
+        }
         /// <summary>
         /// Delete a movie by id
         /// </summary>
