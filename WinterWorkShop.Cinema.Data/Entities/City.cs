@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WinterWorkShop.Cinema.Data.Entities
 {
-    [Table("City")]
+    [Table("city")]
     public class City
     {
         public int Id { get; set; }
