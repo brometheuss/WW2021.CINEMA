@@ -16,7 +16,7 @@ using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MoviesController : ControllerBase
@@ -77,7 +77,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <param name="movieModel"></param>
         /// <returns></returns>
-        [Authorize(Roles = "admin")]
+        
         [HttpPost]
         public async Task<ActionResult> Post([FromBody]MovieModel movieModel)
         {
@@ -120,7 +120,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 };
 
                 return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
-            }
+            } 
 
             return Created("movies//" + createMovie.Id, createMovie);
         }
@@ -178,6 +178,45 @@ namespace WinterWorkShop.Cinema.API.Controllers
             }
 
             return Accepted("movies//" + movieDomainModel.Id, movieDomainModel);
+
+        }
+
+        /// <summary> 
+        /// Deactivates movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        //[Authorize(Roles = "admin")]
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<ActionResult<MovieDomainModel>> Deactivate(Guid id)
+        {
+            var movie = await _movieService.GetMovieByIdAsync(id);
+            if(movie == null)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+                return BadRequest(errorResponse);
+            }
+            MovieDomainModel deactivated;
+            try
+            {
+                deactivated = await _movieService.DeactivateMovie(id);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+                return BadRequest(errorResponse);
+            }
+
+            return Accepted("movies//" + deactivated.Id, deactivated);
 
         }
 
