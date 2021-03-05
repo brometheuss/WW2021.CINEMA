@@ -42,6 +42,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<MovieDomainModel> DeleteMovie(Guid id);
+        Task<MovieDomainModel> ActivateMovie(Guid id);
         Task<MovieDomainModel> DeactivateMovie(Guid id);
     }
 }

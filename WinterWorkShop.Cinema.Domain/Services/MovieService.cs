@@ -185,5 +185,29 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return deactivatedModel;
         }
+
+        public async Task<MovieDomainModel> ActivateMovie(Guid id)
+        {
+            var movie = await _moviesRepository.GetByIdAsync(id);
+            
+            if(movie == null)
+            {
+                return null;
+            }
+
+            await _moviesRepository.ActivateCurrentMovie(movie.Id);
+            _moviesRepository.Save();
+
+            MovieDomainModel activatedModel = new MovieDomainModel
+            {
+                Id = movie.Id,
+                Current = movie.Current,
+                Rating = movie.Rating ?? 0,
+                Title = movie.Title,
+                Year = movie.Year
+            };
+
+            return activatedModel;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace WinterWorkShop.Cinema.Repositories
     {
         IEnumerable<Movie> GetCurrentMovies();
         Task<Movie> DeactivateCurrentMovie(Guid obj);
+        Task<Movie> ActivateCurrentMovie(Guid obj);
     }
 
     public class MoviesRepository : IMoviesRepository
@@ -22,6 +23,15 @@ namespace WinterWorkShop.Cinema.Repositories
         public MoviesRepository(CinemaContext cinemaContext)
         {
             _cinemaContext = cinemaContext;
+        }
+
+        public async Task<Movie> ActivateCurrentMovie(Guid id)
+        {
+            var movie = await _cinemaContext.Movies.FindAsync(id);
+            movie.Current = true;
+            _cinemaContext.Entry(movie).State = EntityState.Modified;
+
+            return movie;
         }
 
         public async Task<Movie> DeactivateCurrentMovie(Guid id)
