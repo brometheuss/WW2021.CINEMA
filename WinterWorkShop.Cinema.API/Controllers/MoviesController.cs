@@ -228,7 +228,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <returns></returns>
         //[Authorize(Roles = "admin")]
         [HttpPatch]
-        [Route("{id}")]
+        [Route("{action}/{id}")]
         public async Task<ActionResult<MovieDomainModel>> Activate(Guid id)
         {
             

@@ -195,13 +195,13 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 return null;
             }
 
-            await _moviesRepository.ActivateCurrentMovie(movie.Id);
+            var activatedMovie = await _moviesRepository.ActivateCurrentMovie(movie.Id);
             _moviesRepository.Save();
 
             MovieDomainModel activatedModel = new MovieDomainModel
             {
                 Id = movie.Id,
-                Current = movie.Current,
+                Current = activatedMovie.Current,
                 Rating = movie.Rating ?? 0,
                 Title = movie.Title,
                 Year = movie.Year
