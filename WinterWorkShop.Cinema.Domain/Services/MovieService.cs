@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
@@ -12,10 +13,12 @@ namespace WinterWorkShop.Cinema.Domain.Services
     public class MovieService : IMovieService
     {
         private readonly IMoviesRepository _moviesRepository;
+        private readonly IProjectionsRepository _projectionRepository;
 
-        public MovieService(IMoviesRepository moviesRepository)
+        public MovieService(IMoviesRepository moviesRepository, IProjectionsRepository projectionRepository)
         {
             _moviesRepository = moviesRepository;
+            _projectionRepository = projectionRepository;
         }
 
         public IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent)
@@ -150,6 +153,37 @@ namespace WinterWorkShop.Cinema.Domain.Services
             };
             
             return domainModel;
+        }
+
+        public async Task<MovieDomainModel> DeactivateMovie(Guid id)
+        {
+            var movie = await _moviesRepository.GetByIdAsync(id);
+            if (movie == null)
+            {
+                return null;
+            }
+
+            var projections = await _projectionRepository.GetAll();
+
+            var futureProjections = projections.Where(p => p.MovieId == id && p.DateTime > DateTime.Now);
+            if(futureProjections.Count() > 0)
+            {
+                return null;
+            }
+
+            var deactivatedMovie = await _moviesRepository.DeactivateCurrentMovie(movie.Id);
+            _moviesRepository.Save();
+
+            MovieDomainModel deactivatedModel = new MovieDomainModel
+            {
+                Id = movie.Id,
+                Current = deactivatedMovie.Current,
+                Rating = movie.Rating ?? 0,
+                Title = movie.Title,
+                Year = movie.Year
+            };
+
+            return deactivatedModel;
         }
     }
 }
