@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace WinterWorkShop.Cinema.Data
+namespace WinterWorkShop.Cinema.Data.Entities
 {
-    [Table("cinema")]
-    public class Cinema
+    [Table("City")]
+    public class City
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
-        public int CityId { get; set; }
-
-        public virtual ICollection<Auditorium> Auditoriums { get; set; }
+        public virtual ICollection<Cinema> Cinemas { get; set; }
     }
 }

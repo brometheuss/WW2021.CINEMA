@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WinterWorkShop.Cinema.Data.Migrations
 {
-    public partial class AddedRoleandActortables : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +26,8 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    CityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -203,7 +204,7 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReservationSeat",
+                name: "reservationSeat",
                 columns: table => new
                 {
                     ReservationId = table.Column<Guid>(nullable: false),
@@ -211,15 +212,15 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservationSeat", x => new { x.ReservationId, x.SeatId });
+                    table.PrimaryKey("PK_reservationSeat", x => new { x.ReservationId, x.SeatId });
                     table.ForeignKey(
-                        name: "FK_ReservationSeat_reservation_ReservationId",
+                        name: "FK_reservationSeat_reservation_ReservationId",
                         column: x => x.ReservationId,
                         principalTable: "reservation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReservationSeat_seat_SeatId",
+                        name: "FK_reservationSeat_seat_SeatId",
                         column: x => x.SeatId,
                         principalTable: "seat",
                         principalColumn: "Id",
@@ -257,8 +258,8 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 column: "UserId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservationSeat_SeatId",
-                table: "ReservationSeat",
+                name: "IX_reservationSeat_SeatId",
+                table: "reservationSeat",
                 column: "SeatId");
 
             migrationBuilder.CreateIndex(
@@ -278,7 +279,7 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 name: "movieActor");
 
             migrationBuilder.DropTable(
-                name: "ReservationSeat");
+                name: "reservationSeat");
 
             migrationBuilder.DropTable(
                 name: "actor");

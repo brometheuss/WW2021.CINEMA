@@ -48,6 +48,9 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -127,7 +130,7 @@ namespace WinterWorkShop.Cinema.Data.Migrations
 
                     b.HasIndex("SeatId");
 
-                    b.ToTable("ReservationSeat");
+                    b.ToTable("reservationSeat");
                 });
 
             modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.Role", b =>

@@ -10,8 +10,8 @@ using WinterWorkShop.Cinema.Data;
 namespace WinterWorkShop.Cinema.Data.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20210304233356_Added Role and Actor tables")]
-    partial class AddedRoleandActortables
+    [Migration("20210305000649_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,9 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -129,7 +132,7 @@ namespace WinterWorkShop.Cinema.Data.Migrations
 
                     b.HasIndex("SeatId");
 
-                    b.ToTable("ReservationSeat");
+                    b.ToTable("reservationSeat");
                 });
 
             modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.Role", b =>

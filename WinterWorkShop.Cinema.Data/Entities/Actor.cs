@@ -9,8 +9,11 @@ namespace WinterWorkShop.Cinema.Data.Entities
     public class Actor
     {
         public Guid Id { get; set; }
+
         public string FirstName { get; set; }
+
         public string LastName { get; set; }
+
         public virtual ICollection<MovieActor> MovieActors { get; set; }
     }
 }
