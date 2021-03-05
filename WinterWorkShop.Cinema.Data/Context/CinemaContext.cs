@@ -15,7 +15,8 @@ namespace WinterWorkShop.Cinema.Data
         public DbSet<Auditorium> Auditoriums { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Actor> Actors { get; set; } 
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<City> Cities { get; set; }
 
         public CinemaContext(DbContextOptions options)
             : base(options)
