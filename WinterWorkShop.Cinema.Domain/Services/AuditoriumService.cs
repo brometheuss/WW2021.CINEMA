@@ -93,6 +93,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             }
 
             Auditorium insertedAuditorium = _auditoriumsRepository.Insert(newAuditorium);
+            
             if (insertedAuditorium == null)
             {
                 return new CreateAuditoriumResultModel
@@ -101,6 +102,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     ErrorMessage = Messages.AUDITORIUM_CREATION_ERROR
                 };
             }
+
+            //_auditoriumsRepository.Save();
 
             CreateAuditoriumResultModel resultModel = new CreateAuditoriumResultModel
             {

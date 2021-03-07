@@ -54,6 +54,7 @@ namespace WinterWorkShop.Cinema.API
             services.AddTransient<ICinemasRepository, CinemasRepository>();
             services.AddTransient<ISeatsRepository, SeatsRepository>();
             services.AddTransient<IUsersRepository, UsersRepository>();
+            services.AddTransient<ICitiesRepository, CitiesRepository>();
 
             // Business Logic
             services.AddTransient<IMovieService, MovieService>();

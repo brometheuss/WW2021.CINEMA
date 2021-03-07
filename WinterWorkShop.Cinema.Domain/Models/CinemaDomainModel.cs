@@ -10,5 +10,6 @@ namespace WinterWorkShop.Cinema.Domain.Models
 
         public string Name { get; set; }
         public int CityId { get; set; }
+        public List<AuditoriumDomainModel> AuditoriumsList { get; set;}
     }
 }
