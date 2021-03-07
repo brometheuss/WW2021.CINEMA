@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 
 namespace WinterWorkShop.Cinema.Domain.Interfaces
 {
@@ -13,7 +14,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         /// </summary>
         /// <param name="isCurrent"></param>
         /// <returns></returns>
-        IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent);
+        IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent, MovieQuery query);
 
         /// <summary>
         /// Get a movie by ID
