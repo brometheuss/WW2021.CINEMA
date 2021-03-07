@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.Domain.Services
@@ -21,9 +22,30 @@ namespace WinterWorkShop.Cinema.Domain.Services
             _projectionRepository = projectionRepository;
         }
 
-        public IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent)
+        public IEnumerable<MovieDomainModel> GetAllMovies(bool? isCurrent, MovieQuery query)
         {
             var data = _moviesRepository.GetCurrentMovies();
+
+            if (query.ActorName != null)
+                data = data.Where(x => x.MovieActors.Any(a => a.Actor.FirstName.Contains(query.ActorName.ToLower())));
+
+            if (query.Title != null)
+                data = data.Where(x => x.Title.ToLower().Contains(query.Title.ToLower()));
+
+            if (query.RatingLowerThan > 0)
+                data = data.Where(x => x.Rating < query.RatingLowerThan);
+
+            if (query.RatingBiggerThan > 0)
+                data = data.Where(x => x.Rating > query.RatingBiggerThan);
+
+            if (query.YearLowerThan > 0)
+                data = data.Where(x => x.Year < query.YearLowerThan);
+
+            if (query.YearBiggerThan > 0)
+                data = data.Where(x => x.Year > query.YearBiggerThan);
+
+            if (query.HasOscar == true || query.HasOscar == false)
+                data = data.Where(x => x.HasOscar == query.HasOscar);
 
             if (data == null)
             {

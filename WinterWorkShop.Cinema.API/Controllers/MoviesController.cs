@@ -12,6 +12,7 @@ using WinterWorkShop.Cinema.Data;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.API.Controllers
@@ -58,11 +59,11 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("current")]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<Movie>>> GetAsync([FromQuery] MovieQuery query)
         {
             IEnumerable<MovieDomainModel> movieDomainModels;
 
-            movieDomainModels = _movieService.GetAllMovies(true);
+            movieDomainModels = _movieService.GetAllMovies(true, query);
 
             if (movieDomainModels == null)
             {
