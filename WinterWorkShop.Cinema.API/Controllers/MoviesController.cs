@@ -304,11 +304,11 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
         [HttpGet]
         [Route("{action}")]
-        public async Task<IEnumerable<MovieDomainModel>> TopList()
+        public async Task<ActionResult<IEnumerable<MovieDomainModel>>> TopList()
         {
             var topList = await _movieService.GetTopMovies();
 
-            return topList;
+            return Ok(topList);
         }
     }
 }
