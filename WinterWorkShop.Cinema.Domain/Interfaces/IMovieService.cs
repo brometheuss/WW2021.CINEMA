@@ -45,5 +45,6 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         Task<MovieDomainModel> DeleteMovie(Guid id);
         Task<MovieDomainModel> ActivateMovie(Guid id);
         Task<MovieDomainModel> DeactivateMovie(Guid id);
+        Task<IEnumerable<MovieDomainModel>> GetTopMovies();
     }
 }

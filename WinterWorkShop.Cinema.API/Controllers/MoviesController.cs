@@ -301,5 +301,14 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Accepted("movies//" + deletedMovie.Id, deletedMovie);
         }
+
+        [HttpGet]
+        [Route("{action}")]
+        public async Task<IEnumerable<MovieDomainModel>> TopList()
+        {
+            var topList = await _movieService.GetTopMovies();
+
+            return topList;
+        }
     }
 }
