@@ -25,6 +25,8 @@ namespace WinterWorkShop.Cinema.Tests.Services
         [TestInitialize]
         public void TestInitialize()
         {
+            List<Projection> projections = new List<Projection>();
+            
             _movie = new Movie
             {
                 Id = Guid.NewGuid(),
@@ -33,7 +35,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
                 Rating = 7,
                 Title = "Smekerski film",
                 Year = 2021,
-                Projections = new List<Projection>()
+                Projections = projections
             };
 
             _movieDomainModel = new MovieDomainModel
@@ -76,6 +78,10 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNotNull(resultAction);
             Assert.AreEqual(expectedCount, result.Count);
+            Assert.AreEqual(_movie.Title, result[0].Title);
+            Assert.AreEqual(_movie.Rating, result[0].Rating);
+            Assert.AreEqual(_movie.Year, result[0].Year);
+            Assert.IsInstanceOfType(result[0], typeof(MovieDomainModel));
         }
 
         [TestMethod]
@@ -109,6 +115,9 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCount, result.Count);
+            Assert.AreEqual(_movie.Title, result[0].Title);
+            Assert.AreEqual(_movie.Rating, result[0].Rating);
+            Assert.AreEqual(_movie.Year, result[0].Year);
         }
 
         [TestMethod]
@@ -194,6 +203,110 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public void MovieService_GetAllMovies_ReturnsListOfMovies_QueryYearLowerThan_ZeroOrLess()
+        {
+            //Arrange
+            var expectedCount = 1;
+            query.YearLowerThan = 0;
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetAllMovies(true, query);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public void MovieService_GetAllMovies_ReturnsListOfMovies_QueryYearLowerThan_BiggerThanZero()
+        {
+            //Arrange
+            var exptectedCount = 0;
+            query.YearLowerThan = 1900;
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetAllMovies(true, query);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(exptectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public  void MovieService_GetAllMovies_ReturnsListOfMovies_QueryYearBiggerThan_ZeroOrLess()
+        {
+            //Arrange
+            var expectedCount = 1;
+            query.YearBiggerThan = 0;
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetAllMovies(true, query);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public void MovieService_GetAllMovies_ReturnsListOfMovies_QueryYearBiggerThan_BiggerThanZero()
+        {
+            //Arrange
+            var expectedCount = 1;
+            query.YearBiggerThan = 1900;
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetAllMovies(true, query);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+            Assert.IsInstanceOfType(result[0], typeof(MovieDomainModel));
+        }
+
+        [TestMethod]
+        public void MovieService_GetAllMovies_ReturnsListOfMovies_QueryHasOscarFalse()
+        {
+            //Arrange
+            var expectedCount = 0;
+            query.HasOscar = false;
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetAllMovies(true, query);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+        }
+
+        [TestMethod]
+        public void MovieService_GetAllMovies_ReturnsListOfMovies_QueryHasOscarTrue()
+        {
+            //Arrange
+            var expectedCount = 1;
+            query.HasOscar = true;
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetAllMovies(true, query);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(expectedCount, result.Count);
+            Assert.IsInstanceOfType(result[0], typeof(MovieDomainModel));
         }
     }
 }
