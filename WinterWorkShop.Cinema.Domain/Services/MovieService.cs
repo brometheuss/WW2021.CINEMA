@@ -44,7 +44,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             if (query.YearBiggerThan > 0)
                 data = data.Where(x => x.Year > query.YearBiggerThan);
 
-            if (query.HasOscar == true || query.HasOscar == false)
+            if (query.HasOscar != null)
                 data = data.Where(x => x.HasOscar == query.HasOscar);
 
             if (data == null)

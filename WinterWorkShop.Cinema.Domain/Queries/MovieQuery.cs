@@ -12,6 +12,6 @@ namespace WinterWorkShop.Cinema.Domain.Queries
         public int YearLowerThan { get; set; }
         public double RatingBiggerThan { get; set; }
         public double RatingLowerThan { get; set; }
-        public bool HasOscar { get; set; }
+        public bool? HasOscar { get; set; }
     }
 }
