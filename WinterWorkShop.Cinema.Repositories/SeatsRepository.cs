@@ -2,13 +2,17 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
 
 namespace WinterWorkShop.Cinema.Repositories
 {
-    public interface ISeatsRepository : IRepository<Seat> { }
+    public interface ISeatsRepository : IRepository<Seat> 
+    {
+        Task<Seat> GetBySeatRowAndNumber(int row, int number);
+    }
     public class SeatsRepository : ISeatsRepository
     {
         private CinemaContext _cinemaContext;
@@ -36,6 +40,13 @@ namespace WinterWorkShop.Cinema.Repositories
         public async Task<Seat> GetByIdAsync(object id)
         {
             return await _cinemaContext.Seats.FindAsync(id);
+        }
+
+        public async Task<Seat> GetBySeatRowAndNumber(int row, int number)
+        {
+            var seat = await _cinemaContext.Seats.FirstOrDefaultAsync(s => s.Row == row && s.Number == number);
+
+            return seat;
         }
 
         public Seat Insert(Seat obj)
