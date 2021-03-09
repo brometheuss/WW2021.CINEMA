@@ -53,5 +53,9 @@
         #region User
         public const string USER_NOT_FOUND = "User does not exist.";
         #endregion
+
+        #region City
+        public const string CITY_NOT_FOUND = "City does not exist";
+        #endregion
     }
 }
