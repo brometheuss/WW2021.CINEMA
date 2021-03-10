@@ -75,6 +75,8 @@ namespace WinterWorkShop.Cinema.Repositories
         public IEnumerable<Movie> GetCurrentMovies()
         {
             var data = _cinemaContext.Movies
+                .Include(ma => ma.MovieActors)
+                .ThenInclude(a => a.Actor)
                 .Where(x => x.Current);            
 
             return data;

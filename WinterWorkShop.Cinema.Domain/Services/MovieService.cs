@@ -27,7 +27,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             var data = _moviesRepository.GetCurrentMovies();
 
             if (query.ActorName != null)
-                data = data.Where(x => x.MovieActors.Any(a => a.Actor.FirstName.Contains(query.ActorName.ToLower())));
+                data = data.Where(x => x.MovieActors.Any(a => a.Actor.FirstName.ToLower().Contains(query.ActorName.ToLower())));
 
             if (query.Title != null)
                 data = data.Where(x => x.Title.ToLower().Contains(query.Title.ToLower()));
