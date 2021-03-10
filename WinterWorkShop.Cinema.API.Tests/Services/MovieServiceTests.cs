@@ -20,7 +20,9 @@ namespace WinterWorkShop.Cinema.Tests.Services
         private Mock<IProjectionsRepository> _mockProjectionRepository;
         private MovieQuery query;
         private Movie _movie;
+        private Movie _movie2;
         private MovieDomainModel _movieDomainModel;
+        private MovieDomainModel _movieDomainModel2;
 
         [TestInitialize]
         public void TestInitialize()
@@ -61,8 +63,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockMovieRepository = new Mock<IMoviesRepository>();
             _mockProjectionRepository = new Mock<IProjectionsRepository>();
             _mockMovieRepository.Setup(x => x.GetCurrentMovies()).Returns(movieModelsList);
-            _mockMovieRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_movie);
-            _mockMovieRepository.Setup(x => x.Insert(_movie)).Returns(_movie);
+            _mockMovieRepository.Setup(x => x.Insert(It.IsAny<Movie>())).Returns(_movie);
         }
 
         //GetAllMovies tests
@@ -320,6 +321,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         {
             //Arrange
             MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+            _mockMovieRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_movie);
 
             //Act
             var resultAction = movieService.GetMovieByIdAsync(_movie.Id).ConfigureAwait(false).GetAwaiter().GetResult();
@@ -335,14 +337,15 @@ namespace WinterWorkShop.Cinema.Tests.Services
         public void MovieService_GetMovieByIdAsync_ReturnsNull()
         {
             //Arrange 
-            _movie.Id = Guid.NewGuid();
+            _movie2 = new Movie();
             MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+            _mockMovieRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_movie);
 
             //Act
-            var resultAction = movieService.GetMovieByIdAsync(Guid.NewGuid()).ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = movieService.GetMovieByIdAsync(_movie2.Id).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
-            //Assert.IsNull(resultAction);
+            Assert.IsNull(resultAction);
         }
 
         //CreateMovie tests
@@ -356,18 +359,8 @@ namespace WinterWorkShop.Cinema.Tests.Services
             var resultAction = movieService.AddMovie(_movieDomainModel).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
-            //Assert.IsNotNull(resultAction);
-            //Assert.AreEqual(_movieDomainModel.Title, resultAction.Title);
-        }
-
-        [TestMethod]
-        public void MovieService_AddMovie_ReturnsNull()
-        {
-            //Arrange
-
-            //Act
-
-            //Asert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(_movieDomainModel.Title, resultAction.Title);
         }
     }
 }
