@@ -33,14 +33,21 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<IEnumerable<Projection>> GetAll()
         {
-            var data = await _cinemaContext.Projections.Include(x => x.Movie).Include(x => x.Auditorium).ToListAsync();
+            var data = await _cinemaContext.Projections
+                .Include(x => x.Auditorium)
+                .ThenInclude(c => c.Cinema)
+                .Include(m => m.Movie)
+                .ToListAsync();
             
             return data;           
         }
 
         public async Task<Projection> GetByIdAsync(object id)
         {
-            return await _cinemaContext.Projections.FindAsync(id);
+            return await _cinemaContext.Projections
+                .Include(a => a.Auditorium)
+                .Include(m => m.Movie)
+                .FirstOrDefaultAsync(x => x.Id.ToString() == id.ToString());
         }
 
         public IEnumerable<Projection> GetByAuditoriumId(int auditoriumId)

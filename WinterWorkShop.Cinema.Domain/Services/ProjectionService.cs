@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 using WinterWorkShop.Cinema.Repositories;
 
 namespace WinterWorkShop.Cinema.Domain.Services
@@ -19,7 +20,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             _projectionsRepository = projectionsRepository;
         }
 
-        public async Task<IEnumerable<ProjectionDomainModel>> GetAllAsync()
+        /*public async Task<IEnumerable<ProjectionDomainModel>> GetAllAsync()
         {
             var data = await _projectionsRepository.GetAll();
 
@@ -45,7 +46,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             }
 
             return result;
-        }
+        }*/
 
         public async Task<CreateProjectionResultModel> CreateProjection(ProjectionDomainModel domainModel)
         {
@@ -83,6 +84,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             }
 
             _projectionsRepository.Save();
+            var projekcija = await _projectionsRepository.GetByIdAsync(insertedProjection.Id);
             CreateProjectionResultModel result = new CreateProjectionResultModel
             {
                 IsSuccessful = true,
@@ -92,9 +94,55 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     Id = insertedProjection.Id,
                     AuditoriumId = insertedProjection.AuditoriumId,
                     MovieId = insertedProjection.MovieId,
-                    ProjectionTime = insertedProjection.DateTime
+                    ProjectionTime = insertedProjection.DateTime,
+                    AditoriumName = projekcija.Auditorium.AuditName,
+                    MovieTitle = projekcija.Movie.Title
                 }
             };
+
+            return result;
+        }
+
+        //Projection filter by: Auditorium, Cinema, Movie, TimeSpan
+        public async Task<IEnumerable<ProjectionDomainModel>> GetAllAsync(ProjectionQuery query)
+        {
+            var data = await _projectionsRepository.GetAll();
+
+            if (query.AuditoriumId > 0)
+                data = data.Where(x => x.AuditoriumId == query.AuditoriumId);
+
+            if (query.CinemaId > 0)
+                data = data.Where(x => x.Auditorium.Cinema.Id == query.CinemaId);
+
+            if (query.MovieId != Guid.Empty)
+                data = data.Where(x => x.MovieId == query.MovieId);
+
+            if (query.DateLaterThan.HasValue)
+                data = data.Where(x => x.DateTime > query.DateLaterThan);
+
+            if (query.DateEarlierThan.HasValue)
+                data = data.Where(x => x.DateTime < query.DateEarlierThan);
+
+            if (data == null)
+            {
+                return null;
+            }
+
+            List<ProjectionDomainModel> result = new List<ProjectionDomainModel>();
+            ProjectionDomainModel model;
+            foreach (var item in data)
+            {
+                model = new ProjectionDomainModel
+                {
+                    Id = item.Id,
+                    MovieId = item.MovieId,
+                    AuditoriumId = item.AuditoriumId,
+                    ProjectionTime = item.DateTime,
+                    MovieTitle = item.Movie.Title,
+                    AditoriumName = item.Auditorium.AuditName
+                };
+                result.Add(model);
+            }
 
             return result;
         }

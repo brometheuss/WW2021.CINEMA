@@ -11,6 +11,7 @@ using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 
 namespace WinterWorkShop.Cinema.Tests.Controllers
 {
@@ -18,6 +19,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
     public class ProjectionsControllerTests
     {
         private Mock<IProjectionService> _projectionService;
+        private ProjectionQuery query;
 
 
         [TestMethod]
@@ -34,6 +36,9 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 MovieTitle = "ImeFilma",
                 ProjectionTime = DateTime.Now.AddDays(1)
             };
+
+            query = new ProjectionQuery();
+
             projectionsDomainModelsList.Add(projectionDomainModel);
             IEnumerable<ProjectionDomainModel> projectionDomainModels = projectionsDomainModelsList;
             Task<IEnumerable<ProjectionDomainModel>> responseTask = Task.FromResult(projectionDomainModels);
@@ -41,11 +46,11 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             int expectedStatusCode = 200;
 
             _projectionService = new Mock<IProjectionService>();
-            _projectionService.Setup(x => x.GetAllAsync()).Returns(responseTask);
+            _projectionService.Setup(x => x.GetAllAsync(query)).Returns(responseTask);
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var result = projectionsController.GetAsync(query).ConfigureAwait(false).GetAwaiter().GetResult().Result;
             var resultList = ((OkObjectResult)result).Value;
             var projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
 
@@ -67,11 +72,11 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             int expectedStatusCode = 200;
 
             _projectionService = new Mock<IProjectionService>();
-            _projectionService.Setup(x => x.GetAllAsync()).Returns(responseTask);
+            _projectionService.Setup(x => x.GetAllAsync(query)).Returns(responseTask);
             ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
 
             //Act
-            var result = projectionsController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var result = projectionsController.GetAsync(query).ConfigureAwait(false).GetAwaiter().GetResult().Result;
             var resultList = ((OkObjectResult)result).Value;
             var projectionDomainModelResultList = (List<ProjectionDomainModel>)resultList;
 

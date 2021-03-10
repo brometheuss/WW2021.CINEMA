@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 using WinterWorkShop.Cinema.Domain.Services;
 using WinterWorkShop.Cinema.Repositories;
 
@@ -22,6 +23,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         private Mock<IProjectionsRepository> _mockProjectionsRepository;
         private Projection _projection;
         private ProjectionDomainModel _projectionDomainModel;
+        private ProjectionQuery query;
 
         [TestInitialize]
         public void TestInitialize()
@@ -46,6 +48,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
                 ProjectionTime = DateTime.Now.AddDays(1)
             };
 
+            query = new ProjectionQuery();
             List<Projection> projectionsModelsList = new List<Projection>();
 
             projectionsModelsList.Add(_projection);
@@ -64,7 +67,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
 
             //Act
-            var resultAction = projectionsController.GetAllAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = projectionsController.GetAllAsync(query).ConfigureAwait(false).GetAwaiter().GetResult();
             var result = (List<ProjectionDomainModel>)resultAction;
 
             //Assert
@@ -86,7 +89,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
 
             //Act
-            var resultAction = projectionsController.GetAllAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = projectionsController.GetAllAsync(query).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsNull(resultAction);

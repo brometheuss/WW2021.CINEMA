@@ -10,6 +10,7 @@ using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
+using WinterWorkShop.Cinema.Domain.Queries;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
@@ -30,11 +31,11 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync([FromQuery] ProjectionQuery query)
         {
             IEnumerable<ProjectionDomainModel> projectionDomainModels;
            
-             projectionDomainModels = await _projectionService.GetAllAsync();            
+            projectionDomainModels = await _projectionService.GetAllAsync(query);            
 
             if (projectionDomainModels == null)
             {
