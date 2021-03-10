@@ -74,6 +74,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public async Task<MovieDomainModel> GetMovieByIdAsync(Guid id)
         {
+
+
             var data = await _moviesRepository.GetByIdAsync(id);
 
             if (data == null)
