@@ -133,7 +133,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="id"></param>
         /// <param name="movieModel"></param>
         /// <returns></returns>
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPut]
         [Route("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody] MovieModel movieModel)
@@ -162,6 +162,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             movieToUpdate.Current = movieModel.Current;
             movieToUpdate.Year = movieModel.Year;
             movieToUpdate.Rating = movieModel.Rating;
+            movieToUpdate.HasOscar = movieModel.HasOscar;
 
             MovieDomainModel movieDomainModel;
             try
@@ -191,7 +192,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         //[Authorize(Roles = "admin")]
         [HttpPatch]
         [Route("{id}")]
-        public async Task<ActionResult<MovieDomainModel>> Deactivate(Guid id)
+        public async Task<ActionResult<MovieResultModel>> Deactivate(Guid id)
         {
 
             var movie = await _movieService.GetMovieByIdAsync(id);
@@ -204,7 +205,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 };
                 return BadRequest(errorResponse);
             }
-            MovieDomainModel deactivated;
+            MovieResultModel deactivated;
             try
             {
                 deactivated = await _movieService.DeactivateMovie(id);
@@ -219,7 +220,19 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            return Accepted("movies//" + deactivated.Id, deactivated);
+            if (!deactivated.IsSuccessful)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = deactivated.ErrorMessage,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+
+            return Accepted("movies//" + deactivated.Movie.Id, deactivated.Movie);
 
         }
 

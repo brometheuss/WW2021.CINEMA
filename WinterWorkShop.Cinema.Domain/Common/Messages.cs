@@ -38,6 +38,8 @@
         public const string MOVIE_GET_BY_ID = "Error occured while getting movie by Id, please try again.";
         public const string MOVIE_GET_ALL_MOVIES_ERROR = "Error occured while getting all movies, please try again.";
         public const string MOVIE_CREATION_ERROR_HASOSCAR_REQUIRED = "Oscar field is required.";
+        public const string MOVIE_DEACTIVATION_ERROR = "Cannot deactivate movie which has future projections";
+
         #endregion
 
         #region Projections

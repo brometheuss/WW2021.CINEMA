@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
+using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 using WinterWorkShop.Cinema.Domain.Queries;
@@ -86,7 +87,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Current = data.Current,
                 Rating = data.Rating ?? 0,
                 Title = data.Title,
-                Year = data.Year
+                Year = data.Year,
+                HasOscar = data.HasOscar
             };
 
             return domainModel;
@@ -133,7 +135,9 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Title = updateMovie.Title,
                 Current = updateMovie.Current,
                 Year = updateMovie.Year,
-                Rating = updateMovie.Rating
+                Rating = updateMovie.Rating,
+                HasOscar = updateMovie.HasOscar
+                
             };
             
             var data = _moviesRepository.Update(movie);
@@ -150,7 +154,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Title = data.Title,
                 Current = data.Current,
                 Year = data.Year,
-                Rating = data.Rating ?? 0
+                Rating = data.Rating ?? 0,
+                HasOscar = data.HasOscar
             };
 
             return domainModel;
@@ -180,12 +185,16 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return domainModel;
         }
 
-        public async Task<MovieDomainModel> DeactivateMovie(Guid id)
+        public async Task<MovieResultModel> DeactivateMovie(Guid id)
         {
             var movie = await _moviesRepository.GetByIdAsync(id);
             if (movie == null)
             {
-                return null;
+                return new MovieResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST
+                };
             }
 
             var projections = await _projectionRepository.GetAll();
@@ -193,22 +202,35 @@ namespace WinterWorkShop.Cinema.Domain.Services
             var futureProjections = projections.Where(p => p.MovieId == id && p.DateTime > DateTime.Now);
             if(futureProjections.Count() > 0)
             {
-                return null;
+                return new MovieResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.MOVIE_DEACTIVATION_ERROR,
+                };
             }
 
             var deactivatedMovie = await _moviesRepository.DeactivateCurrentMovie(movie.Id);
             _moviesRepository.Save();
 
-            MovieDomainModel deactivatedModel = new MovieDomainModel
+       
+            MovieResultModel movieResultModel = new MovieResultModel
             {
-                Id = movie.Id,
-                Current = deactivatedMovie.Current,
-                Rating = movie.Rating ?? 0,
-                Title = movie.Title,
-                Year = movie.Year
-            };
+                Movie = new MovieDomainModel
+                {
+                    Id = movie.Id,
+                    Current = deactivatedMovie.Current,
+                    Rating = movie.Rating ?? 0,
+                    Title = movie.Title,
+                    Year = movie.Year,
+                    HasOscar = movie.HasOscar
+                },
+                IsSuccessful = true,
+                ErrorMessage = null
 
-            return deactivatedModel;
+            };
+            
+
+            return movieResultModel;
         }
 
         public async Task<MovieDomainModel> ActivateMovie(Guid id)
@@ -229,7 +251,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Current = activatedMovie.Current,
                 Rating = movie.Rating ?? 0,
                 Title = movie.Title,
-                Year = movie.Year
+                Year = movie.Year,
+                HasOscar = movie.HasOscar
             };
 
             return activatedModel;
