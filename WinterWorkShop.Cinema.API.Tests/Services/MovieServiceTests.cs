@@ -20,15 +20,13 @@ namespace WinterWorkShop.Cinema.Tests.Services
         private Mock<IProjectionsRepository> _mockProjectionRepository;
         private MovieQuery query;
         private Movie _movie;
-        private Movie _movie2;
         private MovieDomainModel _movieDomainModel;
-        private MovieDomainModel _movieDomainModel2;
 
         [TestInitialize]
         public void TestInitialize()
         {
             List<Projection> projections = new List<Projection>();
-            
+
             _movie = new Movie
             {
                 Id = Guid.NewGuid(),
@@ -245,7 +243,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public  void MovieService_GetAllMovies_ReturnsListOfMovies_QueryYearBiggerThan_ZeroOrLess()
+        public void MovieService_GetAllMovies_ReturnsListOfMovies_QueryYearBiggerThan_ZeroOrLess()
         {
             //Arrange
             var expectedCount = 1;
@@ -337,12 +335,11 @@ namespace WinterWorkShop.Cinema.Tests.Services
         public void MovieService_GetMovieByIdAsync_ReturnsNull()
         {
             //Arrange 
-            _movie2 = new Movie();
             MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
-            _mockMovieRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_movie);
+            _mockMovieRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as Movie);
 
             //Act
-            var resultAction = movieService.GetMovieByIdAsync(_movie2.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = movieService.GetMovieByIdAsync(_movie.Id).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsNull(resultAction);
@@ -361,6 +358,68 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNotNull(resultAction);
             Assert.AreEqual(_movieDomainModel.Title, resultAction.Title);
+            Assert.AreEqual(_movie.Id, resultAction.Id);
+            Assert.IsInstanceOfType(resultAction, typeof(MovieDomainModel));
+        }
+
+        [TestMethod]
+        public void MovieService_UpdateMovie_ReturnsUpdatedMovie()
+        {
+            //Arrange
+            _mockMovieRepository.Setup(x => x.Update(_movie)).Returns(_movie);
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.UpdateMovie(_movieDomainModel).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+        }
+
+        //DeleteMovie tests
+        [TestMethod]
+        public void MovieService_DeleteMovie_ReturnsDeletedMovie()
+        {
+            //Arrange
+            _mockMovieRepository.Setup(x => x.Delete(It.IsAny<Guid>())).Returns(_movie);
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.DeleteMovie(_movie.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(_movieDomainModel.Title, resultAction.Title);
+            Assert.IsInstanceOfType(resultAction, typeof(MovieDomainModel));
+        }
+
+        [TestMethod]
+        public void MovieService_DeleteMovie_ReturnsNull()
+        {
+            //Arrange
+            _mockMovieRepository.Setup(x => x.Delete(It.IsAny<Guid>())).Returns(null as Movie);
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.DeleteMovie(_movie.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNull(resultAction);
+        }
+
+        //ActivateMovie tests
+        [TestMethod]
+        public void MovieService_ActivateMovie_ReturnsActivatedMovie()
+        {
+            //Arrange
+            //_mockMovieRepository.Setup(x => x.ActivateCurrentMovie(It.IsAny<Guid>())).Returns(_movie);
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.ActivateMovie(_movie.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNotNull(resultAction);
         }
     }
 }

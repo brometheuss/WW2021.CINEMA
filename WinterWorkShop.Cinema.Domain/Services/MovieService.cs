@@ -73,6 +73,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public async Task<MovieDomainModel> GetMovieByIdAsync(Guid id)
         {
+
+
             var data = await _moviesRepository.GetByIdAsync(id);
 
             if (data == null)
@@ -133,7 +135,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Title = updateMovie.Title,
                 Current = updateMovie.Current,
                 Year = updateMovie.Year,
-                Rating = updateMovie.Rating
+                Rating = updateMovie.Rating,
+                HasOscar = updateMovie.HasOscar
             };
             
             var data = _moviesRepository.Update(movie);
