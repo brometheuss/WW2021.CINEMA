@@ -17,7 +17,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
             _citiesRepository = citiesRepository;
         }
 
-
         public async Task<IEnumerable<CityDomainModel>> GetAllAsync()
         {
             var cities = await _citiesRepository.GetAll();

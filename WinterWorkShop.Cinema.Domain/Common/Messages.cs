@@ -57,5 +57,13 @@
         #region City
         public const string CITY_NOT_FOUND = "City does not exist";
         #endregion
+
+        #region Reservation
+        public const string RESERVATION_NOT_FOUND = "Reservation not found";
+        #endregion
+
+        #region Actor
+        public const string ACTOR_NOT_FOUND = "Actor not found";
+        #endregion
     }
 }
