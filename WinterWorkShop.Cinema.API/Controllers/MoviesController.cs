@@ -92,7 +92,8 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 Current = movieModel.Current,
                 Rating = movieModel.Rating,
                 Title = movieModel.Title,
-                Year = movieModel.Year
+                Year = movieModel.Year,
+                HasOscar = movieModel.HasOscar
             };
 
             MovieDomainModel createMovie;

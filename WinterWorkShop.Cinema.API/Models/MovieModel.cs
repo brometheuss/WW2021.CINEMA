@@ -21,6 +21,10 @@ namespace WinterWorkShop.Cinema.API.Models
         [Range(1, 10, ErrorMessage = Messages.MOVIE_PROPERTIE_RATING_NOT_VALID)]
         public double Rating { get; set; }
 
+        [Required]
         public bool Current { get; set; }
+
+        [Required(ErrorMessage = Messages.MOVIE_CREATION_ERROR_HASOSCAR_REQUIRED)]
+        public bool HasOscar { get; set; }
     }
 }

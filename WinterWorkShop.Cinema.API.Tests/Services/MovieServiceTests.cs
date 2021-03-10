@@ -40,11 +40,12 @@ namespace WinterWorkShop.Cinema.Tests.Services
 
             _movieDomainModel = new MovieDomainModel
             {
-                Id = Guid.NewGuid(),
-                Current = true,
-                Rating = 7,
-                Title = "Smekerski film",
-                Year = 2021
+                Id = _movie.Id,
+                Current = _movie.Current,
+                HasOscar = _movie.HasOscar,
+                Rating = _movie.Rating ?? 0,
+                Title = _movie.Title,
+                Year = _movie.Year
             };
 
             List<Movie> movieModelsList = new List<Movie>();
@@ -60,8 +61,11 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockMovieRepository = new Mock<IMoviesRepository>();
             _mockProjectionRepository = new Mock<IProjectionsRepository>();
             _mockMovieRepository.Setup(x => x.GetCurrentMovies()).Returns(movieModelsList);
+            _mockMovieRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_movie);
+            _mockMovieRepository.Setup(x => x.Insert(_movie)).Returns(_movie);
         }
 
+        //GetAllMovies tests
         [TestMethod]
         public void MovieService_GetAllMovies_ReturnsListOfMovies()
         {
@@ -307,6 +311,63 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.IsNotNull(result);
             Assert.AreEqual(expectedCount, result.Count);
             Assert.IsInstanceOfType(result[0], typeof(MovieDomainModel));
+        }
+
+
+        //GetMovieById tests
+        [TestMethod]
+        public void MovieService_GetMovieByIdAsync_ReturnsMovie()
+        {
+            //Arrange
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetMovieByIdAsync(_movie.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(_movie.Title, resultAction.Title);
+            Assert.IsInstanceOfType(resultAction, typeof(MovieDomainModel));
+        }
+
+        [TestMethod]
+        public void MovieService_GetMovieByIdAsync_ReturnsNull()
+        {
+            //Arrange 
+            _movie.Id = Guid.NewGuid();
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.GetMovieByIdAsync(Guid.NewGuid()).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            //Assert.IsNull(resultAction);
+        }
+
+        //CreateMovie tests
+        [TestMethod]
+        public void MovieService_AddMovie_ReturnsCreatedMovie()
+        {
+            //Arrange
+            MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
+
+            //Act
+            var resultAction = movieService.AddMovie(_movieDomainModel).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            //Assert.IsNotNull(resultAction);
+            //Assert.AreEqual(_movieDomainModel.Title, resultAction.Title);
+        }
+
+        [TestMethod]
+        public void MovieService_AddMovie_ReturnsNull()
+        {
+            //Arrange
+
+            //Act
+
+            //Asert
         }
     }
 }

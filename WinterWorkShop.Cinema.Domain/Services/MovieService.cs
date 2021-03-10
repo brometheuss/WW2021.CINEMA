@@ -96,10 +96,12 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             Movie movieToCreate = new Movie()
             {
+                Id = Guid.NewGuid(),
                 Title = newMovie.Title,
                 Current = newMovie.Current,
                 Year = newMovie.Year,
-                Rating = newMovie.Rating
+                Rating = newMovie.Rating,
+                HasOscar = newMovie.HasOscar
             };
 
             var data = _moviesRepository.Insert(movieToCreate);
@@ -116,7 +118,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Title = data.Title,
                 Current = data.Current,
                 Year = data.Year,
-                Rating = data.Rating ?? 0
+                Rating = data.Rating ?? 0,
+                HasOscar = data.HasOscar
             };
 
             return domainModel;
