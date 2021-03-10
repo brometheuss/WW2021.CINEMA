@@ -38,7 +38,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<ReservationDomainModel>> GetById(Guid id)
+        public async Task<ActionResult<ActorDomainModel>> GetById(Guid id)
         {
             ActorDomainModel actorDomainModel = await _actorService.GetByIdAsync(id);
 

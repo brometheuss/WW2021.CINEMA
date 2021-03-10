@@ -22,7 +22,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CityDomainModel>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<ReservationDomainModel>>> GetAsync()
         {
             IEnumerable<ReservationDomainModel> reservationDomainModels;
 
