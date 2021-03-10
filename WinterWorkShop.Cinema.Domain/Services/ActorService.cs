@@ -12,9 +12,9 @@ namespace WinterWorkShop.Cinema.Domain.Services
     {
         private readonly IActorsRepository _actorsRepository;
 
-        public ActorService(IActorsRepository citiesRepository)
+        public ActorService(IActorsRepository actorsRepository)
         {
-            _actorsRepository = citiesRepository;
+            _actorsRepository = actorsRepository;
         }
 
         public async Task<IEnumerable<ActorDomainModel>> GetAllAsync()
