@@ -11,7 +11,7 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IReservationsRepository : IRepository<Reservation> 
     {
-        Reservation GetReservationByProjectionId(int projectionId);
+        Reservation GetReservationByProjectionId(Guid projectionId);
     }
     public class ReservationsRepository : IReservationsRepository
     {
@@ -48,7 +48,7 @@ namespace WinterWorkShop.Cinema.Repositories
             return data;
         }
 
-        public Reservation GetReservationByProjectionId(int projectionId)
+        public Reservation GetReservationByProjectionId(Guid projectionId)
         {
             var reservation = _cinemaContext.Reservations
                 .Include(rs => rs.ReservationSeats)

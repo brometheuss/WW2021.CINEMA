@@ -10,8 +10,8 @@ using WinterWorkShop.Cinema.Data;
 namespace WinterWorkShop.Cinema.Data.Migrations
 {
     [DbContext(typeof(CinemaContext))]
-    [Migration("20210305000649_init")]
-    partial class init
+    [Migration("20210311165003_fixed foreign table keys")]
+    partial class fixedforeigntablekeys
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,8 @@ namespace WinterWorkShop.Cinema.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.ToTable("cinema");
                 });
 
@@ -76,6 +78,21 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("actor");
+                });
+
+            modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("city");
                 });
 
             modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.MovieActor", b =>
@@ -99,23 +116,17 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProjectionId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ProjectionId1")
+                    b.Property<Guid>("ProjectionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectionId1");
+                    b.HasIndex("ProjectionId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("reservation");
                 });
@@ -265,6 +276,15 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WinterWorkShop.Cinema.Data.Cinema", b =>
+                {
+                    b.HasOne("WinterWorkShop.Cinema.Data.Entities.City", null)
+                        .WithMany("Cinemas")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.MovieActor", b =>
                 {
                     b.HasOne("WinterWorkShop.Cinema.Data.Entities.Actor", "Actor")
@@ -284,11 +304,15 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 {
                     b.HasOne("WinterWorkShop.Cinema.Data.Projection", "Projection")
                         .WithMany()
-                        .HasForeignKey("ProjectionId1");
+                        .HasForeignKey("ProjectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WinterWorkShop.Cinema.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.ReservationSeat", b =>

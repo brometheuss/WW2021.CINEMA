@@ -114,23 +114,17 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("ProjectionId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("ProjectionId1")
+                    b.Property<Guid>("ProjectionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("UserId1")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectionId1");
+                    b.HasIndex("ProjectionId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("reservation");
                 });
@@ -308,11 +302,15 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 {
                     b.HasOne("WinterWorkShop.Cinema.Data.Projection", "Projection")
                         .WithMany()
-                        .HasForeignKey("ProjectionId1");
+                        .HasForeignKey("ProjectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WinterWorkShop.Cinema.Data.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WinterWorkShop.Cinema.Data.Entities.ReservationSeat", b =>

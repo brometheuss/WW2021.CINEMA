@@ -65,7 +65,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return reservationModel;
         }
 
-        public IEnumerable<SeatResultModel> GetTakenSeats(int projectionId)
+        public IEnumerable<SeatResultModel> GetTakenSeats(Guid projectionId)
         {
             var reservation = _reservationsRepository.GetReservationByProjectionId(projectionId);
 

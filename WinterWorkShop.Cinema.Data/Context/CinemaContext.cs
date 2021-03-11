@@ -146,7 +146,7 @@ namespace WinterWorkShop.Cinema.Data
                 .HasOne(s => s.Seat)
                 .WithMany(rs => rs.ReservationSeats)
                 .HasForeignKey(s => s.SeatId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

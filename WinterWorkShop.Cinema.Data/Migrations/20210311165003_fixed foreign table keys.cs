@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WinterWorkShop.Cinema.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class fixedforeigntablekeys : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,17 +21,16 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "cinema",
+                name: "city",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    CityId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_cinema", x => x.Id);
+                    table.PrimaryKey("PK_city", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,21 +63,21 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "auditorium",
+                name: "cinema",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    cinemaId = table.Column<int>(nullable: false),
-                    AuditoriumName = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    CityId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_auditorium", x => x.Id);
+                    table.PrimaryKey("PK_cinema", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_auditorium_cinema_cinemaId",
-                        column: x => x.cinemaId,
-                        principalTable: "cinema",
+                        name: "FK_cinema_city_CityId",
+                        column: x => x.CityId,
+                        principalTable: "city",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -126,6 +125,26 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         name: "FK_user_role_RoleId",
                         column: x => x.RoleId,
                         principalTable: "role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "auditorium",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    cinemaId = table.Column<int>(nullable: false),
+                    AuditoriumName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_auditorium", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_auditorium_cinema_cinemaId",
+                        column: x => x.cinemaId,
+                        principalTable: "cinema",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -181,26 +200,24 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    ProjectionId = table.Column<int>(nullable: false),
-                    UserId1 = table.Column<Guid>(nullable: true),
-                    ProjectionId1 = table.Column<Guid>(nullable: true)
+                    UserId = table.Column<Guid>(nullable: false),
+                    ProjectionId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_reservation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_reservation_projection_ProjectionId1",
-                        column: x => x.ProjectionId1,
+                        name: "FK_reservation_projection_ProjectionId",
+                        column: x => x.ProjectionId,
                         principalTable: "projection",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_reservation_user_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_reservation_user_UserId",
+                        column: x => x.UserId,
                         principalTable: "user",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,13 +241,18 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                         column: x => x.SeatId,
                         principalTable: "seat",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_auditorium_cinemaId",
                 table: "auditorium",
                 column: "cinemaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_cinema_CityId",
+                table: "cinema",
+                column: "CityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_movieActor_ActorId",
@@ -248,14 +270,14 @@ namespace WinterWorkShop.Cinema.Data.Migrations
                 column: "MovieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reservation_ProjectionId1",
+                name: "IX_reservation_ProjectionId",
                 table: "reservation",
-                column: "ProjectionId1");
+                column: "ProjectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reservation_UserId1",
+                name: "IX_reservation_UserId",
                 table: "reservation",
-                column: "UserId1");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_reservationSeat_SeatId",
@@ -307,6 +329,9 @@ namespace WinterWorkShop.Cinema.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "cinema");
+
+            migrationBuilder.DropTable(
+                name: "city");
         }
     }
 }
