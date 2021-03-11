@@ -259,7 +259,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
                 return BadRequest(errorResponse);
             }
-            MovieDomainModel activated;
+            MovieResultModel activated;
             try
             {
                 activated = await _movieService.ActivateMovie(id);
@@ -274,7 +274,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(errorResponse);
             }
 
-            return Accepted("movies//" + activated.Id, activated);
+            return Accepted("movies//" + activated.Movie.Id, activated.Movie);
         }
         /// <summary>
         /// Delete a movie by id

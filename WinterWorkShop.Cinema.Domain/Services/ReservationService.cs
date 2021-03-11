@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
 using WinterWorkShop.Cinema.Repositories;
@@ -61,6 +63,28 @@ namespace WinterWorkShop.Cinema.Domain.Services
             };
 
             return reservationModel;
+        }
+
+        public IEnumerable<SeatResultModel> GetTakenSeats(Guid projectionId)
+        {
+            var reservation = _reservationsRepository.GetReservationByProjectionId(projectionId);
+
+            if(reservation == null)
+            {
+                return null;
+            }
+
+            return reservation.ReservationSeats.Select(s => new SeatResultModel
+            {
+                IsSuccessful = true,
+                SeatDomainModel = new SeatDomainModel
+                {
+                    Id = s.SeatId,
+                    AuditoriumId = s.Seat.AuditoriumId,
+                    Number = s.Seat.Number,
+                    Row = s.Seat.Row
+                }
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WinterWorkShop.Cinema.Data;
@@ -8,7 +9,10 @@ using WinterWorkShop.Cinema.Data.Entities;
 
 namespace WinterWorkShop.Cinema.Repositories
 {
-    public interface IReservationsRepository : IRepository<Reservation> { }
+    public interface IReservationsRepository : IRepository<Reservation> 
+    {
+        Reservation GetReservationByProjectionId(Guid projectionId);
+    }
     public class ReservationsRepository : IReservationsRepository
     {
         private CinemaContext _cinemaContext;
@@ -28,7 +32,11 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<IEnumerable<Reservation>> GetAll()
         {
-            var data = await _cinemaContext.Reservations.ToListAsync();
+            var data = await _cinemaContext.Reservations
+                .Include(rs => rs.ReservationSeats)
+                .ThenInclude(s => s.Seat)
+                .ThenInclude(a => a.Auditorium)
+                .ToListAsync();
 
             return data;
         }
@@ -38,6 +46,17 @@ namespace WinterWorkShop.Cinema.Repositories
             var data = await _cinemaContext.Reservations.FindAsync(id);
 
             return data;
+        }
+
+        public Reservation GetReservationByProjectionId(Guid projectionId)
+        {
+            var reservation = _cinemaContext.Reservations
+                .Include(rs => rs.ReservationSeats)
+                .ThenInclude(s => s.Seat)
+                .ThenInclude(a => a.Auditorium)
+                .FirstOrDefault(reservation => reservation.ProjectionId == projectionId);
+
+            return reservation;
         }
 
         public Reservation Insert(Reservation obj)
