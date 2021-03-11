@@ -366,7 +366,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         public void MovieService_UpdateMovie_ReturnsUpdatedMovie()
         {
             //Arrange
-            _mockMovieRepository.Setup(x => x.Update(_movie)).Returns(_movie);
+            _mockMovieRepository.Setup(x => x.Update(It.IsAny<Movie>())).Returns(_movie);
             MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
 
             //Act
@@ -412,7 +412,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         public void MovieService_ActivateMovie_ReturnsActivatedMovie()
         {
             //Arrange
-            //_mockMovieRepository.Setup(x => x.ActivateCurrentMovie(It.IsAny<Guid>())).Returns(_movie);
+            //_mockMovieRepository.Setup(x => x.ActivateCurrentMovie(It.IsAny<Guid>())).Returns(_movieDomainModel);
             MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
 
             //Act
