@@ -172,6 +172,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
         public async Task<IEnumerable<CinemaDomainModel>> GetAllAsync()
         {
             var data = await _cinemasRepository.GetAll();
+            
+            
 
             if (data == null)
             {
@@ -180,14 +182,28 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             List<CinemaDomainModel> result = new List<CinemaDomainModel>();
             CinemaDomainModel model;
-            foreach (var item in data)
+            foreach (var cinema in data)
             {
                 model = new CinemaDomainModel
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    CityId = item.CityId
+                    Id = cinema.Id,
+                    Name = cinema.Name,
+                    CityId = cinema.CityId,
+                    AuditoriumsList = new List<AuditoriumDomainModel>()
                 };
+
+                foreach(var auditorium in cinema.Auditoriums)
+                {
+                    AuditoriumDomainModel auditoriumModel = new AuditoriumDomainModel
+                    {
+                        Id = auditorium.Id,
+                        CinemaId = cinema.Id,
+                        Name = auditorium.AuditName
+                    };
+
+                    model.AuditoriumsList.Add(auditoriumModel);
+                }
+
                 result.Add(model);
             }
 
