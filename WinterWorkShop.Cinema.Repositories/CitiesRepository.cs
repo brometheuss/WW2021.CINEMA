@@ -28,14 +28,15 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<IEnumerable<City>> GetAll()
         {
-            var data = await _cinemaContext.Cities.ToListAsync();
+            var data = await _cinemaContext.Cities.Include(c => c.Cinemas).ToListAsync();
 
             return data;
         }
 
         public async Task<City> GetByIdAsync(object id)
         {
-            var data = await _cinemaContext.Cities.FindAsync(id);
+              
+            var data = await _cinemaContext.Cities.Include(c => c.Cinemas).FirstOrDefaultAsync(x => x.Id == (int)id);
 
             return data;
         }

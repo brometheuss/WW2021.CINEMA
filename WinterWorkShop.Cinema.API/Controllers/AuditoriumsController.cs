@@ -14,7 +14,7 @@ using WinterWorkShop.Cinema.Domain.Models;
 
 namespace WinterWorkShop.Cinema.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AuditoriumsController : ControllerBase
@@ -51,7 +51,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// <param name="createAuditoriumModel"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<ActionResult<AuditoriumDomainModel>> PostAsync(CreateAuditoriumModel createAuditoriumModel) 
         {
             if (!ModelState.IsValid)

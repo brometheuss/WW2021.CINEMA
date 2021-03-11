@@ -33,8 +33,21 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 CityDomainModel cityModel = new CityDomainModel
                 {
                     Id = city.Id,
-                    Name = city.Name
+                    Name = city.Name,
+                    CinemasList = new List<CinemaDomainModel>()
                 };
+
+                foreach(var cinema in city.Cinemas)
+                {
+                    CinemaDomainModel cinemaModel = new CinemaDomainModel
+                    {
+                        Id = cinema.Id,
+                        CityId = city.Id,
+                        Name = cinema.Name
+                    };
+
+                    cityModel.CinemasList.Add(cinemaModel);
+                }
 
                 cityList.Add(cityModel);
             }
@@ -54,8 +67,26 @@ namespace WinterWorkShop.Cinema.Domain.Services
             CityDomainModel cityModel = new CityDomainModel
             {
                 Id = city.Id,
-                Name = city.Name
+                Name = city.Name,
+                CinemasList = new List<CinemaDomainModel>()
             };
+            
+            foreach(var cinema in city.Cinemas)
+            {
+                CinemaDomainModel cinemaModel = new CinemaDomainModel
+                {
+                    Id = cinema.Id,
+                    CityId = city.Id,
+                    Name = cinema.Name
+                };
+
+                cityModel.CinemasList.Add(cinemaModel);
+            }
+
+
+
+
+            
 
             return cityModel;
         }
