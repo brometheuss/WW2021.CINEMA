@@ -36,7 +36,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     UserName = item.UserName,
-                    IsAdmin = item.IsAdmin
+                    IsAdmin = item.IsAdmin,
+                    RoleId = item.RoleId
                 };
                 result.Add(model);
             }
@@ -59,7 +60,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 UserName = data.UserName,
-                IsAdmin = data.IsAdmin
+                IsAdmin = data.IsAdmin,
+                RoleId = data.RoleId
             };
 
             return domainModel;
@@ -67,7 +69,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public async Task<UserDomainModel> GetUserByUserName(string username)
         {
-            var data = _usersRepository.GetByUserName(username);
+            var data = await _usersRepository.GetByUserName(username);
 
             if (data == null)
             {
@@ -80,7 +82,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 FirstName = data.FirstName,
                 LastName = data.LastName,
                 UserName = data.UserName,
-                IsAdmin = data.IsAdmin
+                IsAdmin = data.IsAdmin,
+                RoleId = data.RoleId
             };
 
             return domainModel;
