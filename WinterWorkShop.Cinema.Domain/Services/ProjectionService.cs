@@ -118,5 +118,27 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return result;
         }
+
+        public async Task<ProjectionDomainModel> GetProjectionByIdAsync(Guid id)
+        {
+            var projection = await _projectionsRepository.GetByIdAsync(id);
+
+            if (projection == null)
+            {
+                return null;
+            }
+
+            ProjectionDomainModel projectionModel = new ProjectionDomainModel
+            {
+                Id = projection.Id,
+                MovieId = projection.MovieId,
+                AditoriumName = projection.Auditorium.AuditName,
+                AuditoriumId = projection.AuditoriumId,
+                MovieTitle = projection.Movie.Title,
+                ProjectionTime = projection.DateTime
+            };
+
+            return projectionModel;
+        }
     }
 }

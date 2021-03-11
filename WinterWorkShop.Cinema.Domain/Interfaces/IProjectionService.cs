@@ -12,5 +12,6 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         //Task<IEnumerable<ProjectionDomainModel>> GetAllAsync();
         Task<CreateProjectionResultModel> CreateProjection(ProjectionDomainModel domainModel);
         Task<IEnumerable<ProjectionDomainModel>> GetAllAsync(ProjectionQuery query);
+        Task<ProjectionDomainModel> GetProjectionByIdAsync(Guid id);
     }
 }
