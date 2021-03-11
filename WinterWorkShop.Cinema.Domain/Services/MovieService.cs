@@ -235,13 +235,17 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return movieResultModel;
         }
 
-        public async Task<MovieDomainModel> ActivateMovie(Guid id)
+        public async Task<MovieResultModel> ActivateMovie(Guid id)
         {
             var movie = await _moviesRepository.GetByIdAsync(id);
             
             if(movie == null)
             {
-                return null;
+                return new MovieResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST
+                };
             }
 
             var activatedMovie = await _moviesRepository.ActivateCurrentMovie(movie.Id);
@@ -257,7 +261,11 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 HasOscar = movie.HasOscar
             };
 
-            return activatedModel;
+            return new MovieResultModel
+            {
+                IsSuccessful = true,
+                Movie = activatedModel
+            };
         }
 
         public async Task<IEnumerable<MovieDomainModel>> GetTopMovies()
