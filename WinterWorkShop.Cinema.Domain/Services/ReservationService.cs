@@ -67,24 +67,35 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
         public IEnumerable<SeatResultModel> GetTakenSeats(Guid projectionId)
         {
-            var reservation = _reservationsRepository.GetReservationByProjectionId(projectionId);
+            var reservations = _reservationsRepository.GetReservationByProjectionId(projectionId);
 
-            if(reservation == null)
+            if(reservations == null)
             {
                 return null;
             }
 
-            return reservation.ReservationSeats.Select(s => new SeatResultModel
+            List<SeatResultModel> seatList = new List<SeatResultModel>();
+
+            foreach(var reservation in reservations)
             {
-                IsSuccessful = true,
-                SeatDomainModel = new SeatDomainModel
+                var seats = reservation.ReservationSeats.Select(s => new SeatResultModel
                 {
-                    Id = s.SeatId,
-                    AuditoriumId = s.Seat.AuditoriumId,
-                    Number = s.Seat.Number,
-                    Row = s.Seat.Row
+                    IsSuccessful = true,
+                    SeatDomainModel = new SeatDomainModel
+                    {
+                        Id = s.SeatId,
+                        AuditoriumId = s.Seat.AuditoriumId,
+                        Number = s.Seat.Number,
+                        Row = s.Seat.Row
+                    }
+                });
+                foreach(var seat in seats)
+                {
+                    seatList.Add(seat);
                 }
-            });
+            }
+
+            return seatList;
         }
     }
 }
