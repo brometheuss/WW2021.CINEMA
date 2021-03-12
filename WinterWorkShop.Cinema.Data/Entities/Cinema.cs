@@ -14,6 +14,6 @@ namespace WinterWorkShop.Cinema.Data
 
         public int CityId { get; set; }
 
-        public virtual ICollection<Auditorium> Auditoriums { get; set; }
+        public virtual ICollection<Auditorium> Auditoriums { get; set; } = new List<Auditorium>();
     }
 }

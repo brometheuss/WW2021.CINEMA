@@ -173,8 +173,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _cinemasRepository.GetAll();
             
-            
-
             if (data == null)
             {
                 return null;
