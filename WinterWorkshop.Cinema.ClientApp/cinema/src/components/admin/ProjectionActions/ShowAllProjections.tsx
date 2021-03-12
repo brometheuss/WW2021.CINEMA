@@ -40,7 +40,7 @@ const ShowAllProjections: React.FC = (props: any) => {
     };
 
     setState({ ...state, isLoading: true });
-    fetch(`${serviceConfig.baseURL}/api/Projections/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Projections`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);

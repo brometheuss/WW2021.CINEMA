@@ -35,7 +35,7 @@ const ShowAllAuditoriums: React.FC = (props: any) => {
     };
 
     setState({ ...state, isLoading: true });
-    fetch(`${serviceConfig.baseURL}/api/Auditoriums/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Auditoriums`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
