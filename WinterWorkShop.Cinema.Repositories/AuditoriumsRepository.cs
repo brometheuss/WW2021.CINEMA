@@ -12,6 +12,8 @@ namespace WinterWorkShop.Cinema.Repositories
     public interface IAuditoriumsRepository : IRepository<Auditorium> 
     {
         Task<IEnumerable<Auditorium>> GetByAuditName(string name, int id);
+
+        IEnumerable<Auditorium> GetAuditoriumsByCinemaId(int id);
     }
     public class AuditoriumsRepository : IAuditoriumsRepository
     {
@@ -68,6 +70,13 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
             return updatedEntry.Entity;
+        }
+
+        public IEnumerable<Auditorium> GetAuditoriumsByCinemaId(int id)
+        {
+            var audits = _cinemaContext.Auditoriums.Where(cinema => cinema.CinemaId == id);
+
+            return audits;
         }
     }
 }

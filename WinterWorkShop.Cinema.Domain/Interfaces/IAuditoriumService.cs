@@ -11,5 +11,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         Task<IEnumerable<AuditoriumDomainModel>> GetAllAsync();
 
         Task<CreateAuditoriumResultModel> CreateAuditorium(AuditoriumDomainModel domainModel, int numberOfRows, int numberOfSeats);
+
+        IEnumerable<AuditoriumDomainModel> GetAuditoriumsByCinemaId(int cinemaId);
     }
 }

@@ -46,7 +46,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("byprojectionid/{id}")]
         public async Task<ActionResult<ProjectionDomainModel>> GetById(Guid id)
         {
             ProjectionDomainModel projectionModel = await _projectionService.GetProjectionByIdAsync(id);

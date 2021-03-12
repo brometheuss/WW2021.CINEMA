@@ -131,5 +131,26 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return resultModel;
         }
+
+        public IEnumerable<AuditoriumDomainModel> GetAuditoriumsByCinemaId(int cinemaId)
+        {
+            var audits = _auditoriumsRepository.GetAuditoriumsByCinemaId(cinemaId);
+
+            if(audits == null)
+            {
+                return null;
+            }
+
+            List<AuditoriumDomainModel> auditList = new List<AuditoriumDomainModel>();
+
+            auditList = audits.Select(a => new AuditoriumDomainModel
+            {
+                CinemaId = a.CinemaId,
+                Id = a.Id,
+                Name = a.AuditName
+            }).ToList();
+
+            return auditList;
+        }
     }
 }

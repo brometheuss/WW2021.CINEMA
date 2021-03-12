@@ -95,5 +95,14 @@ namespace WinterWorkShop.Cinema.API.Controllers
             
             return Created("auditoriums//" + createAuditoriumResultModel.Auditorium.Id, createAuditoriumResultModel);
         }
+
+        [HttpGet]
+        [Route("bycinemaid/{cinemaId}")]
+        public ActionResult<IEnumerable<AuditoriumDomainModel>> GetAuditoriumsByCinemaId(int cinemaId) 
+        {
+            var audits = _auditoriumService.GetAuditoriumsByCinemaId(cinemaId);
+
+            return Ok(audits);
+        }
     }
 }

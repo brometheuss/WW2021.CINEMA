@@ -195,7 +195,7 @@ const Projection: React.FC = (props: any) => {
       query = `?${query}`;
     }
     fetch(
-      `${serviceConfig.baseURL}/api/projections/filter${query}`,
+      `${serviceConfig.baseURL}/api/projections/${query}`,
       requestOptions
     )
       .then((response) => {
@@ -237,7 +237,7 @@ const Projection: React.FC = (props: any) => {
     };
 
     setState({ ...state, isLoading: true });
-    fetch(`${serviceConfig.baseURL}/api/auditoriums/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/auditoriums`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
@@ -265,7 +265,7 @@ const Projection: React.FC = (props: any) => {
     };
 
     setState({ ...state, isLoading: true });
-    fetch(`${serviceConfig.baseURL}/api/Cinemas/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Cinemas`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
