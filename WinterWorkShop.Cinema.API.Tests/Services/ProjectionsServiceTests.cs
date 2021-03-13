@@ -161,6 +161,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockProjectionsRepository.Setup(x => x.GetByAuditoriumId(It.IsAny<int>())).Returns(projectionsModelsList);
             _mockProjectionsRepository.Setup(x => x.Insert(It.IsAny<Projection>())).Returns(_projection);
             _mockProjectionsRepository.Setup(x => x.Save());
+            _mockProjectionsRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(_projection);
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
 
             //Act
