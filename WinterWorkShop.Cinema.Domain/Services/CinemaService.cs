@@ -136,7 +136,18 @@ namespace WinterWorkShop.Cinema.Domain.Services
         public async Task<CinemaDomainModel> DeleteCinemaAsync(int id)
         {
             var cinema =  await _cinemasRepository.GetByIdAsync(id);
+
+            if(cinema == null)
+            {
+                return null;
+            }
+
             var allAuditoriums = await _auditoriumsRepository.GetAll();
+
+            if(allAuditoriums == null)
+            {
+                return null;
+            }
 
             var auditoriumsInCinema = allAuditoriums.Where(a => a.CinemaId == id);
 
@@ -158,7 +169,22 @@ namespace WinterWorkShop.Cinema.Domain.Services
             {
                 Id = cinema.Id,
                 Name = cinema.Name,
-                CityId = cinema.CityId
+                CityId = cinema.CityId,
+                AuditoriumsList = cinema.Auditoriums.Select(a => new AuditoriumDomainModel
+                {
+                    Id = a.Id,
+                    CinemaId = a.CinemaId,
+                    Name = a.AuditName,
+                    SeatsList = a.Seats.Select(s => new SeatDomainModel
+                    {
+                        Id = s.Id,
+                        AuditoriumId = s.AuditoriumId,
+                        Number = s.Number,
+                        Row = s.Row
+                    })
+                    .ToList()
+                })
+                .ToList()
             };
 
             _cinemasRepository.Delete(cinema.Id);
