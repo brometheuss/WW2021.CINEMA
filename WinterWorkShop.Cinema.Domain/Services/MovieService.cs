@@ -296,5 +296,28 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return result;
         }
+
+        public async Task<IEnumerable<MovieDomainModel>> GetTopByYear(int year)
+        {
+            var movies = await _moviesRepository.GetAll();
+
+            if(movies == null)
+            {
+                return null;
+            }
+
+            movies = movies.Where(m => m.Year == year).Take(10);
+
+            List<MovieDomainModel> movieModels = movies.Select(m => new MovieDomainModel
+            {
+                Current = m.Current,
+                Id = m.Id,
+                Rating = m.Rating ?? 0,
+                Title = m.Title,
+                Year = m.Year
+            }).ToList();
+
+            return movieModels; 
+        }
     }
 }

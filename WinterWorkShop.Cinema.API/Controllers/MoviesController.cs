@@ -246,7 +246,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [Route("{action}/{id}")]
         public async Task<ActionResult<MovieDomainModel>> Activate(Guid id)
         {
-            
+
             var movie = await _movieService.GetMovieByIdAsync(id);
 
             if (movie == null)
@@ -323,6 +323,20 @@ namespace WinterWorkShop.Cinema.API.Controllers
             var topList = await _movieService.GetTopMovies();
 
             return Ok(topList);
+        }
+
+        [HttpGet]
+        [Route("topbyyear/{year}")]
+        public async Task<ActionResult<IEnumerable<MovieDomainModel>>> TopByYear(int year)
+        {
+            var topByYear = await _movieService.GetTopByYear(year);
+
+            if(topByYear == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(topByYear);
         }
     }
 }
