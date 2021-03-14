@@ -45,7 +45,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             foreach(var cin in cinemasInSameCity)
             {
-               if(cin.Name == cinemaDomainModel.Name)
+                if(cin.Name == cinemaDomainModel.Name)
                 {
                     return null;
                 }
