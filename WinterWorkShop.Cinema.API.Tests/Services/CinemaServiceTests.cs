@@ -312,5 +312,109 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNull(resultAction);
         }
+
+        [TestMethod]
+        public void CinemaService_CreateCinemaAsync_ReturnsListOfCinemasWithAuditoriumsSeats()
+        {
+            //Arrange
+            List<Data.Cinema> cinemas = new List<Data.Cinema>();
+           
+            _city = new City
+            {
+                Id = 1,
+                Name = "Miami"
+            };
+
+            _cityDomainModel = new CityDomainModel()
+            {
+                Id = _city.Id,
+                Name = _city.Name
+            };
+
+            SeatDomainModel seat1 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 2,
+                Row = 1
+            };
+
+            SeatDomainModel seat2 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 3,
+                Row = 1
+            };
+
+            Seat s1 = new Seat
+            {
+                Id = seat1.Id,
+                AuditoriumId = seat1.AuditoriumId,
+                Number = seat1.Number,
+                Row = seat1.Row
+            };
+
+            Seat s2 = new Seat
+            {
+                Id = seat2.Id,
+                AuditoriumId = seat2.AuditoriumId,
+                Number = seat2.Number,
+                Row = seat2.Row
+            };
+
+            List<SeatDomainModel> seats = new List<SeatDomainModel>();
+            seats.Add(seat1);
+            seats.Add(seat2);
+
+            List<Seat> ss = new List<Seat>();
+            ss.Add(s1);
+            ss.Add(s2);
+
+            AuditoriumDomainModel auditoriumDomainModel = new AuditoriumDomainModel
+            {
+                Id = 1,
+                CinemaId = 11,
+                Name = "Test Audit",
+                SeatsList = seats
+            };
+
+            Auditorium auditorium = new Auditorium
+            {
+                Id = auditoriumDomainModel.Id,
+                CinemaId = auditoriumDomainModel.CinemaId,
+                AuditName = auditoriumDomainModel.Name,
+                Seats = ss
+            };
+
+            List<AuditoriumDomainModel> auditoriumDomainModelList = new List<AuditoriumDomainModel>();
+            auditoriumDomainModelList.Add(auditoriumDomainModel);
+
+            List<Auditorium> auditoriumList = new List<Auditorium>();
+            auditoriumList.Add(auditorium);
+
+            _cinemaDomainModel.AuditoriumsList = auditoriumDomainModelList;
+            _cinema.Auditoriums = auditoriumList;
+
+            int numOfRows = 3;
+            int numOfSeats = 2;
+
+            int expectedAuditoriumCount = 1;
+
+            _mockCityRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_city);
+            _mockCinemaRepository.Setup(x => x.GetAll()).ReturnsAsync(cinemas);
+            _mockCinemaRepository.Setup(x => x.Insert(It.IsAny<Data.Cinema>())).Returns(_cinema);
+            _mockCinemaRepository.Setup(x => x.Save());
+
+            //Act
+            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows).ConfigureAwait(false).GetAwaiter().GetResult();
+            
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(expectedAuditoriumCount, resultAction.AuditoriumsList.Count);
+            Assert.AreEqual(_cinemaDomainModel.Name, resultAction.Name);
+            Assert.IsInstanceOfType(resultAction, typeof(CinemaDomainModel));
+        }
     }
 }
