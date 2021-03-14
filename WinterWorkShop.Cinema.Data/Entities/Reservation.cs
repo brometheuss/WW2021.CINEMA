@@ -13,6 +13,6 @@ namespace WinterWorkShop.Cinema.Data.Entities
         public Guid ProjectionId { get; set; }
         public User User { get; set; }
         public Projection Projection { get; set; }
-        public virtual ICollection<ReservationSeat> ReservationSeats { get; set; }
+        public virtual ICollection<ReservationSeat> ReservationSeats { get; set; } = new List<ReservationSeat>();
     }
 }

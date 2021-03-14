@@ -52,6 +52,8 @@
 
         #region Seats
         public const string SEAT_GET_ALL_SEATS_ERROR = "Error occured while getting all seats, please try again.";
+        public const string SEAT_SEATS_ALREADY_TAKEN_ERROR = "You cannot reserve seats that have already been taken.";
+        public const string SEAT_SEATS_NOT_EXIST_FOR_AUDITORIUM = "You cannot select seats that do not exist in the selected auditorium.";
         #endregion
 
         #region User

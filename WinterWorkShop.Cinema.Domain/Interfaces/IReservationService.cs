@@ -13,5 +13,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         Task<ReservationDomainModel> GetByIdAsync(Guid id);
 
         IEnumerable<SeatResultModel> GetTakenSeats(Guid projectionId);
+
+        ReservationResultModel CreateReservation(CreateReservationModel reservation);
     }
 }

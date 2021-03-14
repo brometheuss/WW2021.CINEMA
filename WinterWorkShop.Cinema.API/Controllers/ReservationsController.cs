@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WinterWorkShop.Cinema.API.Models;
 using WinterWorkShop.Cinema.Domain.Common;
 using WinterWorkShop.Cinema.Domain.Interfaces;
 using WinterWorkShop.Cinema.Domain.Models;
@@ -49,6 +51,41 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Ok(reservationDomainModel);
 
+        }
+
+        [HttpPost]
+        [Route("{action}")]
+        public ActionResult<ReservationResultModel> MakeReservation(CreateReservationModel model)
+        {
+            ReservationResultModel res;
+
+            try
+            {
+                res = _reservationService.CreateReservation(model);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            if (!res.IsSuccessful)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = res.ErrorMessage,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            return Created("reservations//" + res.Reservation.Id, res);
         }
     }
 }
