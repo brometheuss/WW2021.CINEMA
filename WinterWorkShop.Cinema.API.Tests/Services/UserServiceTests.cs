@@ -50,7 +50,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
 
             _userService = new UserService(_mockUserRepository.Object);
         }
-        
+
         //GetAllUsers tests
         [TestMethod]
         public void UserService_GetAllUsers_ReturnsListOfUsers()
@@ -120,13 +120,42 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void UserService_GetUserByid_ReturnNull()
+        public void UserService_GetUserByid_ReturnsNull()
         {
             //Arrange
             _mockUserRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(null as User);
 
             //Act
             var resultAction = _userService.GetUserByIdAsync(_user.Id).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNull(resultAction);
+        }
+
+        //GetUserByUsername  tests
+        [TestMethod]
+        public void UserService_GetUserByUsername_ReturnsUser()
+        {
+            //Arrange
+            _mockUserRepository.Setup(x => x.GetByUserName(It.IsAny<string>())).ReturnsAsync(_user);
+
+            //Act
+            var resultAction = _userService.GetUserByUserName(_user.UserName).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(_user.UserName, resultAction.UserName);
+            Assert.IsInstanceOfType(resultAction, typeof(UserDomainModel));
+        }
+
+        [TestMethod]
+        public void UserService_GetUserByUsername_ReturnNull()
+        {
+            //Arrange
+            _mockUserRepository.Setup(x => x.GetByUserName(It.IsAny<string>())).ReturnsAsync(null as User);
+
+            //Act
+            var resultAction = _userService.GetUserByUserName(_user.UserName).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsNull(resultAction);
