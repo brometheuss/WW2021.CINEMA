@@ -17,5 +17,7 @@ namespace WinterWorkShop.Cinema.Domain.Models
         public int RoleId { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        public int Points { get; set; }
     }
 }
