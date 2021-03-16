@@ -75,42 +75,43 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 }
             }
 
-            var auditorium = _auditoriumRepository.GetByIdAsync(projection.AuditoriumId).Result;
+            #region Komentar
+            /*  var auditorium = _auditoriumRepository.GetByIdAsync(projection.AuditoriumId).Result;
 
 
-            List<(int, int)> requestedSeatsRowsAndNumbers =
-                reservation.SeatsRequested
-                .Select(s =>
-                {
-                var seat = _seatRepository.GetByIdAsync(s.Id).Result;
+              List<(int, int)> requestedSeatsRowsAndNumbers =
+                  reservation.SeatsRequested
+                  .Select(s =>
+                  {
+                  var seat = _seatRepository.GetByIdAsync(s.Id).Result;
 
-                return (seat.Row, seat.Number);
-                 }).ToList();
-
-
-            int rowMax = auditorium.Seats.Max(s => s.Row);
-            int numberMax = auditorium.Seats.Max(s => s.Number);
+                  return (seat.Row, seat.Number);
+                   }).ToList();
 
 
-            List<(int row, int number)> listOfAllSeats = new List<(int, int)>();
-            for (int i = 1; i <= rowMax; i++)
-            {
-                for (int j = 1; j <= numberMax; j++)
-                {
-                    listOfAllSeats.Add((i, j));
-                }
-            }
+              int rowMax = auditorium.Seats.Max(s => s.Row);
+              int numberMax = auditorium.Seats.Max(s => s.Number);
 
 
-            List<(int row, int number)> listTakenSeats = takenSeats
-                .Select(s => (s.SeatDomainModel.Row, s.SeatDomainModel.Number))
-                .ToList();
+              List<(int row, int number)> listOfAllSeats = new List<(int, int)>();
+              for (int i = 1; i <= rowMax; i++)
+              {
+                  for (int j = 1; j <= numberMax; j++)
+                  {
+                      listOfAllSeats.Add((i, j));
+                  }
+              }
 
 
-            List<(int row, int number)> listFreeSeats = listOfAllSeats
-                .Except(listTakenSeats)
-                .ToList();
+              List<(int row, int number)> listTakenSeats = takenSeats
+                  .Select(s => (s.SeatDomainModel.Row, s.SeatDomainModel.Number))
+                  .ToList();
 
+
+              List<(int row, int number)> listFreeSeats = listOfAllSeats
+                  .Except(listTakenSeats)
+                  .ToList();
+  */
             //CHECK IF listFreeSeats CONTAINS AT LEAST 1 REQUESTED
             //ROW WHICH HAS EQUAL OR MORE FREE CONTINIOUS SEATS
             //COMPARED TO NUMBER OF REQUESTED SEATS. IF SO, THROW ERROR
@@ -124,11 +125,9 @@ namespace WinterWorkShop.Cinema.Domain.Services
             // CONTAINS ENOUGH CONTINIOUS SEATS. IF IT DOES, 
             // THROW ERROR BECAUSE CLIENT COULD RESERVE PROPERLY.
             // IF NOT, ALLOW SEPARATE RESERVATIONS IN SAME ROW.
+            #endregion
 
-
-
-
-                                         //improvised fake payment system
+            //improvised fake payment system
             Levi9PaymentService payment = new Levi9PaymentService();
             var paymentResult = payment.MakePayment().Result;
 

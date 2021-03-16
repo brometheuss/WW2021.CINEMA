@@ -273,6 +273,7 @@ const Projection: React.FC = (props: any) => {
         return response.json();
       })
       .then((data) => {
+        console.log('CINEMA ', data);
         if (data) {
           setState({
             ...state,
@@ -517,7 +518,7 @@ const Projection: React.FC = (props: any) => {
           name="auditoriumId"
           id="auditorium"
           className="select-dropdown"
-          disabled
+        //disabled
         >
           <option value="none">Auditorium</option>
           {fillFilterWithAuditoriums()}

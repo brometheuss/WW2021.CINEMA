@@ -319,6 +319,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         [HttpGet]
         [Route("{action}")]
         public async Task<ActionResult<IEnumerable<MovieDomainModel>>> TopList()
+        
         {
             var topList = await _movieService.GetTopMovies();
 

@@ -24,23 +24,9 @@ interface IState {
 const TopTenMovies: React.FC = (props: any) => {
   const [state, setState] = useState<IState>({
     movies: [
-      {
-        id: "",
-        bannerUrl: "",
-        title: "",
-        year: "",
-        rating: 0,
-      },
+
     ],
-    filteredMoviesByYear: [
-      {
-        id: "",
-        bannerUrl: "",
-        title: "",
-        year: "",
-        rating: 0,
-      },
-    ],
+    filteredMoviesByYear: [],
     title: "",
     year: "",
     id: "",
@@ -110,6 +96,7 @@ const TopTenMovies: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
+          console.log('DATA: ', data, data[0].title);
           setState({ ...state, movies: data, isLoading: false });
         }
       })
@@ -121,6 +108,7 @@ const TopTenMovies: React.FC = (props: any) => {
   };
 
   const fillTableWithDaata = () => {
+    console.log("FILETERED", state.filteredMoviesByYear, state.selectedYear);
     if (state.filteredMoviesByYear.length > 0) {
       return state.filteredMoviesByYear.map((filteredMovie) => {
         return (
@@ -137,6 +125,7 @@ const TopTenMovies: React.FC = (props: any) => {
         NotificationManager.error("Movies with selected year don't exist.");
       }
       return state.movies.map((movie) => {
+        console.log(movie, ' movie')
         return (
           <tr key={movie.id}>
             <td>{movie.title}</td>
@@ -221,8 +210,8 @@ const TopTenMovies: React.FC = (props: any) => {
           name="movieYear"
           id="movieYear"
           className="select-dropdown"
-          //min="1900"
-          //max="2100"
+        //min="1900"
+        //max="2100"
         >
           <option value="none">Year</option>
           {showYears}
