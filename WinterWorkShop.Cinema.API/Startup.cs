@@ -70,6 +70,7 @@ namespace WinterWorkShop.Cinema.API
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IActorService, ActorService>();
             services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IRoleService, RoleService>();
 
             // Allow Cors for client app
             services.AddCors(options => {

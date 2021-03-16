@@ -73,5 +73,9 @@
         #region Actor
         public const string ACTOR_NOT_FOUND = "Actor not found";
         #endregion
+
+        #region Role
+        public const string ROLE_DOES_NOT_EXIST = "Role does not exist";
+        #endregion
     }
 }

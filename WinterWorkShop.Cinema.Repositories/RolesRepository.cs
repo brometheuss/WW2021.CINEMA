@@ -29,14 +29,18 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<IEnumerable<Role>> GetAll()
         {
-            var data = await _cinemaContext.Roles.ToListAsync();
+            var data = await _cinemaContext.Roles
+                .Include(user => user.Users )
+                .ToListAsync();
 
             return data;
         }
 
         public async Task<Role> GetByIdAsync(object id)
         {
-            var data = await _cinemaContext.Roles.FindAsync(id);
+            var data = await _cinemaContext.Roles
+                .Include(user => user.Users)
+                .FirstOrDefaultAsync(role => role.Id == (int)id);
 
             return data;
         }
