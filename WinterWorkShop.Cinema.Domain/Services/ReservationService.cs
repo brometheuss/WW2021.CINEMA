@@ -59,9 +59,11 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 };
             }
 
+
+            //check if requested seats are more than 1 and in the same row
             List<SeatDomainModel> seatModels = new List<SeatDomainModel>();
 
-            foreach(var seat in reservation.SeatsRequested)
+            foreach (var seat in reservation.SeatsRequested)
             {
                 var reqSeat = _seatRepository.GetByIdAsync(seat.Id).Result;
                 SeatDomainModel seatDomain = new SeatDomainModel()
@@ -74,9 +76,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 seatModels.Add(seatDomain);
             }
 
-
-            //check if requested seats are more than 1 and in the same row
-            if(reservation.SeatsRequested.ToList().Count() > 1)
+            if (reservation.SeatsRequested.ToList().Count() > 1)
             {
                 var singleSeat = seatModels[0];
         
@@ -90,6 +90,28 @@ namespace WinterWorkShop.Cinema.Domain.Services
                             ErrorMessage = Messages.SEAT_SEATS_NOT_IN_SAME_ROW
                         };
                     }
+                }
+            }
+
+            //check if seats are not next to each other
+            seatModels = seatModels.OrderByDescending(x => x.Number).ToList();
+
+            var singleSeat2 = seatModels[0];
+
+            var counter = 1;
+            foreach(var y in seatModels.Skip(1))
+            {
+                if(y.Number + counter != singleSeat2.Number)
+                {
+                    return new ReservationResultModel
+                    {
+                        IsSuccessful = false,
+                        ErrorMessage = Messages.SEAT_SEATS_MUST_BE_NEXT_TO_EACH_OTHER
+                    };
+                }
+                else
+                {
+                    counter++;
                 }
             }
             

@@ -55,6 +55,7 @@
         public const string SEAT_SEATS_ALREADY_TAKEN_ERROR = "You cannot reserve seats that have already been taken.";
         public const string SEAT_SEATS_NOT_EXIST_FOR_AUDITORIUM = "You cannot select seats that do not exist in the selected auditorium.";
         public const string SEAT_SEATS_NOT_IN_SAME_ROW = "Seats must be in the same row.";
+        public const string SEAT_SEATS_MUST_BE_NEXT_TO_EACH_OTHER = "Seats must be next to each other.";
         #endregion
 
         #region User
