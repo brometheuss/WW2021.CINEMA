@@ -21,11 +21,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var cities = await _citiesRepository.GetAll();
 
-            if (cities == null)
-            {
-                return null;
-            }
-
             List<CityDomainModel> cityList = new List<CityDomainModel>();
 
             foreach(var city in cities)
