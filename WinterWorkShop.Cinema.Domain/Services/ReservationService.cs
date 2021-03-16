@@ -59,6 +59,24 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 };
             }
 
+            //check if requested seats are more than 2 and in the same row
+            if(reservation.SeatsRequested.ToList().Count() > 1)
+            {
+                var singleSeat = reservation.SeatsRequested.ToList()[0];
+        
+                foreach (var x in reservation.SeatsRequested)
+                {
+                    if(singleSeat.Row != x.Row)
+                    {
+                        return new ReservationResultModel
+                        {
+                            IsSuccessful = false,
+                            ErrorMessage = Messages.SEAT_SEATS_NOT_IN_SAME_ROW
+                        };
+                    }
+                }
+            }
+            
             //check if requested seats are already taken
             foreach(var takenSeat in takenSeats)
             {

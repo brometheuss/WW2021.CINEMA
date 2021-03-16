@@ -30,9 +30,9 @@
 
         #region Movies        
         public const string MOVIE_DOES_NOT_EXIST = "Movie does not exist.";
-        public const string MOVIE_PROPERTIE_TITLE_NOT_VALID = "The movie title cannot be longer than 50 characters.";
-        public const string MOVIE_PROPERTIE_YEAR_NOT_VALID = "The movie year must be between 1895-2100.";
-        public const string MOVIE_PROPERTIE_RATING_NOT_VALID = "The movie rating must be between 1-10.";
+        public const string MOVIE_PROPERTY_TITLE_NOT_VALID = "The movie title cannot be longer than 50 characters.";
+        public const string MOVIE_PROPERTY_YEAR_NOT_VALID = "The movie year must be between 1895-2100.";
+        public const string MOVIE_PROPERTY_RATING_NOT_VALID = "The movie rating must be between 1-10.";
         public const string MOVIE_CREATION_ERROR = "Error occured while creating new movie, please try again.";
         public const string MOVIE_GET_ALL_CURRENT_MOVIES_ERROR = "Error occured while getting current movies, please try again.";
         public const string MOVIE_GET_BY_ID = "Error occured while getting movie by Id, please try again.";
@@ -54,6 +54,7 @@
         public const string SEAT_GET_ALL_SEATS_ERROR = "Error occured while getting all seats, please try again.";
         public const string SEAT_SEATS_ALREADY_TAKEN_ERROR = "You cannot reserve seats that have already been taken.";
         public const string SEAT_SEATS_NOT_EXIST_FOR_AUDITORIUM = "You cannot select seats that do not exist in the selected auditorium.";
+        public const string SEAT_SEATS_NOT_IN_SAME_ROW = "Seats must be in the same row.";
         #endregion
 
         #region User
