@@ -21,11 +21,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _seatsRepository.GetAll();
 
-            if (data == null)
-            {
-                return null;
-            }
-
             List<SeatDomainModel> result = new List<SeatDomainModel>();
             SeatDomainModel model;
             foreach (var item in data)

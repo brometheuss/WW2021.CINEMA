@@ -21,11 +21,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var actors = await _actorsRepository.GetAll();
 
-            if (actors == null)
-            {
-                return null;
-            }
-
             List<ActorDomainModel> actorList = new List<ActorDomainModel>();
 
             foreach (var actor in actors)

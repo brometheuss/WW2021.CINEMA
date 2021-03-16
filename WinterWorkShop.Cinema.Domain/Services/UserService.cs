@@ -21,11 +21,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _usersRepository.GetAll();
 
-            if (data == null)
-            {
-                return null;
-            }
-
             List<UserDomainModel> result = new List<UserDomainModel>();
             UserDomainModel model;
             foreach (var item in data)

@@ -198,11 +198,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         public async Task<IEnumerable<CinemaDomainModel>> GetAllAsync()
         {
             var data = await _cinemasRepository.GetAll();
-            
-            if (data == null)
-            {
-                return null;
-            }
 
             List<CinemaDomainModel> result = new List<CinemaDomainModel>();
             CinemaDomainModel model;

@@ -95,11 +95,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
             if (query.DateEarlierThan.HasValue)
                 data = data.Where(x => x.DateTime < query.DateEarlierThan);
 
-            if (data == null)
-            {
-                return null;
-            }
-
             List<ProjectionDomainModel> result = new List<ProjectionDomainModel>();
             ProjectionDomainModel model;
             foreach (var item in data)

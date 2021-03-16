@@ -235,11 +235,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var reservations = await _reservationsRepository.GetAll();
 
-            if (reservations == null)
-            {
-                return null;
-            }
-
             List<ReservationDomainModel> reservationList = new List<ReservationDomainModel>();
 
             foreach (var reservation in reservations)

@@ -26,11 +26,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var data = await _auditoriumsRepository.GetAll();
 
-            if (data == null)
-            {
-                return null;
-            }
-
             List<AuditoriumDomainModel> result = new List<AuditoriumDomainModel>();
             AuditoriumDomainModel model;
             foreach (var item in data)

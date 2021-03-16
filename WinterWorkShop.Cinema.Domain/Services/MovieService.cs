@@ -48,11 +48,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
             if (query.HasOscar != null)
                 data = data.Where(x => x.HasOscar == query.HasOscar);
 
-            if (data == null)
-            {
-                return null;
-            }
-
             List<MovieDomainModel> result = new List<MovieDomainModel>();
             MovieDomainModel model;
             foreach (var item in data)
