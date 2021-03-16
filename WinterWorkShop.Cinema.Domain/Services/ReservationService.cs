@@ -16,12 +16,16 @@ namespace WinterWorkShop.Cinema.Domain.Services
         private readonly IReservationsRepository _reservationsRepository;
         private readonly ISeatsRepository _seatRepository;
         private readonly IProjectionsRepository _projectionRepository;
+        private readonly IAuditoriumsRepository _auditoriumRepository;
 
-        public ReservationService(IReservationsRepository reservationsRepository, ISeatsRepository seatRepository, IProjectionsRepository projectionRepository)
+
+
+        public ReservationService(IReservationsRepository reservationsRepository, ISeatsRepository seatRepository, IProjectionsRepository projectionRepository, IAuditoriumsRepository auditoriumRepository)
         {
             _reservationsRepository = reservationsRepository;
             _seatRepository = seatRepository;
             _projectionRepository = projectionRepository;
+            _auditoriumRepository = auditoriumRepository;
         }
 
         public ReservationResultModel CreateReservation(CreateReservationModel reservation)
@@ -31,6 +35,15 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             var seats = _seatRepository.GetAll().Result;
             var projection = _projectionRepository.GetByIdAsync(reservation.ProjectionId).Result;
+
+            if(projection == null)
+            {
+                return new ReservationResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.PROJECTION_DOES_NOT_EXIST
+                };
+            }
 
             //get all seats for auditorium
             seats = seats.Where(auditorium => auditorium.AuditoriumId == projection.AuditoriumId);
@@ -62,7 +75,60 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 }
             }
 
-            //improvised fake payment system
+            var auditorium = _auditoriumRepository.GetByIdAsync(projection.AuditoriumId).Result;
+
+
+            List<(int, int)> requestedSeatsRowsAndNumbers =
+                reservation.SeatsRequested
+                .Select(s =>
+                {
+                var seat = _seatRepository.GetByIdAsync(s.Id).Result;
+
+                return (seat.Row, seat.Number);
+                 }).ToList();
+
+
+            int rowMax = auditorium.Seats.Max(s => s.Row);
+            int numberMax = auditorium.Seats.Max(s => s.Number);
+
+
+            List<(int row, int number)> listOfAllSeats = new List<(int, int)>();
+            for (int i = 1; i <= rowMax; i++)
+            {
+                for (int j = 1; j <= numberMax; j++)
+                {
+                    listOfAllSeats.Add((i, j));
+                }
+            }
+
+
+            List<(int row, int number)> listTakenSeats = takenSeats
+                .Select(s => (s.SeatDomainModel.Row, s.SeatDomainModel.Number))
+                .ToList();
+
+
+            List<(int row, int number)> listFreeSeats = listOfAllSeats
+                .Except(listTakenSeats)
+                .ToList();
+
+            //CHECK IF listFreeSeats CONTAINS AT LEAST 1 REQUESTED
+            //ROW WHICH HAS EQUAL OR MORE FREE CONTINIOUS SEATS
+            //COMPARED TO NUMBER OF REQUESTED SEATS. IF SO, THROW ERROR
+            //BECAUSE CLIENT COULD RESERVE ALL SEATS IN THE SAME ROW.
+            // IF NOT, ALLOW CLIENT SEPARATE RESERVATIONS.
+
+
+
+            //LASTLY, CHECK IF SEATS ARE NEXT TO EACH OTHER.
+            //IF THEY ARE, PROCEED. IF NOT, CHECK IF ROW
+            // CONTAINS ENOUGH CONTINIOUS SEATS. IF IT DOES, 
+            // THROW ERROR BECAUSE CLIENT COULD RESERVE PROPERLY.
+            // IF NOT, ALLOW SEPARATE RESERVATIONS IN SAME ROW.
+
+
+
+
+                                         //improvised fake payment system
             Levi9PaymentService payment = new Levi9PaymentService();
             var paymentResult = payment.MakePayment().Result;
 

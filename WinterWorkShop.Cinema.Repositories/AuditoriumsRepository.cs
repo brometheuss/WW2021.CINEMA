@@ -49,9 +49,11 @@ namespace WinterWorkShop.Cinema.Repositories
 
         public async Task<Auditorium> GetByIdAsync(object id)
         {
-            return await _cinemaContext.Auditoriums.FindAsync(id);
+            return await _cinemaContext.Auditoriums
+                .Include(s => s.Seats)
+                .FirstOrDefaultAsync(a => a.Id == (int)id);
         }
-
+        
         public Auditorium Insert(Auditorium obj)
         {
             var data = _cinemaContext.Auditoriums.Add(obj).Entity;
