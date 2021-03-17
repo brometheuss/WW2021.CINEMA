@@ -314,5 +314,29 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return movieModels; 
         }
+
+        public async Task<IEnumerable<MovieDomainModel>> GetAllMoviesNonCurrentIncluded()
+        {
+            var movies = await _moviesRepository.GetAll();
+
+            if(movies.Count() == 0)
+            {
+                return null;
+            }
+
+            IEnumerable<MovieDomainModel> listMovies = new List<MovieDomainModel>();
+
+            listMovies = movies.Select(movie => new MovieDomainModel
+            {
+                Id = movie.Id,
+                Current = movie.Current,
+                HasOscar = movie.HasOscar,
+                Rating = movie.Rating ?? 0,
+                Title = movie.Title,
+                Year = movie.Year
+            });
+
+            return listMovies;
+        }
     }
 }

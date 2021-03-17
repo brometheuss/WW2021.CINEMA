@@ -339,5 +339,18 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Ok(topByYear);
         }
+
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<MovieDomainModel>>> GetAllMovies()
+        {
+            var movies = await _movieService.GetAllMoviesNonCurrentIncluded();
+
+            if(movies == null)
+            {
+                movies = new List<MovieDomainModel>();
+            }
+
+            return Ok(movies);
+        }
     }
 }
