@@ -272,8 +272,48 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
     
         }
 
-        //Get auditorium by cinema ID remaining.
+        //Get auditoriums by cinema ID.
+        [TestMethod]
+        public void Get_Async_Return_All_Cinemas_By_CinemaId()
+        {
+            //Arrange
+            List<AuditoriumDomainModel> auditoriumsDomainModelsList = new List<AuditoriumDomainModel>();
+            
 
+            AuditoriumDomainModel auditoriumDomainModel = new AuditoriumDomainModel
+            {
+                Id = 1,
+                Name = "Auditorium1",
+                CinemaId = 5,
+                SeatsList = new List<SeatDomainModel>()
+            };
+
+            auditoriumsDomainModelsList.Add(auditoriumDomainModel);
+            IEnumerable<AuditoriumDomainModel> auditoriumDomainModels = auditoriumsDomainModelsList;
+
+            IEnumerable<AuditoriumDomainModel> responseTask = auditoriumDomainModels;
+
+            int expectedResultCount = 1;
+            int expectedStatusCode = 200;
+
+            _auditoriumService = new Mock<IAuditoriumService>();
+            _auditoriumService.Setup(x => x.GetAuditoriumsByCinemaId(It.IsAny<int>())).Returns(responseTask);
+            AuditoriumsController auditoriumsController = new AuditoriumsController(_auditoriumService.Object);
+
+            //Act
+            var result = auditoriumsController.GetAuditoriumsByCinemaId(auditoriumDomainModel.CinemaId).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultList = ((OkObjectResult)result).Value;
+            var auditoriumDomainModelResultList = (List<AuditoriumDomainModel>)resultList;
+
+
+            //Assert
+            Assert.IsNotNull(auditoriumDomainModelResultList);
+            Assert.AreEqual(expectedResultCount, auditoriumDomainModelResultList.Count);
+            Assert.AreEqual(auditoriumDomainModel.Id, auditoriumDomainModelResultList[0].Id);
+            Assert.AreEqual(auditoriumDomainModel.CinemaId, auditoriumDomainModelResultList[0].CinemaId);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.AreEqual(expectedStatusCode, ((OkObjectResult)result).StatusCode);
+        }
 
     }
 }

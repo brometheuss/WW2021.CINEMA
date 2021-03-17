@@ -98,7 +98,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
         [HttpGet]
         [Route("bycinemaid/{cinemaId}")]
-        public ActionResult<IEnumerable<AuditoriumDomainModel>> GetAuditoriumsByCinemaId(int cinemaId) 
+        public async Task<ActionResult<IEnumerable<AuditoriumDomainModel>>> GetAuditoriumsByCinemaId(int cinemaId) 
         {
             var audits = _auditoriumService.GetAuditoriumsByCinemaId(cinemaId);
 
