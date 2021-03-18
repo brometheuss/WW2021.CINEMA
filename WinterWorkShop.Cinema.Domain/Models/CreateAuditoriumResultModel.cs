@@ -12,5 +12,9 @@ namespace WinterWorkShop.Cinema.Domain.Models
 
         public AuditoriumDomainModel Auditorium { get; set; }
 
+        public object ToList()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
