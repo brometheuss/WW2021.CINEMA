@@ -60,6 +60,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _auditoriumService = new AuditoriumService(_mockAuditoriumRepository.Object, _mockCinemaRepository.Object);
         }
 
+        //GetAllAuditoriums tests
         [TestMethod]
         public void AuditoriumService_GetAllAuditoriums_ReturnsListOfAuditoriums()
         {
@@ -110,6 +111,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.AreEqual(expectedCount, result.Count);
         }
 
+        //CreateAuditorium tests
         [TestMethod]
         public void AuditoriumService_CreateAuditorium_ReturnsCreatedAuditoriumWithSeats()
         {
@@ -225,8 +227,8 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNull(resultAction.Auditorium);
             Assert.AreEqual(Messages.AUDITORIUM_INVALID_CINEMAID, resultAction.ErrorMessage);
+            Assert.IsFalse(resultAction.IsSuccessful);
             Assert.IsInstanceOfType(resultAction, typeof(CreateAuditoriumResultModel));
-            Assert.IsNull(resultAction.Auditorium);
         }
 
         [TestMethod]
@@ -248,8 +250,78 @@ namespace WinterWorkShop.Cinema.Tests.Services
             //Assert
             Assert.IsNull(resultAction.Auditorium);
             Assert.AreEqual(Messages.AUDITORIUM_SAME_NAME, resultAction.ErrorMessage);
+            Assert.IsFalse(resultAction.IsSuccessful);
             Assert.IsInstanceOfType(resultAction, typeof(CreateAuditoriumResultModel));
+        }
+
+        [TestMethod]
+        public void AuditoriumService_CreateAuditorium_ReturnsErrorMessage_AuditoriumCreationError()
+        {
+            //Arrange
+            var numOfRows = 2;
+            var numOfSeats = 3;
+            List<Auditorium> audits = new List<Auditorium>();
+
+            _mockCinemaRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_cinema);
+            _mockAuditoriumRepository.Setup(x => x.GetByAuditName(It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(audits);
+            _mockAuditoriumRepository.Setup(x => x.Insert(It.IsAny<Auditorium>())).Returns(null as Auditorium);
+
+            //Act
+            var resultAction = _auditoriumService.CreateAuditorium(_auditoriumDomainModel, numOfRows, numOfSeats).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
             Assert.IsNull(resultAction.Auditorium);
+            Assert.AreEqual(Messages.AUDITORIUM_CREATION_ERROR, resultAction.ErrorMessage);
+            Assert.IsFalse(resultAction.IsSuccessful);
+            Assert.IsInstanceOfType(resultAction, typeof(CreateAuditoriumResultModel));
+        }
+
+        //GetAuditoriumByCinemaId tests
+        [TestMethod]
+        public void AuditoriumService_GetAuditoriumsByCinemaId_ReturnsListOfAuditoriums()
+        {
+            //Arrange
+            var expectedCount = 2;
+            Auditorium audit2 = new Auditorium
+            {
+                Id = 111,
+                CinemaId = 1,
+                AuditName = "Dodatni auditorium"
+            };
+
+            List<Auditorium> audits = new List<Auditorium>();
+            audits.Add(_auditorium);
+            audits.Add(audit2);
+
+            _mockAuditoriumRepository.Setup(x => x.GetAuditoriumsByCinemaId(It.IsAny<int>())).Returns(audits);
+
+            //Act
+            var resultAction = _auditoriumService.GetAuditoriumsByCinemaId(_cinema.Id);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(expectedCount, result.Count);
+            Assert.AreEqual(result[0].Id, _auditorium.Id);
+            Assert.AreEqual(result[1].Name, audit2.AuditName);
+            Assert.IsInstanceOfType(result[0], typeof(AuditoriumDomainModel));
+        }
+
+        [TestMethod]
+        public void AuditoriumService_GetAuditoriumsByCinemaId_ReturnsEmptyList()
+        {
+            //Arrange
+            var expectedCount = 0;
+            List<Auditorium> audits = new List<Auditorium>();
+
+            _mockAuditoriumRepository.Setup(x => x.GetAuditoriumsByCinemaId(It.IsAny<int>())).Returns(audits);
+
+            //Act
+            var resultAction = _auditoriumService.GetAuditoriumsByCinemaId(_cinema.Id);
+            var result = resultAction.ToList();
+
+            //Assert
+            Assert.AreEqual(expectedCount, result.Count);
         }
     }
 }
