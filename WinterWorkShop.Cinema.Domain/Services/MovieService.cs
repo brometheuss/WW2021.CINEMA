@@ -338,5 +338,79 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return listMovies;
         }
+
+        public async Task<MovieResultModel> Activate_DeactivateMovie(Guid id)
+        {
+            var movie = await _moviesRepository.GetByIdAsync(id);
+
+            if(movie == null)
+            {
+                return new MovieResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST
+                };
+            }
+
+            if(movie.Current == false)
+            {
+                var activatedMovie = await _moviesRepository.ActivateCurrentMovie(movie.Id);
+                _moviesRepository.Save();
+
+                MovieResultModel movieModel = new MovieResultModel
+                {
+                    Movie = new MovieDomainModel
+                    {
+                        Id = movie.Id,
+                        Current = activatedMovie.Current,
+                        HasOscar = movie.HasOscar,
+                        Rating = movie.Rating ?? 0,
+                        Title = movie.Title,
+                        Year = movie.Year
+                    },
+                    IsSuccessful = true,
+                    ErrorMessage = null
+                    
+                };
+
+                return movieModel;
+            }
+
+            else
+            {
+                var projections = await _projectionRepository.GetAll();
+
+                var futureProjections = projections.Where(p => p.MovieId == id && p.DateTime > DateTime.Now);
+
+                if (futureProjections.Count() > 0)
+                {
+                    return new MovieResultModel
+                    {
+                        IsSuccessful = false,
+                        ErrorMessage = Messages.MOVIE_DEACTIVATION_ERROR,
+                    };
+                }
+
+                var deactivatedMovie = await _moviesRepository.DeactivateCurrentMovie(movie.Id);
+                _moviesRepository.Save();
+
+                MovieResultModel movieResultModel = new MovieResultModel
+                {
+                    Movie = new MovieDomainModel
+                    {
+                        Id = deactivatedMovie.Id,
+                        Current = deactivatedMovie.Current,
+                        Rating = deactivatedMovie.Rating ?? 0,
+                        HasOscar = deactivatedMovie.HasOscar,
+                        Title = deactivatedMovie.Title,
+                        Year = deactivatedMovie.Year
+                    },
+                    IsSuccessful = true
+                };
+
+                return movieResultModel;
+
+            }
+        }
     }
 }

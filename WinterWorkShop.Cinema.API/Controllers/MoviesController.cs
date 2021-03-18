@@ -352,5 +352,50 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Ok(movies);
         }
+
+        [HttpPatch("changecurrent/{id}")]
+        public async Task<ActionResult<MovieDomainModel>> ChangeCurrent(Guid id)
+        {
+            var movie = await _movieService.GetMovieByIdAsync(id);
+
+            if(movie == null)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = Messages.MOVIE_DOES_NOT_EXIST,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest,
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            MovieResultModel changed;
+            try
+            {
+                changed = await _movieService.Activate_DeactivateMovie(id);
+            }
+            catch (DbUpdateException e)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = e.InnerException.Message ?? e.Message,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+                return BadRequest(errorResponse);
+            }
+
+            if (!changed.IsSuccessful)
+            {
+                ErrorResponseModel errorResponse = new ErrorResponseModel
+                {
+                    ErrorMessage = changed.ErrorMessage,
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(errorResponse);
+            }
+
+            return Accepted("movies//" + changed.Movie.Id, changed.Movie);
+        }
     }
 }

@@ -121,7 +121,7 @@ const ShowAllMovies: React.FC = (props: any) => {
   ) => {
     e.preventDefault();
     const requestOptions = {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
