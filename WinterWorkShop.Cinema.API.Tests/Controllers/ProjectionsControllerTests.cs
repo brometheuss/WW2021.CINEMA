@@ -307,5 +307,67 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
             Assert.AreEqual(expectedStatusCode, resultResponse.StatusCode);
         }
+
+        [TestMethod]
+        public void Get_By_Projection_Id_Return_Projection()
+        {
+            //Assert
+            int expectedStatusCode = 200;
+
+            ProjectionDomainModel projectionDomainModel = new ProjectionDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AditoriumName = "Auditorium123",
+                AuditoriumId = 2,
+                MovieId = Guid.NewGuid(),
+                MovieTitle = "Film",
+                ProjectionTime = new DateTime()
+            };
+
+            Task<ProjectionDomainModel> responseTask = Task.FromResult(projectionDomainModel);
+
+            _projectionService = new Mock<IProjectionService>();
+            _projectionService.Setup(x => x.GetProjectionByIdAsync(It.IsAny<Guid>())).Returns(responseTask);
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+
+            //Act
+            var result = projectionsController.GetById(projectionDomainModel.Id).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultValue = ((OkObjectResult)result).Value;
+            var projectionDomainModelResult = (ProjectionDomainModel)resultValue;
+
+            //Assert
+            Assert.IsNotNull(projectionDomainModelResult);
+            Assert.AreEqual(projectionDomainModel.Id, projectionDomainModelResult.Id);
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+            Assert.AreEqual(expectedStatusCode, ((OkObjectResult)result).StatusCode);
+
+        }
+
+        [TestMethod]
+        public void Get_By_Projection_Id_Return_Not_Found()
+        {
+            //Arrange
+            int expectedStatusCode = 404;
+            string expectedMessage = Messages.PROJECTION_DOES_NOT_EXIST;
+            ProjectionDomainModel projectionDomainModel = null;
+
+
+            Task<ProjectionDomainModel> responseTask = Task.FromResult(projectionDomainModel);
+
+            _projectionService = new Mock<IProjectionService>();
+            _projectionService.Setup(x => x.GetProjectionByIdAsync(It.IsAny<Guid>())).Returns(responseTask);
+            ProjectionsController projectionsController = new ProjectionsController(_projectionService.Object);
+
+            //Act
+            var result = projectionsController.GetById(Guid.NewGuid()).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var resultValue = ((NotFoundObjectResult)result).Value;
+            var messageReturned = (string)resultValue;
+
+            //Assert
+            Assert.IsNotNull(messageReturned);
+            Assert.AreEqual(expectedMessage, messageReturned);
+            Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));
+            Assert.AreEqual(expectedStatusCode, ((NotFoundObjectResult)result).StatusCode);
+        }
     }
 }

@@ -32,7 +32,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     LastName = item.LastName,
                     UserName = item.UserName,
                     IsAdmin = item.IsAdmin,
-                    RoleId = item.RoleId
+                    RoleId = item.RoleId,
+                    Points = item.Points
                 };
                 result.Add(model);
             }
@@ -56,7 +57,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 LastName = data.LastName,
                 UserName = data.UserName,
                 IsAdmin = data.IsAdmin,
-                RoleId = data.RoleId
+                RoleId = data.RoleId,
+                Points = data.Points
             };
 
             return domainModel;
@@ -78,7 +80,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 LastName = data.LastName,
                 UserName = data.UserName,
                 IsAdmin = data.IsAdmin,
-                RoleId = data.RoleId
+                RoleId = data.RoleId,
+                Points = data.Points
             };
 
             return domainModel;
