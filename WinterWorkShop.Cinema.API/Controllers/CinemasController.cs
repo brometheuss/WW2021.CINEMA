@@ -84,10 +84,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
                     ErrorMessage = Messages.CINEMA_CREATION_ERROR,
-                    StatusCode = System.Net.HttpStatusCode.InternalServerError
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
 
-                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
+                return BadRequest(errorResponse);
             }
 
             return Created("//cinemas" + insertedModel.Id, insertedModel);
@@ -121,10 +121,10 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 ErrorResponseModel errorResponse = new ErrorResponseModel
                 {
                     ErrorMessage = Messages.CINEMA_DOES_NOT_EXIST,
-                    StatusCode = System.Net.HttpStatusCode.InternalServerError
+                    StatusCode = System.Net.HttpStatusCode.BadRequest
                 };
 
-                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, errorResponse);
+                return BadRequest(errorResponse);
             }
 
             return Accepted("cinemas//" + deletedCinema.Id, deletedCinema);
