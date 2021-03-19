@@ -90,11 +90,11 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void MovieService_GetAllMovies_ReturnsNull()
+        public void MovieService_GetAllMovies_ReturnsEmptyList()
         {
             //Arrange
-            IEnumerable<Movie> movies = null;
-            Task<IEnumerable<Movie>> responseTask = Task.FromResult(movies);
+            var expectedCount = 0;
+            List<Movie> movies = new List<Movie>();
             _mockMovieRepository.Setup(x => x.GetCurrentMovies()).Returns(movies);
             MovieService movieService = new MovieService(_mockMovieRepository.Object, _mockProjectionRepository.Object);
 
@@ -102,7 +102,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             var resultAction = movieService.GetAllMovies(true, query);
 
             //Assert
-            Assert.IsNull(resultAction);
+            Assert.AreEqual(expectedCount, resultAction.Count());
         }
 
         [TestMethod]
