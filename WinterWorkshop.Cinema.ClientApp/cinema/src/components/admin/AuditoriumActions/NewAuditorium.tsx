@@ -60,7 +60,7 @@ const NewAuditorium: React.FC = (props: any) => {
       },
     };
 
-    fetch(`${serviceConfig.baseURL}/api/Cinemas/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Cinemas`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);

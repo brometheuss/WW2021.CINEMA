@@ -73,6 +73,22 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Ok(movieDomainModels);
         }
 
+        [HttpGet]
+        [Route("bytag")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetAsyncByTag([FromQuery] MovieQuery query)
+        {
+            IEnumerable<MovieDomainModel> movieDomainModels;
+
+            movieDomainModels = _movieService.GetAllMovies(true, query);
+
+            if (movieDomainModels == null)
+            {
+                movieDomainModels = new List<MovieDomainModel>();
+            }
+
+            return Ok(movieDomainModels);
+        }
+
         /// <summary>
         /// Adds a new movie
         /// </summary>
@@ -396,6 +412,19 @@ namespace WinterWorkShop.Cinema.API.Controllers
             }
 
             return Accepted("movies//" + changed.Movie.Id, changed.Movie);
+        }
+
+        [HttpGet("currentMoviesAndProjections")]
+        public async Task<ActionResult<IEnumerable<MovieProjectionDomainModel>>> GetCurrentMoviesAndProjections()
+        {
+            var movies = await _movieService.GetCurrentMoviesAndProjections();
+            
+            if(movies == null)
+            {
+                movies = new List<MovieProjectionDomainModel>();
+            }
+
+            return Ok(movies);
         }
     }
 }

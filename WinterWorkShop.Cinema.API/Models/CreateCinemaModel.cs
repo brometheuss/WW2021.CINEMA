@@ -23,6 +23,8 @@ namespace WinterWorkShop.Cinema.API.Models
         [Required]
         [Range(1, 20, ErrorMessage = Messages.AUDITORIUM_PROPERTY_SEATNUMBER_NOT_VALID)]
         public int NumberOfSeats { get; set; }
+        /*[Required]
+        public string AuditoriumName*/
 
 
     }

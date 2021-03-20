@@ -14,7 +14,7 @@ namespace WinterWorkShop.Cinema.Domain.Models
 
         public int AuditoriumId { get; set; }
 
-        public string AditoriumName { get; set; }
+        public string AuditoriumName { get; set; }
 
         public DateTime ProjectionTime { get; set; }
     }

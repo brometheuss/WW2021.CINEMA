@@ -12,6 +12,7 @@ namespace WinterWorkShop.Cinema.Repositories
     public interface IMoviesRepository : IRepository<Movie> 
     {
         IEnumerable<Movie> GetCurrentMovies();
+        Task<IEnumerable<Movie>> GetCurrentMoviesAsync();
         Task<Movie> DeactivateCurrentMovie(Guid obj);
         Task<Movie> ActivateCurrentMovie(Guid obj);
     }
@@ -78,6 +79,16 @@ namespace WinterWorkShop.Cinema.Repositories
                 .Include(ma => ma.MovieActors)
                 .ThenInclude(a => a.Actor)
                 .Where(x => x.Current);            
+
+            return data;
+        }
+
+        public async Task<IEnumerable<Movie>> GetCurrentMoviesAsync()
+        {
+            var data = await _cinemaContext.Movies
+                .Include(p => p.Projections)
+                .ThenInclude(a => a.Auditorium)
+                .Where(movie => movie.Current).ToListAsync();
 
             return data;
         }

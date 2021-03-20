@@ -30,7 +30,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionDomainModel projectionDomainModel = new ProjectionDomainModel
             {
                 Id = Guid.NewGuid(),
-                AditoriumName = "ImeSale",
+                AuditoriumName = "ImeSale",
                 AuditoriumId = 1,
                 MovieId = Guid.NewGuid(),
                 MovieTitle = "ImeFilma",
@@ -109,7 +109,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 Projection = new ProjectionDomainModel
                 {
                     Id = Guid.NewGuid(),
-                    AditoriumName = "ImeSale",
+                    AuditoriumName = "ImeSale",
                     AuditoriumId = createProjectionModel.AuditoriumId,
                     MovieId = createProjectionModel.MovieId,
                     MovieTitle = "ImeFilma",
@@ -158,7 +158,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 Projection = new ProjectionDomainModel
                 {
                     Id = Guid.NewGuid(),
-                    AditoriumName = "ImeSale",
+                    AuditoriumName = "ImeSale",
                     AuditoriumId = createProjectionModel.AuditoriumId,
                     MovieId = createProjectionModel.MovieId,
                     MovieTitle = "ImeFilma",
@@ -211,7 +211,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
                 Projection = new ProjectionDomainModel
                 {
                     Id = Guid.NewGuid(),
-                    AditoriumName = "ImeSale",
+                    AuditoriumName = "ImeSale",
                     AuditoriumId = createProjectionModel.AuditoriumId,
                     MovieId = createProjectionModel.MovieId,
                     MovieTitle = "ImeFilma",
@@ -317,7 +317,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             ProjectionDomainModel projectionDomainModel = new ProjectionDomainModel
             {
                 Id = Guid.NewGuid(),
-                AditoriumName = "Auditorium123",
+                AuditoriumName = "Auditorium123",
                 AuditoriumId = 2,
                 MovieId = Guid.NewGuid(),
                 MovieTitle = "Film",

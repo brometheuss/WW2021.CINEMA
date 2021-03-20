@@ -41,7 +41,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _projectionDomainModel = new ProjectionDomainModel
             {
                 Id = Guid.NewGuid(),
-                AditoriumName = "ImeSale",
+                AuditoriumName = "ImeSale",
                 AuditoriumId = 1,
                 MovieId = Guid.NewGuid(),
                 MovieTitle = "ImeFilma",

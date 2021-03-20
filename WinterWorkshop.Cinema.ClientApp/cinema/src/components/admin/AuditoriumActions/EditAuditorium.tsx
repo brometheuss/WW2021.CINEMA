@@ -166,7 +166,7 @@ const EditAuditorium: React.FC = (props: any): JSX.Element => {
       },
     };
 
-    fetch(`${serviceConfig.baseURL}/api/Cinemas/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Cinemas`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);

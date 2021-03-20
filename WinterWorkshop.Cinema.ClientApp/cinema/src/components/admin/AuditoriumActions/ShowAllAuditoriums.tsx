@@ -55,7 +55,7 @@ const ShowAllAuditoriums: React.FC = (props: any) => {
 
   useEffect(() => {
     getAuditoriums();
-  }, [getAuditoriums]);
+  }, []);
 
   const removeAuditorium = (auditoriumId: string) => {
     const requestOptions = {

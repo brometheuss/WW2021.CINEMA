@@ -67,7 +67,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     AuditoriumId = insertedProjection.AuditoriumId,
                     MovieId = insertedProjection.MovieId,
                     ProjectionTime = insertedProjection.DateTime,
-                    AditoriumName = projekcija.Auditorium.AuditName,
+                    AuditoriumName = projekcija.Auditorium.AuditName,
                     MovieTitle = projekcija.Movie.Title
                 }
             };
@@ -106,7 +106,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     AuditoriumId = item.AuditoriumId,
                     ProjectionTime = item.DateTime,
                     MovieTitle = item.Movie.Title,
-                    AditoriumName = item.Auditorium.AuditName
+                    AuditoriumName = item.Auditorium.AuditName
                 };
                 result.Add(model);
             }
@@ -127,7 +127,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             {
                 Id = projection.Id,
                 MovieId = projection.MovieId,
-                AditoriumName = projection.Auditorium.AuditName,
+                AuditoriumName = projection.Auditorium.AuditName,
                 AuditoriumId = projection.AuditoriumId,
                 MovieTitle = projection.Movie.Title,
                 ProjectionTime = projection.DateTime
