@@ -276,7 +276,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
         {
             var reservations = _reservationsRepository.GetReservationByProjectionId(projectionId);
 
-            if(reservations == null)
+            if(reservations.Count() < 1)
             {
                 return null;
             }
