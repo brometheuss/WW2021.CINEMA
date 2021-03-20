@@ -78,21 +78,21 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void ProjectionService_GetAllAsync_ReturnNull()
+        public void ProjectionService_GetAllAsync_ReturnsEmptyList()
         {
             //Arrange
-            IEnumerable<Projection> projections = null;
-            Task<IEnumerable<Projection>> responseTask = Task.FromResult(projections);
+            var expectedCount = 0;
+            List<Projection> projections = new List<Projection>();
 
             _mockProjectionsRepository = new Mock<IProjectionsRepository>();
-            _mockProjectionsRepository.Setup(x => x.GetAll()).Returns(responseTask);
+            _mockProjectionsRepository.Setup(x => x.GetAll()).ReturnsAsync(projections);
             ProjectionService projectionsController = new ProjectionService(_mockProjectionsRepository.Object);
 
             //Act
             var resultAction = projectionsController.GetAllAsync(query).ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
-            Assert.IsNull(resultAction);
+            Assert.AreEqual(expectedCount, resultAction.Count());
         }
 
         // _projectionsRepository.GetByAuditoriumId(domainModel.AuditoriumId) mocked to return list with projections
