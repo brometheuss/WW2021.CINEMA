@@ -241,22 +241,98 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
         {
             //Arrange
             int cinemaDeleteId = 12;
-            string expectedMessage = Messages.CINEMA_DOES_NOT_EXIST;
+            int expectedStatusCode = 202;
+
+            CinemaDomainModel cinemaDomainModel = new CinemaDomainModel
+            {
+                Id = cinemaDeleteId,
+                CityId = 1234,
+                Name = "Bioskop",
+                AuditoriumsList = new List<AuditoriumDomainModel>()
+            };
+
+            Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
 
 
+            _cinemaService = new Mock<ICinemaService>();
+            _cinemaService.Setup(x => x.DeleteCinemaAsync(It.IsAny<int>())).Returns(responseTask);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
 
+            //Act
+            var result = cinemasController.DeleteAsync(cinemaDeleteId).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var objectResult = ((AcceptedResult)result).Value;
+            CinemaDomainModel cinemaDomainModelResult = (CinemaDomainModel)objectResult;
+
+
+            //Assert
+            Assert.IsNotNull(cinemaDomainModel);
+            Assert.IsInstanceOfType(result, typeof(AcceptedResult));
+            Assert.AreEqual(expectedStatusCode, ((AcceptedResult)result).StatusCode);
+            Assert.AreEqual(cinemaDeleteId, cinemaDomainModelResult.Id);
 
         }
+        [TestMethod]
+        public void DeleteAsync_DeleteCinema_Failed_Throw_DbException()
+        {
+            //Arrange 
+            string expectedMessage = "Inner exception error message.";
+            int expectedStatusCode = 400;
 
 
+            CinemaDomainModel cinemaDomainModel = new CinemaDomainModel
+            {
+                Id = 123,
+                CityId = 555,
+                Name = "ime",
+                AuditoriumsList = new List<AuditoriumDomainModel>()
+            };
 
+            Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
+            Exception exception = new Exception("Inner exception error message.");
+            DbUpdateException dbUpdateException = new DbUpdateException("Error.", exception);
 
+            _cinemaService = new Mock<ICinemaService>();
+            _cinemaService.Setup(x => x.DeleteCinemaAsync(It.IsAny<int>())).Throws(dbUpdateException);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
 
+            //Act
+            var result = cinemasController.DeleteAsync(cinemaDomainModel.Id).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var badObjectResult = ((BadRequestObjectResult)result).Value;
+            var errorResult = (ErrorResponseModel)badObjectResult;
 
+            //Assert
+            Assert.IsNotNull(errorResult);
+            Assert.AreEqual(expectedMessage, errorResult.ErrorMessage);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(expectedStatusCode, ((BadRequestObjectResult)result).StatusCode);
 
+        }
+        [TestMethod]
+        public void DeleteAsync_DeleteCinema_Failed_Return_BadRequest()
+        {
+            //Arrange
+            string expectedMessage = Messages.CINEMA_DOES_NOT_EXIST;
+            int expectedStatusCode = 400;
 
+        
+            CinemaDomainModel cinemaDomainModel = null;
 
+            Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
 
+            _cinemaService = new Mock<ICinemaService>();
+            _cinemaService.Setup(x => x.DeleteCinemaAsync(It.IsAny<int>())).Returns(responseTask);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
 
+            //Act
+            var result = cinemasController.DeleteAsync(123).ConfigureAwait(false).GetAwaiter().GetResult().Result;
+            var badObjectResult = ((BadRequestObjectResult)result).Value;
+            var errorResult = (ErrorResponseModel)badObjectResult;
+
+            //Assert
+            Assert.IsNotNull(errorResult);
+            Assert.AreEqual(expectedMessage, errorResult.ErrorMessage);
+            Assert.IsInstanceOfType(result, typeof(BadRequestObjectResult));
+            Assert.AreEqual(expectedStatusCode, ((BadRequestObjectResult)result).StatusCode);
+        }
     }
 }
