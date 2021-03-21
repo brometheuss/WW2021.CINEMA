@@ -58,7 +58,53 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     Id = item.Id,
                     Rating = item.Rating ?? 0,
                     Title = item.Title,
-                    Year = item.Year
+                    Year = item.Year,
+                    HasOscar = item.HasOscar
+                };
+                result.Add(model);
+            }
+
+            return result;
+
+        }
+
+        public async Task<IEnumerable<MovieDomainModel>> GetAllMoviesFilterWithNonCurrent(bool? isCurrent, MovieQuery query)
+        {
+            var data = await _moviesRepository.GetAll();
+
+            if (query.ActorName != null)
+                data = data.Where(x => x.MovieActors.Any(a => a.Actor.FirstName.ToLower().Contains(query.ActorName.ToLower())));
+
+            if (query.Title != null)
+                data = data.Where(x => x.Title.ToLower().Contains(query.Title.ToLower()));
+
+            if (query.RatingLowerThan > 0)
+                data = data.Where(x => x.Rating < query.RatingLowerThan);
+
+            if (query.RatingBiggerThan > 0)
+                data = data.Where(x => x.Rating > query.RatingBiggerThan);
+
+            if (query.YearLowerThan > 0)
+                data = data.Where(x => x.Year < query.YearLowerThan);
+
+            if (query.YearBiggerThan > 0)
+                data = data.Where(x => x.Year > query.YearBiggerThan);
+
+            if (query.HasOscar != null)
+                data = data.Where(x => x.HasOscar == query.HasOscar);
+
+            List<MovieDomainModel> result = new List<MovieDomainModel>();
+            MovieDomainModel model;
+            foreach (var item in data)
+            {
+                model = new MovieDomainModel
+                {
+                    Current = item.Current,
+                    Id = item.Id,
+                    Rating = item.Rating ?? 0,
+                    Title = item.Title,
+                    Year = item.Year,
+                    HasOscar = item.HasOscar
                 };
                 result.Add(model);
             }

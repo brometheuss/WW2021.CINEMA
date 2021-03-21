@@ -51,5 +51,6 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
         Task<MovieResultModel> Activate_DeactivateMovie(Guid id);
         Task<IEnumerable<MovieProjectionDomainModel>> GetCurrentMoviesAndProjections();
         Task<IEnumerable<MovieDomainModel>> GetMoviesByAuditoriumId(int id);
+        Task<IEnumerable<MovieDomainModel>> GetAllMoviesFilterWithNonCurrent(bool? isCurrent, MovieQuery query);
     }
 }

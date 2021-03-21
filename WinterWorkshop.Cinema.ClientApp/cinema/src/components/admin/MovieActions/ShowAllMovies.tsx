@@ -30,6 +30,8 @@ interface IState {
   rating: number;
   ratingBiggerThan: string;
   ratingLowerThan: string;
+  yearBiggerThan: string;
+  yearLowerThan: string;
   current: boolean;
   tag: string;
   listOfTags: string[];
@@ -61,6 +63,8 @@ const ShowAllMovies: React.FC = (props: any) => {
     id: "",
     ratingBiggerThan: "",
     ratingLowerThan: "",
+    yearBiggerThan: "",
+    yearLowerThan: "",
     rating: 0,
     current: false,
     tag: "",
@@ -398,11 +402,12 @@ const ShowAllMovies: React.FC = (props: any) => {
     //   );
     //   setState({ ...state, submitted: false });
     // }
-    if (state.title !== "" || state.ratingLowerThan !== "11" || state.ratingBiggerThan !== "0") {
-      console.log("Ne pozovi", state.title, state.ratingBiggerThan, state.ratingLowerThan);
-      searchMovie();
+    // if (state.title !== "" || state.ratingLowerThan !== "11" || state.ratingBiggerThan !== "0") {
+    //   console.log("Ne pozovi", state.title, state.ratingBiggerThan, state.ratingLowerThan);
+    //   searchMovie();
+    // }
 
-    }
+    searchMovie();
   };
 
   const searchMovie = () => {
@@ -415,7 +420,7 @@ const ShowAllMovies: React.FC = (props: any) => {
     };
 
     setState({ ...state, isLoading: true });
-    fetch(`${serviceConfig.baseURL}/api/Movies/bytag?ratingbiggerthan=${state.ratingBiggerThan === "" ? "0" : state.ratingBiggerThan}&ratinglowerthan=${state.ratingLowerThan === "" ? "11" : state.ratingLowerThan}&title=${state.title}`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Movies/bytag?ratingbiggerthan=${state.ratingBiggerThan === "" ? "0" : state.ratingBiggerThan}&ratinglowerthan=${state.ratingLowerThan === "" ? "11" : state.ratingLowerThan}&yearbiggerthan=${state.yearBiggerThan === "" ? "1894" : state.yearBiggerThan}&yearlowerthan=${state.yearLowerThan === "" ? "2100" : state.yearLowerThan}&title=${state.title}`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
@@ -492,19 +497,6 @@ const ShowAllMovies: React.FC = (props: any) => {
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
           className="form-inline search-field md-form mr-auto mb-4 search-form search-form-second"
         >
-
-          <input
-            className="mr-sm-2 search-bar"
-            id="tag"
-            type="text"
-            placeholder="Rating Lower Than"
-            name="ratinglowerthan"
-            value={state.ratingLowerThan}
-            aria-label="Search"
-            onChange={(e) => setState({ ...state, ratingLowerThan: e.target.value })}
-          />
-
-
           <input
             className="mr-sm-2 search-bar"
             id="tag"
@@ -520,6 +512,17 @@ const ShowAllMovies: React.FC = (props: any) => {
             className="mr-sm-2 search-bar"
             id="tag"
             type="text"
+            placeholder="Rating Lower Than"
+            name="ratinglowerthan"
+            value={state.ratingLowerThan}
+            aria-label="Search"
+            onChange={(e) => setState({ ...state, ratingLowerThan: e.target.value })}
+          />
+
+          <input
+            className="mr-sm-2 search-bar"
+            id="tag"
+            type="text"
             placeholder="Title"
             name="title"
             value={state.title}
@@ -527,19 +530,51 @@ const ShowAllMovies: React.FC = (props: any) => {
             onChange={(e) => setState({ ...state, title: e.target.value })}
           />
 
+          <input
+            className="mr-sm-2 search-bar"
+            id="tag"
+            style={{
+              width: '196px'
+            }}
+            type="text"
+            placeholder="Year Bigger Than"
+            name="yearbiggerthan"
+            value={state.yearBiggerThan}
+            aria-label="Search"
+            onChange={(e) => setState({ ...state, yearBiggerThan: e.target.value })}
+          />
+          <input
+            className="mr-sm-2 search-bar"
+            id="tag"
+            style={{
+              width: '196px'
+            }}
+            type="text"
+            placeholder="Year Lower Than"
+            name="yearlowerthan"
+            value={state.yearLowerThan}
+            aria-label="Search"
+            onChange={(e) => setState({ ...state, yearLowerThan: e.target.value })}
+          />
+
           <button className="btn-search" type="submit"
             style={{
               position: 'absolute',
               right: '50px',
-              top: '100px'
+              top: '130px'
             }}>
             Search
           </button>
-          <button className="btn btn-primary"
+          <button className="btn-search"
             style={{
               position: 'absolute',
               right: '50px',
-              bottom: '465px'
+              bottom: '399px',
+              height: '28px',
+              width: '65px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
             }} type="button" onClick={getProjections}>Reset</button>
         </form>
 

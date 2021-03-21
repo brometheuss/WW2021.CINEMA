@@ -79,7 +79,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         {
             IEnumerable<MovieDomainModel> movieDomainModels;
 
-            movieDomainModels = _movieService.GetAllMovies(true, query);
+            movieDomainModels = await _movieService.GetAllMoviesFilterWithNonCurrent(true, query);
 
             if (movieDomainModels == null)
             {
