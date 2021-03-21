@@ -426,5 +426,18 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Ok(movies);
         }
+
+        [HttpGet("byauditoriumid/{id}")]
+        public async Task<ActionResult<IEnumerable<MovieDomainModel>>> GetMoviesByAuditoriumId(int id)
+        {
+            var movies = await _movieService.GetMoviesByAuditoriumId(id);
+
+            if (movies == null)
+            {
+                movies = new List<MovieDomainModel>();
+            }
+
+            return Ok(movies);
+        }
     }
 }

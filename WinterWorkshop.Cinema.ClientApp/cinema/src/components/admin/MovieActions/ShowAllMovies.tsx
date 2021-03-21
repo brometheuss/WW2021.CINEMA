@@ -28,6 +28,8 @@ interface IState {
   year: string;
   id: string;
   rating: number;
+  ratingBiggerThan: string;
+  ratingLowerThan: string;
   current: boolean;
   tag: string;
   listOfTags: string[];
@@ -57,6 +59,8 @@ const ShowAllMovies: React.FC = (props: any) => {
     title: "",
     year: "",
     id: "",
+    ratingBiggerThan: "",
+    ratingLowerThan: "",
     rating: 0,
     current: false,
     tag: "",
@@ -367,36 +371,41 @@ const ShowAllMovies: React.FC = (props: any) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    var data = new FormData(e.currentTarget);
+    // var data = new FormData(e.currentTarget);
 
-    var queryParts: string[] = [];
-    var entries = data.entries();
+    // var queryParts: string[] = [];
+    // var entries = data.entries();
 
-    for (var pair of entries) {
-      queryParts.push(
-        `${encodeURIComponent(pair[0])}=${encodeURIComponent(
-          pair[1].toString()
-        )}`
-      );
-    }
-    var query = queryParts.join("&");
-    var loc = window.location;
-    var url = `${loc.protocol}//${loc.host}${loc.pathname}?${query}`;
+    // for (var pair of entries) {
+    //   queryParts.push(
+    //     `${encodeURIComponent(pair[0])}=${encodeURIComponent(
+    //       pair[1].toString()
+    //     )}`
+    //   );
+    // }
+    // var query = queryParts.join("&");
+    // var loc = window.location;
+    // var url = `${loc.protocol}//${loc.host}${loc.pathname}?${query}`;
 
-    let tag = url.split("=")[1];
+    // let tag = url.split("=")[1];
 
-    setState({ ...state, submitted: true });
-    if (tag) {
-      searchMovie(tag);
-    } else {
-      NotificationManager.error(
-        "Please type type something in search bar to search for movies."
-      );
-      setState({ ...state, submitted: false });
+    // setState({ ...state, submitted: true });
+    // if (tag) {
+    //   searchMovie(tag);
+    // } else {
+    //   NotificationManager.error(
+    //     "Please type type something in search bar to search for movies."
+    //   );
+    //   setState({ ...state, submitted: false });
+    // }
+    if (state.title !== "" || state.ratingLowerThan !== "11" || state.ratingBiggerThan !== "0") {
+      console.log("Ne pozovi", state.title, state.ratingBiggerThan, state.ratingLowerThan);
+      searchMovie();
+
     }
   };
 
-  const searchMovie = (tag: string) => {
+  const searchMovie = () => {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -406,7 +415,7 @@ const ShowAllMovies: React.FC = (props: any) => {
     };
 
     setState({ ...state, isLoading: true });
-    fetch(`${serviceConfig.baseURL}/api/Movies/bytag/${tag}`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Movies/bytag?ratingbiggerthan=${state.ratingBiggerThan === "" ? "0" : state.ratingBiggerThan}&ratinglowerthan=${state.ratingLowerThan === "" ? "11" : state.ratingLowerThan}&title=${state.title}`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
@@ -451,7 +460,9 @@ const ShowAllMovies: React.FC = (props: any) => {
       });
   };
 
-  let inputValue;
+  let title;
+  let inputValue1;
+
   const rowsData = fillTableWithDaata();
   const table = (
     <Table striped bordered hover size="sm" variant="dark">
@@ -481,19 +492,57 @@ const ShowAllMovies: React.FC = (props: any) => {
           onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}
           className="form-inline search-field md-form mr-auto mb-4 search-form search-form-second"
         >
+
           <input
             className="mr-sm-2 search-bar"
             id="tag"
             type="text"
-            placeholder="Search"
-            name="inputValue"
-            value={inputValue}
+            placeholder="Rating Lower Than"
+            name="ratinglowerthan"
+            value={state.ratingLowerThan}
             aria-label="Search"
+            onChange={(e) => setState({ ...state, ratingLowerThan: e.target.value })}
           />
-          <button className="btn-search" type="submit">
+
+
+          <input
+            className="mr-sm-2 search-bar"
+            id="tag"
+            type="text"
+            placeholder="Rating Bigger Than"
+            name="ratingbiggerthan"
+            value={state.ratingBiggerThan}
+            aria-label="Search"
+            onChange={(e) => setState({ ...state, ratingBiggerThan: e.target.value })}
+          />
+
+          <input
+            className="mr-sm-2 search-bar"
+            id="tag"
+            type="text"
+            placeholder="Title"
+            name="title"
+            value={state.title}
+            aria-label="Search"
+            onChange={(e) => setState({ ...state, title: e.target.value })}
+          />
+
+          <button className="btn-search" type="submit"
+            style={{
+              position: 'absolute',
+              right: '50px',
+              top: '100px'
+            }}>
             Search
           </button>
+          <button className="btn btn-primary"
+            style={{
+              position: 'absolute',
+              right: '50px',
+              bottom: '465px'
+            }} type="button" onClick={getProjections}>Reset</button>
         </form>
+
       </Row>
       <Row className="no-gutters pr-5 pl-5">{showTable}</Row>
     </React.Fragment>

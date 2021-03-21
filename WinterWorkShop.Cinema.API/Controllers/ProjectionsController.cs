@@ -30,12 +30,27 @@ namespace WinterWorkShop.Cinema.API.Controllers
         /// Gets all projections
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("filter")]
         public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync([FromQuery] ProjectionQuery query)
         {
             IEnumerable<ProjectionDomainModel> projectionDomainModels;
            
             projectionDomainModels = await _projectionService.GetAllAsync(query);            
+
+            if (projectionDomainModels == null)
+            {
+                projectionDomainModels = new List<ProjectionDomainModel>();
+            }
+
+            return Ok(projectionDomainModels);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProjectionDomainModel>>> GetAsync()
+        {
+            IEnumerable<ProjectionDomainModel> projectionDomainModels;
+
+            projectionDomainModels = await _projectionService.GetAllAsync(new ProjectionQuery());
 
             if (projectionDomainModels == null)
             {

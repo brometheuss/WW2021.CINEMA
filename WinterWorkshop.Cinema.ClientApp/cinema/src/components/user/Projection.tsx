@@ -157,6 +157,7 @@ const Projection: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
+          console.log('CURRENT PROJECTIONS ', data)
           setState({ ...state, movies: data, isLoading: false });
         }
       })
@@ -195,7 +196,7 @@ const Projection: React.FC = (props: any) => {
       query = `?${query}`;
     }
     fetch(
-      `${serviceConfig.baseURL}/api/projections/${query}`,
+      `${serviceConfig.baseURL}/api/projections/filter${query}`,
       requestOptions
     )
       .then((response) => {
@@ -246,6 +247,7 @@ const Projection: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
+          console.log('AUDITORIUMS ', data)
           setState({ ...state, auditoriums: data, isLoading: false });
         }
       })
@@ -530,7 +532,7 @@ const Projection: React.FC = (props: any) => {
           name="movieId"
           id="movie"
           className="select-dropdown"
-          disabled
+        //disabled
         >
           <option value="none">Movie</option>
           {fillFilterWithMovies()}
@@ -543,7 +545,7 @@ const Projection: React.FC = (props: any) => {
           type="date"
           id="date"
           className="input-date select-dropdown"
-          disabled
+        //disabled
         />
         <button
           id="filter-button"
