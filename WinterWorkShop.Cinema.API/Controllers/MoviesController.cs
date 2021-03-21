@@ -300,7 +300,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
         //[Authorize(Roles = "admin")]
         [HttpDelete]
         [Route("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult<MovieDomainModel>> Delete(Guid id)
         {
             MovieDomainModel deletedMovie;
             try
@@ -350,7 +350,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             if(topByYear == null)
             {
-                return BadRequest();
+                topByYear = new List<MovieDomainModel>();
             }
 
             return Ok(topByYear);

@@ -347,7 +347,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 return null;
             }
 
-            movies = movies.Where(m => m.Year == year).Take(10);
+            movies = movies.Where(m => m.Year == year);
+            movies = movies.OrderByDescending(movie => movie.Rating).Take(10);
 
             List<MovieDomainModel> movieModels = movies.Select(m => new MovieDomainModel
             {
