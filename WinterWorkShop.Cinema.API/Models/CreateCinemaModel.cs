@@ -10,7 +10,8 @@ namespace WinterWorkShop.Cinema.API.Models
     public class CreateCinemaModel
     {
         [Required]
-        public int CityId { get; set; }
+        [StringLength(50, ErrorMessage = Messages.CITY_NAME_NOT_VALID)]
+        public string CityName { get; set; }
 
         [Required]
         [StringLength(50, ErrorMessage = Messages.CINEMA_NAME_NOT_VALID)]
@@ -23,8 +24,10 @@ namespace WinterWorkShop.Cinema.API.Models
         [Required]
         [Range(1, 20, ErrorMessage = Messages.AUDITORIUM_PROPERTY_SEATNUMBER_NOT_VALID)]
         public int NumberOfSeats { get; set; }
-        /*[Required]
-        public string AuditoriumName*/
+
+        [Required]
+        [StringLength(50, ErrorMessage = Messages.AUDITORIUM_PROPERTY_NAME_NOT_VALID)]
+        public string AuditName { get; set; }
 
 
     }

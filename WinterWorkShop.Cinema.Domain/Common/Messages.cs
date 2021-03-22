@@ -64,6 +64,7 @@
 
         #region City
         public const string CITY_NOT_FOUND = "City does not exist";
+        public const string CITY_NAME_NOT_VALID = "City can contain maximum 50 characters.";
         #endregion
 
         #region Reservation

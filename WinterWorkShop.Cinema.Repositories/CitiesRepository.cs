@@ -8,7 +8,10 @@ using WinterWorkShop.Cinema.Data.Entities;
 
 namespace WinterWorkShop.Cinema.Repositories
 {
-    public interface ICitiesRepository : IRepository<City> { }
+    public interface ICitiesRepository : IRepository<City> 
+    {
+        Task<City> GetByCityNameAsync(string cityName);
+    }
     public class CitiesRepository : ICitiesRepository
     {
         private CinemaContext _cinemaContext;
@@ -31,6 +34,13 @@ namespace WinterWorkShop.Cinema.Repositories
             var data = await _cinemaContext.Cities.Include(c => c.Cinemas).ToListAsync();
 
             return data;
+        }
+
+        public async Task<City> GetByCityNameAsync(string cityName)
+        {
+            var city = await _cinemaContext.Cities.SingleOrDefaultAsync(city => city.Name == cityName);
+
+            return city;
         }
 
         public async Task<City> GetByIdAsync(object id)

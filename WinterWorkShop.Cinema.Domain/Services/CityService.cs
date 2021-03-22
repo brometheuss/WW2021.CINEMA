@@ -50,6 +50,25 @@ namespace WinterWorkShop.Cinema.Domain.Services
             return cityList;
         }
 
+        public async Task<CityDomainModel> GetByCityNameAsync(string cityName)
+        {
+            var city = await _citiesRepository.GetByCityNameAsync(cityName);
+
+            if (city == null)
+            {
+                return null;
+            }
+
+            CityDomainModel cityDomainModel = new CityDomainModel
+            {
+                Id = city.Id,
+                Name = city.Name,
+                CinemasList = new List<CinemaDomainModel>()
+            };
+
+            return cityDomainModel;
+        }
+
         public async Task<CityDomainModel> GetByIdAsync(int id)
         {
             var city = await _citiesRepository.GetByIdAsync(id);
@@ -77,12 +96,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
                 cityModel.CinemasList.Add(cinemaModel);
             }
-
-
-
-
-            
-
             return cityModel;
         }
     }

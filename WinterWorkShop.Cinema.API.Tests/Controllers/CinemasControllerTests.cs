@@ -18,6 +18,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
     public class CinemasControllerTests
     {
         private Mock<ICinemaService> _cinemaService;
+        private Mock<ICityService> _cityService;
 
         [TestMethod]
         public void GetAsync_Return_NewEmptyList()
@@ -29,8 +30,10 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             int expectedStatusCode = 200;
 
             _cinemaService = new Mock<ICinemaService>();
+            _cityService = new Mock<ICityService>();
+
             _cinemaService.Setup(x => x.GetAllAsync()).Returns(responseTask);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object );
 
             //Act
             var result = cinemasController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
@@ -66,9 +69,10 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             int expectedStatusCode = 200;
 
             _cinemaService = new Mock<ICinemaService>();
+            _cityService = new Mock<ICityService>();
             _cinemaService.Setup(x => x.GetAllAsync()).Returns(responseTask);
 
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
             //Act
             var result = cinemasController.GetAsync().ConfigureAwait(false).GetAwaiter().GetResult().Result;
@@ -92,23 +96,33 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             CreateCinemaModel createCinemaModel = new CreateCinemaModel()
             {
                 Name = "bioskop123",
-                CityId = 123,
+                CityName = "grad",
                 SeatRows = 15,
                 NumberOfSeats = 11
             };
 
+            CityDomainModel cityDomainModel = new CityDomainModel
+            {
+                Id = 123,
+                Name = "grad123",
+                CinemasList = new List<CinemaDomainModel>()
+            };
+
             CinemaDomainModel cinemaDomainModel = new CinemaDomainModel
             {
-                CityId = createCinemaModel.CityId,
+                CityId = 1234,
                 Name = createCinemaModel.Name,
                 AuditoriumsList = new List<AuditoriumDomainModel>()
             };
 
             Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
+            Task<CityDomainModel> responseTask2 = Task.FromResult(cityDomainModel);
 
             _cinemaService = new Mock<ICinemaService>();
-            _cinemaService.Setup(x => x.CreateCinemaAsync(It.IsAny<CinemaDomainModel>(), It.IsAny<int>(), It.IsAny<int>())).Returns(responseTask);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            _cityService = new Mock<ICityService>();
+            _cityService.Setup(x => x.GetByCityNameAsync(It.IsAny<string>())).Returns(responseTask2);
+            _cinemaService.Setup(x => x.CreateCinemaAsync(It.IsAny<CinemaDomainModel>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Returns(responseTask);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
 
             //Act
@@ -118,7 +132,6 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
 
             //Assert
             Assert.IsNotNull(cinemaReturnedModel);
-            Assert.AreEqual(createCinemaModel.CityId, cinemaReturnedModel.CityId);
             Assert.IsInstanceOfType(result, typeof(CreatedResult));
             Assert.AreEqual(expectedStatusCode, ((CreatedResult)result).StatusCode);
         }
@@ -133,7 +146,7 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             CreateCinemaModel createCinemaModel = new CreateCinemaModel
             {
                 Name = "Bioskop12345",
-                CityId = 333,
+                CityName = "grad",
                 NumberOfSeats = 12,
                 SeatRows = 12
             };
@@ -141,18 +154,29 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             CinemaDomainModel cinemaDomainModel = new CinemaDomainModel
             {
                 Id = 123,
-                CityId = createCinemaModel.CityId,
+                CityId = 1423,
                 Name = createCinemaModel.Name,
                 AuditoriumsList = new List<AuditoriumDomainModel>()
             };
 
+            CityDomainModel cityDomainModel = new CityDomainModel
+            {
+                Id = 123,
+                Name = "grad123",
+                CinemasList = new List<CinemaDomainModel>()
+            };
+
             Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
+            Task<CityDomainModel> responseTask2 = Task.FromResult(cityDomainModel);
             Exception exception = new Exception("Inner exception error message.");
             DbUpdateException dbUpdateException = new DbUpdateException("Error.", exception);
 
             _cinemaService = new Mock<ICinemaService>();
-            _cinemaService.Setup(x => x.CreateCinemaAsync(It.IsAny<CinemaDomainModel>(), It.IsAny<int>(), It.IsAny<int>())).Throws(dbUpdateException);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            _cityService = new Mock<ICityService>();
+
+            _cinemaService.Setup(x => x.CreateCinemaAsync(It.IsAny<CinemaDomainModel>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Throws(dbUpdateException);
+            _cityService.Setup(x => x.GetByCityNameAsync(It.IsAny<string>())).Returns(responseTask2);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
             //Act
             var result = cinemasController.PostAsync(createCinemaModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
@@ -176,18 +200,27 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             CreateCinemaModel createCinemaModel = new CreateCinemaModel
             {
                 Name = "bioskop",
-                CityId = 23,
+                CityName = "grad",
                 NumberOfSeats = 13,
                 SeatRows = 13
             };
 
-            CinemaDomainModel cinemaDomainModel = null;
+            CityDomainModel cityDomainModel = new CityDomainModel
+            {
+                Id = 123,
+                Name = "grad123",
+                CinemasList = new List<CinemaDomainModel>()
+            };
 
+            CinemaDomainModel cinemaDomainModel = null;
             Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
+            Task<CityDomainModel> responseTask2 = Task.FromResult(cityDomainModel);
 
             _cinemaService = new Mock<ICinemaService>();
-            _cinemaService.Setup(x => x.CreateCinemaAsync(It.IsAny<CinemaDomainModel>(), It.IsAny<int>(), It.IsAny<int>())).Returns(responseTask);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            _cityService = new Mock<ICityService>();
+            _cityService.Setup(x => x.GetByCityNameAsync(It.IsAny<string>())).Returns(responseTask2);
+            _cinemaService.Setup(x => x.CreateCinemaAsync(It.IsAny<CinemaDomainModel>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>())).Returns(responseTask);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
             //Act
             var result = cinemasController.PostAsync(createCinemaModel).ConfigureAwait(false).GetAwaiter().GetResult().Result;
@@ -211,13 +244,14 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             CreateCinemaModel createCinemaModel = new CreateCinemaModel
             {
                 Name = "bioskop",
-                CityId = 23,
+                CityName = "grad",
                 NumberOfSeats = 13,
                 SeatRows = 13
             };
 
             _cinemaService = new Mock<ICinemaService>();
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            _cityService = new Mock<ICityService>();
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
             cinemasController.ModelState.AddModelError("key", "Invalid Model State");
 
 
@@ -255,8 +289,9 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
 
 
             _cinemaService = new Mock<ICinemaService>();
+            _cityService = new Mock<ICityService>();
             _cinemaService.Setup(x => x.DeleteCinemaAsync(It.IsAny<int>())).Returns(responseTask);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
             //Act
             var result = cinemasController.DeleteAsync(cinemaDeleteId).ConfigureAwait(false).GetAwaiter().GetResult().Result;
@@ -292,8 +327,9 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             DbUpdateException dbUpdateException = new DbUpdateException("Error.", exception);
 
             _cinemaService = new Mock<ICinemaService>();
+            _cityService = new Mock<ICityService>();
             _cinemaService.Setup(x => x.DeleteCinemaAsync(It.IsAny<int>())).Throws(dbUpdateException);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
             //Act
             var result = cinemasController.DeleteAsync(cinemaDomainModel.Id).ConfigureAwait(false).GetAwaiter().GetResult().Result;
@@ -320,8 +356,9 @@ namespace WinterWorkShop.Cinema.Tests.Controllers
             Task<CinemaDomainModel> responseTask = Task.FromResult(cinemaDomainModel);
 
             _cinemaService = new Mock<ICinemaService>();
+            _cityService = new Mock<ICityService>();
             _cinemaService.Setup(x => x.DeleteCinemaAsync(It.IsAny<int>())).Returns(responseTask);
-            CinemasController cinemasController = new CinemasController(_cinemaService.Object);
+            CinemasController cinemasController = new CinemasController(_cinemaService.Object, _cityService.Object);
 
             //Act
             var result = cinemasController.DeleteAsync(123).ConfigureAwait(false).GetAwaiter().GetResult().Result;

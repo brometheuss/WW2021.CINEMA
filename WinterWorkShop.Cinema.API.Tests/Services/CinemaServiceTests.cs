@@ -282,7 +282,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockCityRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_city);
 
             //Act
-            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows).ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows, "auditorium123").ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsNotNull(resultAction);
@@ -307,7 +307,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockCinemaRepository.Setup(x => x.Insert(It.IsAny<Data.Cinema>())).Returns(_cinema);
 
             //Act
-            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows).ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows, "auditorium123").ConfigureAwait(false).GetAwaiter().GetResult();
 
             //Assert
             Assert.IsNull(resultAction);
@@ -407,7 +407,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockCinemaRepository.Setup(x => x.Save());
 
             //Act
-            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows).ConfigureAwait(false).GetAwaiter().GetResult();
+            var resultAction = cinemaService.CreateCinemaAsync(_cinemaDomainModel, numOfSeats, numOfRows, "auditorium123").ConfigureAwait(false).GetAwaiter().GetResult();
             
 
             //Assert

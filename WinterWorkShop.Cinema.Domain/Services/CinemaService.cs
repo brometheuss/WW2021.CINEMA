@@ -31,7 +31,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             _citiesRepository = citiesRepository;
         }
 
-        public async Task<CinemaDomainModel> CreateCinemaAsync(CinemaDomainModel cinemaDomainModel, int numOfSeats, int numOfRows)
+        public async Task<CinemaDomainModel> CreateCinemaAsync(CinemaDomainModel cinemaDomainModel, int numOfSeats, int numOfRows, string auditoriumName)
         {
             var city = await _citiesRepository.GetByIdAsync(cinemaDomainModel.CityId);
 
@@ -61,7 +61,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
                 Auditorium auditorium = new Auditorium
                 {
-                    AuditName = nameof(Auditorium) + " Default" 
+                    AuditName = auditoriumName
                 };
 
                 auditorium.Seats = new List<Seat>();

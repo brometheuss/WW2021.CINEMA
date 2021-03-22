@@ -569,7 +569,7 @@ const ShowAllMovies: React.FC = (props: any) => {
             style={{
               position: 'absolute',
               right: '50px',
-              bottom: '399px',
+              top: '100px',
               height: '28px',
               width: '65px',
               display: 'flex',

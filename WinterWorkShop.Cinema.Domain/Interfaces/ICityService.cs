@@ -10,5 +10,6 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
     {
         Task<IEnumerable<CityDomainModel>> GetAllAsync();
         Task<CityDomainModel> GetByIdAsync(int id);
+        Task<CityDomainModel> GetByCityNameAsync(string cityName);
     }
 }

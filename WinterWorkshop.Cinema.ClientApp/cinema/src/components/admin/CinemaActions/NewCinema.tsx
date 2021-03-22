@@ -25,6 +25,7 @@ interface IState {
   numOfSeatsError: string;
   submitted: boolean;
   canSubmit: boolean;
+  cityName: string;
 }
 
 const NewCinema: React.FC = (props: any) => {
@@ -34,6 +35,7 @@ const NewCinema: React.FC = (props: any) => {
     auditName: "",
     seatRows: 0,
     numberOfSeats: 0,
+    cityName: "",
     auditNameError: "",
     seatRowsError: "",
     numOfSeatsError: "",
@@ -44,7 +46,7 @@ const NewCinema: React.FC = (props: any) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setState({ ...state, [id]: value });
-    validate(id, value);
+    //validate(id, value);
   };
 
   const validate = (id: string, value: string) => {
@@ -98,10 +100,11 @@ const NewCinema: React.FC = (props: any) => {
     e.preventDefault();
 
     setState({ ...state, submitted: true });
-    if (state.name) {
+    if ((state.cityName === "Zrenjanin" || state.cityName === "Novi Sad" || state.cityName === "Beograd") && state.name !== "") {
       addCinema();
-    } else {
-      NotificationManager.error("Please fill in data");
+    }
+    else {
+      NotificationManager.error("Cinema inserting rules: City name: 50 characters max, must be Zrenjanin, Novi Sad or Beograd. Name: 50 characters max. Seat Rows: from 1 to 20. Number of seats: from 1 to 20. Auditorium Name: 50 characters max. ");
       setState({ ...state, submitted: false });
     }
   };
@@ -112,6 +115,7 @@ const NewCinema: React.FC = (props: any) => {
       numberOfSeats: +state.numberOfSeats,
       seatRows: +state.seatRows,
       auditName: state.auditName,
+      cityName: state.cityName
     };
 
     const requestOptions = {
@@ -167,6 +171,14 @@ const NewCinema: React.FC = (props: any) => {
           <h1 className="form-header">Add New Cinema</h1>
           <form onSubmit={handleSubmit}>
             <FormGroup>
+              <FormControl
+                id="cityName"
+                type="text"
+                placeholder="City Name"
+                value={state.cityName}
+                className="add-new-form"
+                onChange={handleChange}
+              />
               <FormControl
                 id="name"
                 type="text"

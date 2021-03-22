@@ -20,10 +20,11 @@ namespace WinterWorkShop.Cinema.API.Controllers
     public class CinemasController : ControllerBase
     {
         private readonly ICinemaService _cinemaService;
-
-        public CinemasController(ICinemaService cinemaService)
+        private readonly ICityService _cityService;
+        public CinemasController(ICinemaService cinemaService, ICityService cityService)
         {
             _cinemaService = cinemaService;
+            _cityService = cityService;
         }
 
         /// <summary>
@@ -55,17 +56,24 @@ namespace WinterWorkShop.Cinema.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            CityDomainModel cityModel = await _cityService.GetByCityNameAsync(createCinemaModel.CityName);
+
+            if (cityModel == null)
+            {
+                return BadRequest(Messages.CITY_NOT_FOUND);
+            }
+
             CinemaDomainModel cinemaDomainModel = new CinemaDomainModel
             {
                 Name = createCinemaModel.Name,
-                CityId = createCinemaModel.CityId,
+                CityId = cityModel.Id,
             };
 
             CinemaDomainModel insertedModel;
 
             try
             {
-                insertedModel = await _cinemaService.CreateCinemaAsync(cinemaDomainModel, createCinemaModel.NumberOfSeats, createCinemaModel.SeatRows);
+                insertedModel = await _cinemaService.CreateCinemaAsync(cinemaDomainModel, createCinemaModel.NumberOfSeats, createCinemaModel.SeatRows, createCinemaModel.AuditName);
             }
 
             catch (DbUpdateException e)
