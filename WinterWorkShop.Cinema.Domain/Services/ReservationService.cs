@@ -18,8 +18,6 @@ namespace WinterWorkShop.Cinema.Domain.Services
         private readonly IProjectionsRepository _projectionRepository;
         private readonly IAuditoriumsRepository _auditoriumRepository;
 
-
-
         public ReservationService(IReservationsRepository reservationsRepository, ISeatsRepository seatRepository, IProjectionsRepository projectionRepository, IAuditoriumsRepository auditoriumRepository)
         {
             _reservationsRepository = reservationsRepository;
@@ -76,6 +74,18 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 seatModels.Add(seatDomain);
             }
 
+            //check if seats are duplicates
+            var row = seatModels[0].Number;
+            var differentRow = seatModels.Select(x => x.Number).Distinct();
+            if(differentRow.Count() < seatModels.Count)
+            {
+                return new ReservationResultModel
+                {
+                    IsSuccessful = false,
+                    ErrorMessage = Messages.SEAT_SEATS_CANNOT_BE_DUPLICATES
+                };
+            }
+
             if (reservation.SeatsRequested.ToList().Count() > 1)
             {
                 var singleSeat = seatModels[0];
@@ -94,42 +104,50 @@ namespace WinterWorkShop.Cinema.Domain.Services
             }
 
             //check if seats are not next to each other
-            seatModels = seatModels.OrderByDescending(x => x.Number).ToList();
-
-            var singleSeat2 = seatModels[0];
-
-            var counter = 1;
-            foreach(var y in seatModels.Skip(1))
+            if(reservation.SeatsRequested.Count() > 1)
             {
-                if(y.Number + counter != singleSeat2.Number)
+                seatModels = seatModels.OrderByDescending(x => x.Number).ToList();
+
+                var singleSeat2 = seatModels[0];
+
+                var counter = 1;
+                foreach (var y in seatModels.Skip(1))
                 {
-                    return new ReservationResultModel
-                    {
-                        IsSuccessful = false,
-                        ErrorMessage = Messages.SEAT_SEATS_MUST_BE_NEXT_TO_EACH_OTHER
-                    };
-                }
-                else
-                {
-                    counter++;
-                }
-            }
-            
-            //check if requested seats are already taken
-            foreach(var takenSeat in takenSeats)
-            {
-                foreach(var requestedSeat in reservation.SeatsRequested)
-                {
-                    if (takenSeat.SeatDomainModel.Id == requestedSeat.Id)
+                    if (y.Number + counter != singleSeat2.Number)
                     {
                         return new ReservationResultModel
                         {
                             IsSuccessful = false,
-                            ErrorMessage = Messages.SEAT_SEATS_ALREADY_TAKEN_ERROR
+                            ErrorMessage = Messages.SEAT_SEATS_MUST_BE_NEXT_TO_EACH_OTHER
                         };
+                    }
+                    else
+                    {
+                        counter++;
                     }
                 }
             }
+
+            
+            //check if requested seats are already taken
+            if(takenSeats != null)
+            {
+                foreach (var takenSeat in takenSeats)
+                {
+                    foreach (var requestedSeat in reservation.SeatsRequested)
+                    {
+                        if (takenSeat.SeatDomainModel.Id == requestedSeat.Id)
+                        {
+                            return new ReservationResultModel
+                            {
+                                IsSuccessful = false,
+                                ErrorMessage = Messages.SEAT_SEATS_ALREADY_TAKEN_ERROR
+                            };
+                        }
+                    }
+                }
+            }
+            
 
             #region Komentar
             /*  var auditorium = _auditoriumRepository.GetByIdAsync(projection.AuditoriumId).Result;

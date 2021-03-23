@@ -362,5 +362,158 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.AreEqual(Messages.PROJECTION_DOES_NOT_EXIST, resultAction.ErrorMessage);
             Assert.IsInstanceOfType(resultAction, typeof(ReservationResultModel));
         }
+
+        [TestMethod]
+        public void ReservationService_CreateReservation_ReturnsErrorMessage_SeatNotExist()
+        {
+            //Arrange
+            List<SeatDomainModel> seatDomainModels = new List<SeatDomainModel>();
+            SeatDomainModel seat1 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 2,
+                Row = 1
+            };
+            SeatDomainModel seat2 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 3,
+                Row = 1
+            };
+            seatDomainModels.Add(seat1);
+            seatDomainModels.Add(seat2);
+            List<SeatResultModel> seatsTaken = new List<SeatResultModel>();
+            Seat s1 = new Seat
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 4,
+                Row = 1
+            };
+            Seat s2 = new Seat
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 5,
+                Row = 1
+            };
+            List<Seat> seats = new List<Seat>();
+            seats.Add(s1);
+            seats.Add(s2);
+            CreateReservationModel createReservationModel = new CreateReservationModel()
+            {
+                ProjectionId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                SeatsRequested = new List<SeatDomainModel>()
+            };
+            Projection projection = new Projection
+            {
+                Id = createReservationModel.ProjectionId,
+                AuditoriumId = 1,
+                MovieId = Guid.NewGuid(),
+                DateTime = DateTime.Now.AddDays(1)
+            };
+            createReservationModel.SeatsRequested = seatDomainModels;
+            _mockReservationService.Setup(x => x.GetTakenSeats(createReservationModel.ProjectionId)).Returns(seatsTaken);
+            _mockSeatRepository.Setup(x => x.GetAll()).ReturnsAsync(seats);
+            _mockProjectionRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(projection);
+
+            //Act
+            var resultAction = _reservationService.CreateReservation(createReservationModel);
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(Messages.SEAT_SEATS_NOT_EXIST_FOR_AUDITORIUM, resultAction.ErrorMessage);
+            Assert.IsNull(resultAction.Reservation);
+            Assert.IsFalse(resultAction.IsSuccessful);
+            Assert.IsInstanceOfType(resultAction, typeof(ReservationResultModel));
+        }
+
+        [TestMethod]
+        public void ReservationService_CreateReservation_ReturnsErrorMessage_SeatNotInTheSameRow()
+        {
+            //Arrange
+            List<SeatDomainModel> seatsRequested = new List<SeatDomainModel>();
+            SeatDomainModel seat1 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 2,
+                Row = 1
+            };
+            SeatDomainModel seat2 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 3,
+                Row = 1
+            };
+            SeatDomainModel seat3 = new SeatDomainModel
+            {
+                Id = Guid.NewGuid(),
+                AuditoriumId = 1,
+                Number = 2,
+                Row = 2
+            };
+            seatsRequested.Add(seat1);
+            seatsRequested.Add(seat2);
+            seatsRequested.Add(seat3);
+            List<SeatResultModel> seatsTaken = new List<SeatResultModel>();
+            Seat s1 = new Seat
+            {
+                Id = seat1.Id,
+                AuditoriumId = seat1.AuditoriumId,
+                Number = seat1.Number,
+                Row = seat1.Row
+            };
+            Seat s2 = new Seat
+            {
+                Id = seat2.Id,
+                AuditoriumId = seat2.AuditoriumId,
+                Number = seat2.Number,
+                Row = seat2.Row
+            };
+            Seat s3 = new Seat
+            {
+                Id = seat3.Id,
+                AuditoriumId = seat3.AuditoriumId,
+                Number = seat3.Number,
+                Row = seat3.Row
+            };
+            List<Seat> seatsInAuditorium = new List<Seat>();
+            seatsInAuditorium.Add(s1);
+            seatsInAuditorium.Add(s2);
+            seatsInAuditorium.Add(s3);
+            CreateReservationModel createReservationModel = new CreateReservationModel()
+            {
+                ProjectionId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                SeatsRequested = new List<SeatDomainModel>()
+            };
+            Projection projection = new Projection
+            {
+                Id = createReservationModel.ProjectionId,
+                AuditoriumId = 1,
+                MovieId = Guid.NewGuid(),
+                DateTime = DateTime.Now.AddDays(1)
+            };
+            createReservationModel.SeatsRequested = seatsRequested;
+            _mockReservationService.Setup(x => x.GetTakenSeats(createReservationModel.ProjectionId)).Returns(seatsTaken);
+            _mockSeatRepository.Setup(x => x.GetAll()).ReturnsAsync(seatsInAuditorium);
+            _mockProjectionRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(projection);
+            _mockSeatRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(s1);
+
+            //Act
+            var resultAction = _reservationService.CreateReservation(createReservationModel);
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(Messages.SEAT_SEATS_CANNOT_BE_DUPLICATES, resultAction.ErrorMessage);
+            Assert.IsFalse(resultAction.IsSuccessful);
+            Assert.IsNull(resultAction.Reservation);
+            Assert.IsInstanceOfType(resultAction, typeof(ReservationResultModel));
+        }
     }
 }
