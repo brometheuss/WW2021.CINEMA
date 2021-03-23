@@ -131,5 +131,19 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Created("projections//" + createProjectionResultModel.Projection.Id, createProjectionResultModel.Projection);
         }
+
+        [HttpGet("filterprojections")]
+        public async Task<ActionResult<FilterProjectionDomainModel>> GetAllFilteredProjections([FromQuery] FilterProjectionsQuery filterProjectionsQuery)
+        {
+            var projections = await _projectionService.GetProjectionsWithMovieAndAuditorium(filterProjectionsQuery);
+
+            if (projections == null)
+            {
+                projections = new List<FilterProjectionDomainModel>();
+            }
+
+            return Ok(projections);
+
+        }
     }
 }

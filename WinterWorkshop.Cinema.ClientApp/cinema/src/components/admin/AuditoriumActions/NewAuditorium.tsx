@@ -80,12 +80,12 @@ const NewAuditorium: React.FC = (props: any) => {
 
   useEffect(() => {
     getCinemas();
-  }, [getCinemas]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setState({ ...state, [id]: value });
-    validate(id, value);
+    //validate(id, value);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -188,7 +188,7 @@ const NewAuditorium: React.FC = (props: any) => {
   const onCinemaChange = (cinemas: ICinema[]) => {
     if (cinemas[0]) {
       setState({ ...state, cinemaId: cinemas[0].id });
-      validate("cinemaId", cinemas[0].id);
+      //validate("cinemaId", cinemas[0].id);
     } else {
       validate("cinemaId", null);
     }

@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import "./../../index.css";
 import { IAuditorium, IProjection, ICinema, IMovie } from "../../models";
+import { faGripLinesVertical } from "@fortawesome/free-solid-svg-icons";
 
 interface IState {
   movies: IMovie[];
@@ -30,6 +31,10 @@ interface IState {
   auditoriumId: string;
   movieId: string;
   name: string;
+  isMoviesReady: boolean;
+  isCinemasReady: boolean;
+  isAuditoriumReady: boolean;
+
 }
 
 const Projection: React.FC = (props: any) => {
@@ -102,13 +107,24 @@ const Projection: React.FC = (props: any) => {
     selectedMovie: false,
     selectedDate: false,
     date: new Date(),
+    isMoviesReady: false,
+    isCinemasReady: false,
+    isAuditoriumReady: false
   });
 
   useEffect(() => {
-    getCurrentMoviesAndProjections();
-    getAllCinemas();
-    getAllAuditoriums();
-  }, []);
+    if (!state.isMoviesReady) {
+      getCurrentMoviesAndProjections();
+    }
+    if (!state.isCinemasReady) {
+      getAllCinemas();
+    }
+
+    if (!state.isAuditoriumReady) {
+      getAllAuditoriums();
+    }
+
+  }, [state.isMoviesReady, state.isCinemasReady, state.isAuditoriumReady]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -157,8 +173,8 @@ const Projection: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
-          console.log('CURRENT PROJECTIONS ', data)
-          setState({ ...state, movies: data, isLoading: false });
+          //console.log('CURRENT PROJECTIONS ', data)
+          setState({ ...state, movies: data, isLoading: false, isMoviesReady: true });
         }
       })
       .catch((response) => {
@@ -196,7 +212,7 @@ const Projection: React.FC = (props: any) => {
       query = `?${query}`;
     }
     fetch(
-      `${serviceConfig.baseURL}/api/projections/filter${query}`,
+      `${serviceConfig.baseURL}/api/projections/filterprojections${query}`,
       requestOptions
     )
       .then((response) => {
@@ -247,8 +263,8 @@ const Projection: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
-          console.log('AUDITORIUMS ', data)
-          setState({ ...state, auditoriums: data, isLoading: false });
+          //console.log('AUDITORIUMS ', data)
+          setState({ ...state, auditoriums: data, isLoading: false, isAuditoriumReady: true });
         }
       })
       .catch((response) => {
@@ -275,12 +291,13 @@ const Projection: React.FC = (props: any) => {
         return response.json();
       })
       .then((data) => {
-        console.log('CINEMA ', data);
+        //console.log('CINEMA ', data);
         if (data) {
           setState({
             ...state,
             cinemas: data,
             isLoading: false,
+            isCinemasReady: true
           });
         }
       })
@@ -414,8 +431,7 @@ const Projection: React.FC = (props: any) => {
   };
 
   const getAuditoriumsBySelectedCinema = (selectedCinemaId: string) => {
-    setState({ ...state, cinemaId: selectedCinemaId });
-
+    //setState({...state, cinemaId: selectedCinemaId});
     const requestOptions = {
       method: "GET",
       headers: {
@@ -423,8 +439,7 @@ const Projection: React.FC = (props: any) => {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     };
-
-    setState({ ...state, isLoading: true });
+    //setState({ ...state, isLoading: true });
     fetch(
       `${serviceConfig.baseURL}/api/Auditoriums/bycinemaid/${selectedCinemaId}`,
       requestOptions
@@ -442,7 +457,9 @@ const Projection: React.FC = (props: any) => {
             filteredAuditoriums: data,
             isLoading: false,
             selectedCinema: true,
+            cinemaId: selectedCinemaId
           });
+
         }
       })
       .catch((response) => {
@@ -452,7 +469,6 @@ const Projection: React.FC = (props: any) => {
   };
 
   const getMoviesBySelectedAuditorium = (selectedAuditoriumId: string) => {
-    setState({ ...state, auditoriumId: selectedAuditoriumId });
     const requestOptions = {
       method: "GET",
       headers: {
@@ -460,8 +476,7 @@ const Projection: React.FC = (props: any) => {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     };
-
-    setState({ ...state, isLoading: true });
+    // setState({ ...state, isLoading: true });
     fetch(
       `${serviceConfig.baseURL}/api/Movies/byauditoriumid/${selectedAuditoriumId}`,
       requestOptions
@@ -479,6 +494,7 @@ const Projection: React.FC = (props: any) => {
             filteredMovies: data,
             isLoading: false,
             selectedAuditorium: true,
+            auditoriumId: selectedAuditoriumId
           });
         }
       })
@@ -512,7 +528,7 @@ const Projection: React.FC = (props: any) => {
           id="cinema"
           className="select-dropdown"
         >
-          <option value="none">Cinema</option>
+          <option value="" key="1234">Cinema</option>
           {fillFilterWithCinemas()}
         </select>
         <select
@@ -520,9 +536,9 @@ const Projection: React.FC = (props: any) => {
           name="auditoriumId"
           id="auditorium"
           className="select-dropdown"
-        //disabled
+          disabled={state.selectedCinema == true ? false : true}
         >
-          <option value="none">Auditorium</option>
+          <option value="" key="12345">Auditorium</option>
           {fillFilterWithAuditoriums()}
         </select>
         <select
@@ -532,9 +548,9 @@ const Projection: React.FC = (props: any) => {
           name="movieId"
           id="movie"
           className="select-dropdown"
-        //disabled
+          disabled={state.selectedAuditorium == true ? false : true}
         >
-          <option value="none">Movie</option>
+          <option value="">Movie</option>
           {fillFilterWithMovies()}
         </select>
         <input
@@ -545,7 +561,7 @@ const Projection: React.FC = (props: any) => {
           type="date"
           id="date"
           className="input-date select-dropdown"
-        //disabled
+          disabled={state.selectedMovie == true ? false : true}
         />
         <button
           id="filter-button"

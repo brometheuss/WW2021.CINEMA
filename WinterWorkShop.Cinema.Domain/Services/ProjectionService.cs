@@ -135,5 +135,46 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return projectionModel;
         }
+        public async Task<List<FilterProjectionDomainModel>> GetProjectionsWithMovieAndAuditorium(FilterProjectionsQuery query)
+        {
+            var projections = await _projectionsRepository.GetAllCurrentProjections();
+
+
+            if (projections.Count() == 0)
+            {
+                return null;
+            }
+            if (query.CinemaId > 0)
+            {
+                projections = projections.Where(projection => projection.Auditorium.CinemaId == query.CinemaId);
+            }
+
+            if (query.AuditoriumId > 0)
+            {
+                projections = projections.Where(projection => projection.AuditoriumId == query.AuditoriumId);
+            }
+
+            if (query.MovieId != Guid.Empty)
+            {
+                projections = projections.Where(projection => projection.MovieId == query.MovieId);
+            }
+
+            if (query.DateTime != null)
+                projections = projections.Where(projection => projection.DateTime.Date == query.DateTime);
+
+            List<FilterProjectionDomainModel> filterProjectionDomainModels = projections.Select(projection => new FilterProjectionDomainModel
+            {
+                Id = projection.Id,
+                AuditoriumName = projection.Auditorium.AuditName,
+                MovieId = projection.MovieId,
+                MovieRating = projection.Movie.Rating ?? 0,
+                MovieTitle = projection.Movie.Title,
+                MovieYear = projection.Movie.Year,
+                ProjectionTime = projection.DateTime
+            }).ToList();
+
+            return filterProjectionDomainModels;
+
+        }
     }
 }

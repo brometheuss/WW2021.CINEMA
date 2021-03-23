@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import {
   FormGroup,
@@ -25,6 +25,8 @@ interface IState {
   movies: IMovie[];
   auditoriums: IAuditorium[];
   canSubmit: boolean;
+  isAuditoriumReady: boolean;
+  isMovieReady: boolean;
 }
 
 const NewProjection: React.FC = (props: any) => {
@@ -52,12 +54,11 @@ const NewProjection: React.FC = (props: any) => {
       },
     ],
     canSubmit: true,
+    isAuditoriumReady: false,
+    isMovieReady: false
   });
 
-  useEffect(() => {
-    getProjections();
-    getAuditoriums();
-  }, []);
+
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -162,7 +163,8 @@ const NewProjection: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
-          setState({ ...state, movies: data });
+          console.log('MOVIES ', data);
+          setState({ ...state, movies: data, isMovieReady: true });
         }
       })
       .catch((response) => {
@@ -180,7 +182,7 @@ const NewProjection: React.FC = (props: any) => {
       },
     };
 
-    fetch(`${serviceConfig.baseURL}/api/Auditoriums/all`, requestOptions)
+    fetch(`${serviceConfig.baseURL}/api/Auditoriums`, requestOptions)
       .then((response) => {
         if (!response.ok) {
           return Promise.reject(response);
@@ -189,7 +191,8 @@ const NewProjection: React.FC = (props: any) => {
       })
       .then((data) => {
         if (data) {
-          setState({ ...state, auditoriums: data });
+          console.log('AUDITORIUMS ', data);
+          setState({ ...state, auditoriums: data, isAuditoriumReady: true });
         }
       })
       .catch((response) => {
@@ -197,6 +200,15 @@ const NewProjection: React.FC = (props: any) => {
         setState({ ...state, submitted: false });
       });
   };
+
+  useEffect(() => {
+    if (!state.isMovieReady) {
+      getProjections();
+    }
+    if (!state.isAuditoriumReady) {
+      getAuditoriums();
+    }
+  }, [state.isMovieReady, state.isAuditoriumReady]);
 
   const onMovieChange = (movies: IMovie[]) => {
     if (movies[0]) {

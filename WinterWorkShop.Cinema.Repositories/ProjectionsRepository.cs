@@ -11,7 +11,8 @@ namespace WinterWorkShop.Cinema.Repositories
 {
     public interface IProjectionsRepository : IRepository<Projection> 
     {
-        IEnumerable<Projection> GetByAuditoriumId(int salaId);        
+        IEnumerable<Projection> GetByAuditoriumId(int salaId);
+        Task<IEnumerable<Projection>> GetAllCurrentProjections();
     }
 
     public class ProjectionsRepository : IProjectionsRepository
@@ -75,6 +76,18 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
             return updatedEntry;
+        }
+
+        public async Task<IEnumerable<Projection>> GetAllCurrentProjections()
+        {
+            var data = await _cinemaContext.Projections
+                .Include(x => x.Auditorium)
+                .ThenInclude(c => c.Cinema)
+                .Include(m => m.Movie)
+                .Where(projection => projection.Movie.Current == true)
+                .ToListAsync();
+
+            return data;
         }
     }
 }
