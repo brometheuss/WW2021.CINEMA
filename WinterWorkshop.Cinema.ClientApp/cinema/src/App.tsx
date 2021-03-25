@@ -10,20 +10,22 @@ import Header from './components/Header';
 import ProjectionDetails from './components/user/ProjectionDetails';
 import Projection from './components/user/Projection';
 import Dashboard from './components/admin/Dashboard';
+import UserProfile from './components/user/UserProfile';
 
 
 function App() {
   return (
     <React.Fragment>
-      <Header/>
+      <Header />
       <div className="set-overflow-y">
-      <Switch>
-        <Redirect exact from="/" to="dashboard/Projection" />
-        <Route path="/ProjectionDetails/:id" component={ProjectionDetails} />
-        <Route path="/Projection" component={Projection} />
-        <Route path="/dashboard" component={Dashboard} />
-      </Switch>
-      <NotificationContainer />
+        <Switch>
+          <Redirect exact from="/" to="dashboard/Projection" />
+          <Route path="/ProjectionDetails/:id" component={ProjectionDetails} />
+          <Route path="/Projection" component={Projection} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/userprofile" component={UserProfile} />
+        </Switch>
+        <NotificationContainer />
       </div>
     </React.Fragment>
   );

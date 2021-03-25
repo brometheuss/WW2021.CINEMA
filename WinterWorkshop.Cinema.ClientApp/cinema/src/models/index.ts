@@ -48,7 +48,7 @@ export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
-  bonusPoints: string;
+  points: string;
 }
 
 export interface IReservation {

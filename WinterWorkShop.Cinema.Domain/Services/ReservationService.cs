@@ -17,13 +17,15 @@ namespace WinterWorkShop.Cinema.Domain.Services
         private readonly ISeatsRepository _seatRepository;
         private readonly IProjectionsRepository _projectionRepository;
         private readonly IAuditoriumsRepository _auditoriumRepository;
+        private readonly IUsersRepository _userRepository;
 
-        public ReservationService(IReservationsRepository reservationsRepository, ISeatsRepository seatRepository, IProjectionsRepository projectionRepository, IAuditoriumsRepository auditoriumRepository)
+        public ReservationService(IReservationsRepository reservationsRepository, ISeatsRepository seatRepository, IProjectionsRepository projectionRepository, IAuditoriumsRepository auditoriumRepository, IUsersRepository userRepository)
         {
             _reservationsRepository = reservationsRepository;
             _seatRepository = seatRepository;
             _projectionRepository = projectionRepository;
             _auditoriumRepository = auditoriumRepository;
+            _userRepository = userRepository;
         }
 
         public ReservationResultModel CreateReservation(CreateReservationModel reservation)
@@ -224,6 +226,15 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 ProjectionId = reservation.ProjectionId,
                 UserId = reservation.UserId
             };
+
+            
+            int countOfSeats = reservation.SeatIds.Count();
+            var numOfPoints = countOfSeats * 5;
+
+            _userRepository.AddPointsForUser(reservation.UserId, numOfPoints);
+
+
+
 
             var insertedReservation = _reservationsRepository.Insert(reservationToAdd);
 

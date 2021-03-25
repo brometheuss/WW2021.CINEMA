@@ -19,7 +19,7 @@ const UserProfile: React.FC = () => {
       id: "",
       firstName: "",
       lastName: "",
-      bonusPoints: "",
+      points: "",
     },
     reservations: [
       {
@@ -134,9 +134,9 @@ const UserProfile: React.FC = () => {
   return (
     <React.Fragment>
       <Row className="no-gutters pt-2">
-        <h1 className="form-header form-heading">
+        {state.user.firstName !== "" && state.user.lastName !== "" ? <h1 className="form-header form-heading">
           Hello, {state.user.firstName}!
-        </h1>
+        </h1> : ""}
       </Row>
       <Row className="no-gutters pr-5 pl-5">
         <div className="card mb-3 user-info-container">
@@ -151,16 +151,16 @@ const UserProfile: React.FC = () => {
             <div className="col-md-8">
               <div className="card-body">
                 <h5 className="card-title">User details:</h5>
-                <p className="card-text">
+                {state.user.firstName !== "" && state.user.lastName !== "" ? <> <p className="card-text">
                   <strong>Full name:</strong>{" "}
                   {`${state.user.firstName} ${state.user.lastName}`}
                 </p>
-                <p className="card-text">
-                  <strong>Bonus points: </strong> {state.user.bonusPoints}
-                </p>
-                <p className="card-text">
-                  <strong>Status: </strong> {getRole()}
-                </p>
+                  <p className="card-text">
+                    <strong>Bonus points: </strong> {state.user.points}
+                  </p>
+                  <p className="card-text">
+                    <strong>Status: </strong> {getRole()}
+                  </p> </> : <strong>Please Login</strong>}
               </div>
             </div>
           </div>

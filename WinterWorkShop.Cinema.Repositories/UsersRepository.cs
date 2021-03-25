@@ -11,6 +11,8 @@ namespace WinterWorkShop.Cinema.Repositories
     public interface IUsersRepository : IRepository<User> 
     {
         Task<User> GetByUserName(string username);
+        User AddPointsForUser(Guid userId, int numOfPoints);
+
     }
     public class UsersRepository : IUsersRepository
     {
@@ -19,6 +21,15 @@ namespace WinterWorkShop.Cinema.Repositories
         public UsersRepository(CinemaContext cinemaContext)
         {
             _cinemaContext = cinemaContext;
+        }
+
+        public User AddPointsForUser(Guid userId,int numOfPoints)
+        {
+            var user = _cinemaContext.Users.Find(userId);
+            user.Points = user.Points + numOfPoints;
+            _cinemaContext.Entry(user).State = EntityState.Modified;
+
+            return user;
         }
 
         public User Delete(object id)
@@ -65,5 +76,6 @@ namespace WinterWorkShop.Cinema.Repositories
 
             return updatedEntry;
         }
+
     }
 }
