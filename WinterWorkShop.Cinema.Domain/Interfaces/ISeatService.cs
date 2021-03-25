@@ -9,5 +9,7 @@ namespace WinterWorkShop.Cinema.Domain.Interfaces
     public interface ISeatService
     {
         Task<IEnumerable<SeatDomainModel>> GetAllAsync();
+        Task<SeatAuditoriumDomainModel> GetAllSeatsForAuditorium(int auditoriumId);
+        Task<IEnumerable<SeatDomainModel>> GetAllSeatsByAuditoriumId(int auditoriumId);
     }
 }

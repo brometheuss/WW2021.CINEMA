@@ -37,11 +37,11 @@ export interface ISeats {
 }
 
 export interface ICurrentReservationSeats {
-  currentSeatId: string;
+  id: string;
 }
 
 export interface IReservedSeats {
-  seatId: string;
+  id: string;
 }
 
 export interface IUser {

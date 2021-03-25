@@ -47,8 +47,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
             seats = seats.Where(auditorium => auditorium.AuditoriumId == projection.AuditoriumId);
 
             //check if the requested seats exist in the auditorium
-            var commonSeats = seats.Select(x => x.Id).Intersect(reservation.SeatsRequested.Select(s => s.Id));
-            if(commonSeats.Count() != reservation.SeatsRequested.Count())
+            var commonSeats = seats.Select(x => x.Id).Intersect(reservation.SeatIds.Select(s => s.Id));
+            if(commonSeats.Count() != reservation.SeatIds.Count())
             {
                 return new ReservationResultModel
                 {
@@ -61,7 +61,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             //check if requested seats are more than 1 and in the same row
             List<SeatDomainModel> seatModels = new List<SeatDomainModel>();
 
-            foreach (var seat in reservation.SeatsRequested)
+            foreach (var seat in reservation.SeatIds)
             {
                 var reqSeat = _seatRepository.GetByIdAsync(seat.Id).Result;
                 SeatDomainModel seatDomain = new SeatDomainModel()
@@ -86,7 +86,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 };
             }
 
-            if (reservation.SeatsRequested.ToList().Count() > 1)
+            if (reservation.SeatIds.ToList().Count() > 1)
             {
                 var singleSeat = seatModels[0];
         
@@ -104,7 +104,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             }
 
             //check if seats are not next to each other
-            if(reservation.SeatsRequested.Count() > 1)
+            if(reservation.SeatIds.Count() > 1)
             {
                 seatModels = seatModels.OrderByDescending(x => x.Number).ToList();
 
@@ -134,7 +134,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
             {
                 foreach (var takenSeat in takenSeats)
                 {
-                    foreach (var requestedSeat in reservation.SeatsRequested)
+                    foreach (var requestedSeat in reservation.SeatIds)
                     {
                         if (takenSeat.SeatDomainModel.Id == requestedSeat.Id)
                         {
@@ -147,7 +147,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     }
                 }
             }
-            
+
 
             #region Komentar
             /*  var auditorium = _auditoriumRepository.GetByIdAsync(projection.AuditoriumId).Result;
@@ -202,19 +202,20 @@ namespace WinterWorkShop.Cinema.Domain.Services
             #endregion
 
             //improvised fake payment system
-            Levi9PaymentService payment = new Levi9PaymentService();
-            var paymentResult = payment.MakePayment().Result;
+            #region Payment
+            /*  Levi9PaymentService payment = new Levi9PaymentService();
+              var paymentResult = payment.MakePayment().Result;
 
-            if(paymentResult.IsSuccess == false)
-            {
-                return new ReservationResultModel
-                {
-                    IsSuccessful = false,
-                    ErrorMessage = Messages.PAYMENT_CREATION_ERROR
-                };
-            }
+              if(paymentResult.IsSuccess == false)
+              {
+                  return new ReservationResultModel
+                  {
+                      IsSuccessful = false,
+                      ErrorMessage = Messages.PAYMENT_CREATION_ERROR
+                  };
+              }*/
             //end of payment system
-
+            #endregion
 
             //create reservation for inserting
             Reservation reservationToAdd = new Reservation
@@ -226,7 +227,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             var insertedReservation = _reservationsRepository.Insert(reservationToAdd);
 
-            foreach(var rs in reservation.SeatsRequested)
+            foreach(var rs in reservation.SeatIds)
             {
                 reservationToAdd.ReservationSeats.Add(new ReservationSeat
                 {

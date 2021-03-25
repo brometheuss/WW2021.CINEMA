@@ -57,6 +57,7 @@
         public const string SEAT_SEATS_NOT_IN_SAME_ROW = "Seats must be in the same row.";
         public const string SEAT_SEATS_MUST_BE_NEXT_TO_EACH_OTHER = "Seats must be next to each other.";
         public const string SEAT_SEATS_CANNOT_BE_DUPLICATES = "You cannot select the same seat multiple times.";
+        public const string SEAT_AUDITORIUM_NOT_FOUND = "There is no seats that match with auditorium";
         #endregion
 
         #region User

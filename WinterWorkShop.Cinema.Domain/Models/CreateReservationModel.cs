@@ -12,6 +12,6 @@ namespace WinterWorkShop.Cinema.Domain.Models
 
         public Guid ProjectionId { get; set; }
 
-        public IEnumerable<SeatDomainModel> SeatsRequested { get; set; }
+        public IEnumerable<SeatDomainModel> SeatIds { get; set; }
     }
 }

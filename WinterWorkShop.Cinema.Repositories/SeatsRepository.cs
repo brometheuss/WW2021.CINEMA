@@ -12,6 +12,7 @@ namespace WinterWorkShop.Cinema.Repositories
     public interface ISeatsRepository : IRepository<Seat> 
     {
         Task<Seat> GetBySeatRowAndNumber(int row, int number);
+        Task<IEnumerable<Seat>> GetSeatsByAuditoriumId(int auditoriumId);
     }
     public class SeatsRepository : ISeatsRepository
     {
@@ -67,6 +68,16 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
             return updatedEntry;
+        }
+
+        public async Task<IEnumerable<Seat>> GetSeatsByAuditoriumId(int auditoriumId)
+        {
+            var seatsInAuditorium = await _cinemaContext.Seats
+                .Include(auditorium => auditorium.Auditorium)
+                .Where(seat => seat.AuditoriumId == auditoriumId)
+                .ToListAsync();
+
+            return seatsInAuditorium;
         }
     }
 }

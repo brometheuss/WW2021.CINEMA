@@ -14,7 +14,7 @@ import {
 } from "../../models";
 
 interface IState {
-  projections: IProjection[];
+  projection: IProjection;
   movie: IMovie;
   slicedTime: string;
   moviesId: string;
@@ -30,11 +30,21 @@ interface IState {
   reservedSeats: IReservedSeats[];
   userId: string;
   submitted: boolean;
+  isMovieReady: boolean;
+  isProjectionReady: boolean;
+  isUserReady: boolean;
+  isSeatsReady: boolean;
+  isReservedSeatsReady: boolean;
 }
 
 const ProjectionDetails: React.FC = () => {
   const [state, setState] = useState<IState>({
-    projections: [],
+    projection: {
+      id: "",
+      projectionTime: "",
+      movieId: "",
+      auditoriumName: ""
+    },
     movie: {
       id: "",
       bannerUrl: "",
@@ -59,30 +69,61 @@ const ProjectionDetails: React.FC = () => {
     clicked: false,
     projectionId: "",
     currentReservationSeats: [
-      {
-        currentSeatId: "",
-      },
+
     ],
     reservedSeats: [
       {
-        seatId: "",
+        id: "",
       },
     ],
     userId: "",
     submitted: false,
+    isMovieReady: false,
+    isProjectionReady: true,
+    isUserReady: false,
+    isSeatsReady: false,
+    isReservedSeatsReady: false,
+
   });
 
   let allButtons: any;
 
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("jwt"),
+    },
+  };
+
   useEffect(() => {
-    getMovie();
-    getProjection();
-    getUserByUsername();
-  }, []);
+
+    if (state.isProjectionReady) {
+      getProjection();
+    }
+
+    if (state.isReservedSeatsReady) {
+      getReservedSeats(requestOptions, state.projection.id);
+    }
+
+    if (state.isSeatsReady) {
+      getSeatsForAuditorium(state.auditId);
+    }
+
+    if (state.isUserReady) {
+      getUserByUsername();
+    }
+
+    if (state.isMovieReady) {
+      getMovie();
+    }
+
+  }, [state.isReservedSeatsReady, state.isSeatsReady, state.isUserReady, state.isMovieReady]);
 
   const getProjection = () => {
     var idFromUrl = window.location.pathname.split("/");
     var id = idFromUrl[3];
+    //console.log('ID ', id);
 
     const requestOptions = {
       method: "GET",
@@ -93,7 +134,7 @@ const ProjectionDetails: React.FC = () => {
     };
 
     fetch(
-      `${serviceConfig.baseURL}/api/projections/byprojectionid/` + id,
+      `${serviceConfig.baseURL}/api/projections/byprojectionid/${id}`,
       requestOptions
     )
       .then((response) => {
@@ -104,17 +145,20 @@ const ProjectionDetails: React.FC = () => {
       })
       .then((data) => {
         if (data) {
+          console.log('PROJECTION ', data)
           setState({
             ...state,
-            projections: data,
+            projection: data,
             auditId: data.auditoriumId,
             slicedTime: data.projectionTime.slice(11, 16),
             moviesId: data.movieId,
+            isReservedSeatsReady: true,
+            isProjectionReady: false
           });
 
-          getReservedSeats(requestOptions, id);
-          getSeatsForAuditorium(data.auditoriumId);
-          getSeats(data.auditoriumId);
+          // getReservedSeats(requestOptions, id);
+          // getSeatsForAuditorium(data.auditoriumId);
+          // getSeats(data.auditoriumId);
         }
       })
       .catch((response) => {
@@ -136,9 +180,12 @@ const ProjectionDetails: React.FC = () => {
       })
       .then((data) => {
         if (data) {
+          console.log('RESERVED SEATS ', data);
           setState({
             ...state,
             reservedSeats: data,
+            isSeatsReady: true,
+            isReservedSeatsReady: false
           });
         }
       })
@@ -169,11 +216,15 @@ const ProjectionDetails: React.FC = () => {
       })
       .then((data) => {
         if (data) {
+          console.log('SEATS 1', data)
           setState({
             ...state,
-            seats: data,
+            seats: data.seats,
             maxRow: data.maxRow,
             maxNumberOfRow: data.maxNumber,
+            isUserReady: true,
+            isSeatsReady: false
+            //isProjectionReady: true
           });
         }
       })
@@ -206,7 +257,7 @@ const ProjectionDetails: React.FC = () => {
       })
       .then((data) => {
         if (data) {
-          setState({ ...state, userId: data.id });
+          setState({ ...state, userId: data.id, isMovieReady: true, isUserReady: false });
         }
       })
       .catch((response) => {
@@ -236,9 +287,10 @@ const ProjectionDetails: React.FC = () => {
       })
       .then((data) => {
         if (data) {
+          console.log('SEATS 2', data);
           setState({
             ...state,
-            seats: data as ISeats[],
+            seats: data //as ISeats[],
           });
         }
       })
@@ -267,9 +319,10 @@ const ProjectionDetails: React.FC = () => {
       })
       .then((data) => {
         if (data) {
+          console.log('MOVIE ', data);
           setState({
             ...state,
-            movie: data as IMovie,
+            movie: data, isMovieReady: false //as IMovie,
           });
         }
       })
@@ -318,6 +371,7 @@ const ProjectionDetails: React.FC = () => {
       getRole() === "superUser" ||
       getRole() === "admin"
     ) {
+      console.log('IN MAKE RESERVATION');
       var idFromUrl = window.location.pathname.split("/");
       var projectionId = idFromUrl[3];
 
@@ -329,6 +383,8 @@ const ProjectionDetails: React.FC = () => {
         userId: state.userId,
       };
 
+      console.log('DATA IN MAKE RESERVATION ', data);
+
       const requestOptions = {
         method: "POST",
         headers: {
@@ -338,7 +394,7 @@ const ProjectionDetails: React.FC = () => {
         body: JSON.stringify(data),
       };
 
-      fetch(`${serviceConfig.baseURL}/api/reservations`, requestOptions)
+      fetch(`${serviceConfig.baseURL}/api/reservations/makereservation`, requestOptions)
         .then((response) => {
           if (!response.ok) {
             return Promise.reject(response);
@@ -379,7 +435,7 @@ const ProjectionDetails: React.FC = () => {
 
   const checkIfSeatIsTaken = (currentSeatId: string) => {
     for (let i = 0; i < state.reservedSeats.length; i++) {
-      if (state.reservedSeats[i].seatId === currentSeatId) {
+      if (state.reservedSeats[i].id === currentSeatId) {
         return true;
       }
     }
@@ -464,10 +520,10 @@ const ProjectionDetails: React.FC = () => {
         let currentSeatId = state.seats[seatIndex].id;
         let currentlyReserved =
           state.currentReservationSeats.filter(
-            (seat) => seat.currentSeatId === currentSeatId
+            (seat) => seat.id === currentSeatId
           ).length > 0;
         let seatTaken =
-          state.reservedSeats.filter((seat) => seat.seatId === currentSeatId)
+          state.reservedSeats.filter((seat) => seat.id === currentSeatId)
             .length > 0;
 
         renderedSeats.push(
@@ -509,7 +565,7 @@ const ProjectionDetails: React.FC = () => {
                 if (
                   state.currentReservationSeats.length !== 0 &&
                   getButtonBySeatId(currentSeatId).className !==
-                    "seat nice-green-color"
+                  "seat nice-green-color"
                 ) {
                   return;
                 }
@@ -529,11 +585,11 @@ const ProjectionDetails: React.FC = () => {
                 }
                 if (
                   state.currentReservationSeats.includes({
-                    currentSeatId: currentSeatId,
+                    id: currentSeatId,
                   }) === false
                 ) {
                   currentReservationSeats.push({
-                    currentSeatId: currentSeatId,
+                    id: currentSeatId,
                   });
                 }
               } else {
@@ -546,7 +602,7 @@ const ProjectionDetails: React.FC = () => {
                 } else {
                   currentReservationSeats.splice(
                     currentReservationSeats.indexOf({
-                      currentSeatId: currentSeatId,
+                      id: currentSeatId,
                     }),
                     1
                   );
@@ -588,8 +644,8 @@ const ProjectionDetails: React.FC = () => {
               seatTaken
                 ? "seat seat-taken"
                 : currentlyReserved
-                ? "seat seat-current-reservation"
-                : "seat"
+                  ? "seat seat-current-reservation"
+                  : "seat"
             }
             value={currentSeatId}
             key={`row${row}-seat${i}`}

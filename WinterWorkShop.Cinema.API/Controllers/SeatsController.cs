@@ -67,5 +67,31 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Ok(seatDomainList);
         }
+
+        [HttpGet("numberofseats/{id}")]
+        public async Task<ActionResult<SeatAuditoriumDomainModel>> GetNumberOfSeats(int id)
+        {
+            var seats = await _seatService.GetAllSeatsForAuditorium(id);
+
+            if (seats == null)
+            {
+                return NotFound(Messages.SEAT_AUDITORIUM_NOT_FOUND);
+            }
+
+            return Ok(seats);
+        }
+
+        [HttpGet("byauditoriumid/{id}")]
+        public async Task<ActionResult<IEnumerable<SeatDomainModel>>> GetAllSeatsByAuditoriumId(int id)
+        {
+            var seats = await _seatService.GetAllSeatsByAuditoriumId(id);
+
+            if (seats == null)
+            {
+                return NotFound(Messages.SEAT_AUDITORIUM_NOT_FOUND);
+            }
+
+            return Ok(seats);
+        }
     }
 }

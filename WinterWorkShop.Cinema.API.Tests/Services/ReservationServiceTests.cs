@@ -275,7 +275,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             {
                 ProjectionId = projection.Id,
                 UserId = Guid.NewGuid(),
-                SeatsRequested = seats.Select(s => new SeatDomainModel
+                SeatIds = seats.Select(s => new SeatDomainModel
                 {
                     Id = s.Id,
                     AuditoriumId = s.AuditoriumId,
@@ -340,7 +340,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             {
                 ProjectionId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
-                SeatsRequested = seats.Select(s => new SeatDomainModel
+                SeatIds = seats.Select(s => new SeatDomainModel
                 {
                     Id = s.Id,
                     AuditoriumId = s.AuditoriumId,
@@ -406,7 +406,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             {
                 ProjectionId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
-                SeatsRequested = new List<SeatDomainModel>()
+                SeatIds = new List<SeatDomainModel>()
             };
             Projection projection = new Projection
             {
@@ -415,7 +415,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
                 MovieId = Guid.NewGuid(),
                 DateTime = DateTime.Now.AddDays(1)
             };
-            createReservationModel.SeatsRequested = seatDomainModels;
+            createReservationModel.SeatIds = seatDomainModels;
             _mockReservationService.Setup(x => x.GetTakenSeats(createReservationModel.ProjectionId)).Returns(seatsTaken);
             _mockSeatRepository.Setup(x => x.GetAll()).ReturnsAsync(seats);
             _mockProjectionRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(projection);
@@ -490,7 +490,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
             {
                 ProjectionId = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
-                SeatsRequested = new List<SeatDomainModel>()
+                SeatIds = new List<SeatDomainModel>()
             };
             Projection projection = new Projection
             {
@@ -499,7 +499,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
                 MovieId = Guid.NewGuid(),
                 DateTime = DateTime.Now.AddDays(1)
             };
-            createReservationModel.SeatsRequested = seatsRequested;
+            createReservationModel.SeatIds = seatsRequested;
             _mockReservationService.Setup(x => x.GetTakenSeats(createReservationModel.ProjectionId)).Returns(seatsTaken);
             _mockSeatRepository.Setup(x => x.GetAll()).ReturnsAsync(seatsInAuditorium);
             _mockProjectionRepository.Setup(x => x.GetByIdAsync(It.IsAny<Guid>())).ReturnsAsync(projection);

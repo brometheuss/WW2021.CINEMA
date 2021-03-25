@@ -55,7 +55,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
         [HttpPost]
         [Route("{action}")]
-        public ActionResult<ReservationResultModel> MakeReservation(CreateReservationModel model)
+        public ActionResult<ReservationResultModel> MakeReservation([FromBody] CreateReservationModel model)
         {
             ReservationResultModel res;
 
@@ -87,5 +87,28 @@ namespace WinterWorkShop.Cinema.API.Controllers
 
             return Created("reservations//" + res.Reservation.Id, res);
         }
+
+        [HttpGet("getbyprojectionid/{id}")]
+        public async Task<ActionResult<IEnumerable<SeatDomainModel>>> GetTakenSeats(Guid id)
+        {
+            var takenSeats = _reservationService.GetTakenSeats(id);
+
+            if (takenSeats == null)
+            {
+                List<SeatDomainModel> list = new List<SeatDomainModel>();
+                return Ok(list);
+            }
+
+            IEnumerable<SeatDomainModel> seats = takenSeats.Select(seatResult => new SeatDomainModel
+            {
+                Id = seatResult.SeatDomainModel.Id,
+                Row = seatResult.SeatDomainModel.Row,
+                Number = seatResult.SeatDomainModel.Number,
+                AuditoriumId = seatResult.SeatDomainModel.AuditoriumId
+            });
+
+            return Ok(seats);
+        }
+
     }
 }
