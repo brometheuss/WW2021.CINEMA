@@ -668,7 +668,7 @@ const ProjectionDetails: React.FC = () => {
   };
 
   const fillTableWithData = () => {
-    let auditorium = renderRows(state.maxNumberOfRow, state.maxRow);
+    let auditorium = renderRows(state.maxRow, state.maxNumberOfRow);
     return (
       <Card.Body>
         <Card.Title>
