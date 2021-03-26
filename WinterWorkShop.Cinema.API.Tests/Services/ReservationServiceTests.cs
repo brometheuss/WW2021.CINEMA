@@ -22,8 +22,8 @@ namespace WinterWorkShop.Cinema.Tests.Services
         private Mock<IProjectionsRepository> _mockProjectionRepository;
         private Mock<IAuditoriumsRepository> _mockAuditoriumRepository;
         private Mock<IReservationService> _mockReservationService;
+        private Mock<IUsersRepository> _mockUserRepository;
         private Reservation _reservation;
-        private ReservationDomainModel _reservationDomainModel;
         private ReservationService _reservationService;
 
         [TestInitialize]
@@ -41,10 +41,11 @@ namespace WinterWorkShop.Cinema.Tests.Services
             _mockAuditoriumRepository = new Mock<IAuditoriumsRepository>();
             _mockProjectionRepository = new Mock<IProjectionsRepository>();
             _mockSeatRepository = new Mock<ISeatsRepository>();
+            _mockUserRepository = new Mock<IUsersRepository>();
 
             _mockReservationService = new Mock<IReservationService>();
 
-            _reservationService = new ReservationService(_mockReservationRepository.Object, _mockSeatRepository.Object, _mockProjectionRepository.Object, _mockAuditoriumRepository.Object);
+            _reservationService = new ReservationService(_mockReservationRepository.Object, _mockSeatRepository.Object, _mockProjectionRepository.Object, _mockAuditoriumRepository.Object, _mockUserRepository.Object);
         }
 
         //GetAllReservations tests
