@@ -166,5 +166,42 @@ namespace WinterWorkShop.Cinema.Tests.Services
             Assert.AreEqual(_city.Id, resultAction.Id);
             Assert.IsInstanceOfType(resultAction, typeof(CityDomainModel));
         }
+
+        //GetCityByCityName tests
+        [TestMethod]
+        public void CityService_GetCityByCityname_ReturnsCity()
+        {
+            //Arrange
+            var expectedCount = 0;
+            _city = new City
+            {
+                Id = 99,
+                Name = "Grad koji trazimo",
+                Cinemas = new List<Data.Cinema>()
+            };
+            _cityRepository.Setup(x => x.GetByCityNameAsync(It.IsAny<string>())).ReturnsAsync(_city);
+
+            //Act
+            var resultAction = _cityService.GetByCityNameAsync(_city.Name).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNotNull(resultAction);
+            Assert.AreEqual(_city.Name, resultAction.Name);
+            Assert.AreEqual(_city.Cinemas.Count, resultAction.CinemasList.Count);
+            Assert.IsInstanceOfType(resultAction, typeof(CityDomainModel));
+        }
+
+        [TestMethod]
+        public void CityService_GetCityByCityName_ReturnsNull()
+        {
+            //Arrange
+            _cityRepository.Setup(x => x.GetByCityNameAsync(It.IsAny<string>())).ReturnsAsync(null as City);
+
+            //Act
+            var resultAction = _cityService.GetByCityNameAsync(_city.Name).ConfigureAwait(false).GetAwaiter().GetResult();
+
+            //Assert
+            Assert.IsNull(resultAction);
+        }
     }
 }
