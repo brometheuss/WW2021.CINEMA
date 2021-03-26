@@ -6,7 +6,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import "./../../index.css";
 import { IAuditorium, IProjection, ICinema, IMovie } from "../../models";
 import { faGripLinesVertical } from "@fortawesome/free-solid-svg-icons";
-
+import Spinner from "../Spinner"
 interface IState {
   movies: IMovie[];
   cinemas: ICinema[];
@@ -513,71 +513,75 @@ const Projection: React.FC = (props: any) => {
   };
 
   return (
-    <Container>
-      <h1 className="projections-title">Current projections</h1>
-      <form
-        id="name"
-        name={state.name}
-        onSubmit={handleSubmit}
-        className="filter"
-      >
-        <span className="filter-heading">Filter by:</span>
-        <select
-          onChange={(e) => getAuditoriumsBySelectedCinema(e.target.value)}
-          name="cinemaId"
-          id="cinema"
-          className="select-dropdown"
-        >
-          <option value="">Cinema</option>
-          {fillFilterWithCinemas()}
-        </select>
-        <select
-          onChange={(e) => getMoviesBySelectedAuditorium(e.target.value)}
-          name="auditoriumId"
-          id="auditorium"
-          className="select-dropdown"
-          disabled={state.selectedCinema == true ? false : true}
-        >
-          <option value="">Auditorium</option>
-          {fillFilterWithAuditoriums()}
-        </select>
-        <select
-          onChange={(e) =>
-            setState({ ...state, selectedMovie: true, movieId: e.target.value })
-          }
-          name="movieId"
-          id="movie"
-          className="select-dropdown"
-          disabled={state.selectedAuditorium == true ? false : true}
-        >
-          <option value="">Movie</option>
-          {fillFilterWithMovies()}
-        </select>
-        <input
-          onChange={(e) =>
-            setState({ ...state, selectedDate: true, dateTime: e.target.value })
-          }
-          name="dateTime"
-          type="date"
-          id="date"
-          className="input-date select-dropdown"
-          disabled={state.selectedMovie == true ? false : true}
-        />
-        <button
-          id="filter-button"
-          className="btn-search"
-          type="submit"
-          onClick={() => setState({ ...state, submitted: true })}
-        >
-          Submit
+    <>
+      {
+        (state.isMoviesReady == true && state.isCinemasReady == true && state.isAuditoriumReady == true) ?
+          <Container>
+            <h1 className="projections-title">Current projections</h1>
+            <form
+              id="name"
+              name={state.name}
+              onSubmit={handleSubmit}
+              className="filter"
+            >
+              <span className="filter-heading">Filter by:</span>
+              <select
+                onChange={(e) => getAuditoriumsBySelectedCinema(e.target.value)}
+                name="cinemaId"
+                id="cinema"
+                className="select-dropdown"
+              >
+                <option value="">Cinema</option>
+                {fillFilterWithCinemas()}
+              </select>
+              <select
+                onChange={(e) => getMoviesBySelectedAuditorium(e.target.value)}
+                name="auditoriumId"
+                id="auditorium"
+                className="select-dropdown"
+                disabled={state.selectedCinema == true ? false : true}
+              >
+                <option value="">Auditorium</option>
+                {fillFilterWithAuditoriums()}
+              </select>
+              <select
+                onChange={(e) =>
+                  setState({ ...state, selectedMovie: true, movieId: e.target.value })
+                }
+                name="movieId"
+                id="movie"
+                className="select-dropdown"
+                disabled={state.selectedAuditorium == true ? false : true}
+              >
+                <option value="">Movie</option>
+                {fillFilterWithMovies()}
+              </select>
+              <input
+                onChange={(e) =>
+                  setState({ ...state, selectedDate: true, dateTime: e.target.value })
+                }
+                name="dateTime"
+                type="date"
+                id="date"
+                className="input-date select-dropdown"
+                disabled={state.selectedMovie == true ? false : true}
+              />
+              <button
+                id="filter-button"
+                className="btn-search"
+                type="submit"
+                onClick={() => setState({ ...state, submitted: true })}
+              >
+                Submit
         </button>
-      </form>
-      <Row className="justify-content-center">
-        <Col>
-          <Card className="card-width">{checkIfFiltered()}</Card>
-        </Col>
-      </Row>
-    </Container>
+            </form>
+            <Row className="justify-content-center">
+              <Col>
+                <Card className="card-width">{checkIfFiltered()}</Card>
+              </Col>
+            </Row>
+          </Container> : <Spinner></Spinner>}</>
+
   );
 };
 
