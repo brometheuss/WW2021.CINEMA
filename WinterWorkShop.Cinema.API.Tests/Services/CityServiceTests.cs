@@ -46,7 +46,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
 
         //GetAllCities tests
         [TestMethod]
-        public void CityService_GetAllCities_ReturnsListOfCities()
+        public void CityService_GetAllAsync_ReturnsListOfCities()
         {
             //Arrange
             var expectedCount = 2;
@@ -85,7 +85,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void CityService_GetAllCities_ReturnsEmptyList()
+        public void CityService_GetAllAsync_ReturnsEmptyList()
         {
             //Arrange
             var expectedCount = 0;
@@ -102,7 +102,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
 
         //GetCityById tests
         [TestMethod]
-        public void CityService_GetCityById_ReturnsCity()
+        public void CityService_GetByIdAsync_ReturnsCity()
         {
             //Arrange
             _city = new City
@@ -132,7 +132,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void CityService_GetCityById_ReturnsNull()
+        public void CityService_GetByIdAsync_ReturnsNull()
         {
             //Arrange
             _cityRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(null as City);
@@ -145,7 +145,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void CityService_GetCityById_ReturnsCity_WithEmptyListOfCinemas()
+        public void CityService_GetByIdAsync_ReturnsCity_WithEmptyListOfCinemas()
         {
             //Arrange
             var expectedCount = 0;
@@ -169,7 +169,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
 
         //GetCityByCityName tests
         [TestMethod]
-        public void CityService_GetCityByCityname_ReturnsCity()
+        public void CityService_GetByCityNameAsync_ReturnsCity()
         {
             //Arrange
             var expectedCount = 0;
@@ -192,7 +192,7 @@ namespace WinterWorkShop.Cinema.Tests.Services
         }
 
         [TestMethod]
-        public void CityService_GetCityByCityName_ReturnsNull()
+        public void CityService_GetByCityNameAsync_ReturnsNull()
         {
             //Arrange
             _cityRepository.Setup(x => x.GetByCityNameAsync(It.IsAny<string>())).ReturnsAsync(null as City);
