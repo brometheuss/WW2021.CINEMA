@@ -103,7 +103,7 @@ const NewProjection: React.FC = (props: any) => {
     e.preventDefault();
 
     setState({ ...state, submitted: true });
-
+    console.log(state.projectionTime)
     if (state.movieId && state.auditoriumId && state.projectionTime) {
       addProjection();
     } else {
@@ -228,8 +228,10 @@ const NewProjection: React.FC = (props: any) => {
     }
   };
 
-  const onDateChange = (date: Date) =>
-    setState({ ...state, projectionTime: date.toLocaleTimeString() });
+  const onDateChange = (date: string) => {
+    console.log(date);
+    setState({ ...state, projectionTime: date });
+  }
 
   return (
     <Container>
@@ -266,10 +268,23 @@ const NewProjection: React.FC = (props: any) => {
               </FormText>
             </FormGroup>
             <FormGroup>
-              <DateTimePicker
-                className="form-control add-new-form"
-                onChange={onDateChange}
-                value={state.projectionTime}
+              <input
+                onChange={(e) =>
+                  setState({ ...state, projectionTime: e.target.value })
+                }
+                name="projectionTime"
+                type="datetime-local"
+                style={{
+                  marginLeft: '350px',
+                  borderRadius: '5px',
+                  backgroundColor: '#fff',
+                  padding: '3px 5px',
+                  boxShadow: 'inset 0 3px 6px rgba(0,0,0,0.1)',
+                  width: '235px'
+                }}
+                id="date"
+                className="input-date select-dropdown"
+
               />
               <FormText className="text-danger">
                 {state.projectionTimeError}

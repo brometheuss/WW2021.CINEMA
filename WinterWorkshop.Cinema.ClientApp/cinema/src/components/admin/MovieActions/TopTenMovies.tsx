@@ -216,7 +216,7 @@ const TopTenMovies: React.FC = (props: any) => {
           <option value="none">Year</option>
           {showYears()}
         </select>
-        <button style={{ backgroundColor: 'gray', borderRadius: '10%' }} onClick={() => setState({ ...state, filteredMoviesByYear: [], selectedYear: false })}>Reset</button>
+        <button className="btn-search" onClick={() => setState({ ...state, filteredMoviesByYear: [], selectedYear: false })}>Reset</button>
       </Row>
       <Row className="no-gutters pr-5 pl-5">{showTable}</Row>
     </React.Fragment>
