@@ -8,6 +8,6 @@ namespace WinterWorkShop.Cinema.Domain.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<CinemaDomainModel> CinemasList { get; set; } 
+        public List<CinemaDomainModel> CinemasList { get; set; } = new List<CinemaDomainModel>();
     }
 }
