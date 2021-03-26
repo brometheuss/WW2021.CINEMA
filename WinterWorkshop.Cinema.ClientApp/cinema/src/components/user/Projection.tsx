@@ -528,7 +528,7 @@ const Projection: React.FC = (props: any) => {
           id="cinema"
           className="select-dropdown"
         >
-          <option value="" key="1234">Cinema</option>
+          <option value="">Cinema</option>
           {fillFilterWithCinemas()}
         </select>
         <select
@@ -538,7 +538,7 @@ const Projection: React.FC = (props: any) => {
           className="select-dropdown"
           disabled={state.selectedCinema == true ? false : true}
         >
-          <option value="" key="12345">Auditorium</option>
+          <option value="">Auditorium</option>
           {fillFilterWithAuditoriums()}
         </select>
         <select

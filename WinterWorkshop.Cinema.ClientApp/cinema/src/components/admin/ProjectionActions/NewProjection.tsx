@@ -213,18 +213,18 @@ const NewProjection: React.FC = (props: any) => {
   const onMovieChange = (movies: IMovie[]) => {
     if (movies[0]) {
       setState({ ...state, movieId: movies[0].id });
-      validate("movieId", movies[0]);
+      //validate("movieId", movies[0]);
     } else {
-      validate("movieId", null);
+      //validate("movieId", null);
     }
   };
 
   const onAuditoriumChange = (auditoriums: IAuditorium[]) => {
     if (auditoriums[0]) {
       setState({ ...state, auditoriumId: auditoriums[0].id });
-      validate("auditoriumId", auditoriums[0]);
+      //validate("auditoriumId", auditoriums[0]);
     } else {
-      validate("auditoriumId", null);
+      //validate("auditoriumId", null);
     }
   };
 

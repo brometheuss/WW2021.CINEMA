@@ -93,7 +93,7 @@ const NewMovie: React.FC = (props: any) => {
 
   const handleYearChange = (year: string) => {
     setState({ ...state, year: year });
-    validate("year", year);
+    //validate("year", year);
   };
 
   const addMovie = (splitTags: string[]) => {
