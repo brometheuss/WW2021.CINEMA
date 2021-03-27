@@ -229,7 +229,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             
             int countOfSeats = reservation.SeatIds.Count();
-            var numOfPoints = countOfSeats * 5;
+            var numOfPoints = countOfSeats * 1;
 
             _userRepository.AddPointsForUser(reservation.UserId, numOfPoints);
 

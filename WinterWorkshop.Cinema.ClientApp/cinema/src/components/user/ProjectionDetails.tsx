@@ -567,6 +567,7 @@ const ProjectionDetails: React.FC = () => {
                   getButtonBySeatId(currentSeatId).className !==
                   "seat nice-green-color"
                 ) {
+                  NotificationManager.error("Cannot reserve seat. Seats must be next to each other ! Please change projection time or by tickets separately.");
                   return;
                 }
                 if (
@@ -584,9 +585,7 @@ const ProjectionDetails: React.FC = () => {
                   markSeatAsGreenish(rightSeatProperties.id);
                 }
                 if (
-                  state.currentReservationSeats.includes({
-                    id: currentSeatId,
-                  }) === false
+                  state.currentReservationSeats.some(item => item.id === currentSeatId) === false
                 ) {
                   currentReservationSeats.push({
                     id: currentSeatId,

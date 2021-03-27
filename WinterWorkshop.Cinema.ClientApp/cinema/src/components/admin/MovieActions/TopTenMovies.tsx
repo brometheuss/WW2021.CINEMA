@@ -19,6 +19,7 @@ interface IState {
   submitted: boolean;
   isLoading: boolean;
   selectedYear: boolean;
+  hasOscar?: boolean;
 }
 
 const TopTenMovies: React.FC = (props: any) => {
@@ -37,6 +38,7 @@ const TopTenMovies: React.FC = (props: any) => {
     submitted: false,
     isLoading: true,
     selectedYear: false,
+    hasOscar: false,
   });
 
   useEffect(() => {
@@ -68,6 +70,7 @@ const TopTenMovies: React.FC = (props: any) => {
             rating: Math.round(data.rating),
             current: data.current,
             id: data.id,
+            hasOscar: data.hasOscar
           });
         }
       })
@@ -116,6 +119,7 @@ const TopTenMovies: React.FC = (props: any) => {
             <td>{filteredMovie.title}</td>
             <td>{filteredMovie.year}</td>
             <td>{Math.round(filteredMovie.rating)}/10</td>
+            <td>{filteredMovie.hasOscar ? "Yes" : "No"}</td>
           </tr>
         );
       });
@@ -131,6 +135,7 @@ const TopTenMovies: React.FC = (props: any) => {
             <td>{movie.title}</td>
             <td>{movie.year}</td>
             <td>{Math.round(movie.rating)}/10</td>
+            <td>{movie.hasOscar ? "Yes" : "No"}</td>
           </tr>
         );
       });
@@ -189,6 +194,7 @@ const TopTenMovies: React.FC = (props: any) => {
           <th>Title</th>
           <th>Year</th>
           <th>Rating</th>
+          <th>Oscar</th>
         </tr>
       </thead>
       <tbody>{rowsData}</tbody>

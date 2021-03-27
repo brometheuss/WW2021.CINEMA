@@ -14,6 +14,7 @@ export interface IMovie {
   title: string;
   rating: number;
   year: string;
+  hasOscar?: boolean;
   bannerUrl?: string;
   current?: boolean;
   projections?: IProjection[];

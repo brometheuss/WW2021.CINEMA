@@ -318,7 +318,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 return null;
             }
             movies = movies.Where(movie => movie.Current == true);
-            movies = movies.OrderByDescending(movie => movie.Rating).Take(10);
+            movies = movies.OrderByDescending(movie => movie.Rating).ThenByDescending(movie => movie.HasOscar).Take(10);
 
             List<MovieDomainModel> result = new List<MovieDomainModel>();
             MovieDomainModel model;
@@ -330,7 +330,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                     Id = item.Id,
                     Rating = item.Rating ?? 0,
                     Title = item.Title,
-                    Year = item.Year
+                    Year = item.Year,
+                    HasOscar = item.HasOscar
                 };
                 result.Add(model);
             }
@@ -349,7 +350,7 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             movies = movies.Where(m => m.Year == year);
             movies = movies.Where(m => m.Current == true);
-            movies = movies.OrderByDescending(movie => movie.Rating).Take(10);
+            movies = movies.OrderByDescending(movie => movie.Rating).ThenByDescending(movie => movie.HasOscar).Take(10);
 
             List<MovieDomainModel> movieModels = movies.Select(m => new MovieDomainModel
             {
@@ -357,7 +358,8 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 Id = m.Id,
                 Rating = m.Rating ?? 0,
                 Title = m.Title,
-                Year = m.Year
+                Year = m.Year,
+                HasOscar = m.HasOscar
             }).ToList();
 
             return movieModels; 
