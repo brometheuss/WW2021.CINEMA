@@ -369,6 +369,7 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Ok(movies);
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("changecurrent/{id}")]
         public async Task<ActionResult<MovieDomainModel>> ChangeCurrent(Guid id)
         {

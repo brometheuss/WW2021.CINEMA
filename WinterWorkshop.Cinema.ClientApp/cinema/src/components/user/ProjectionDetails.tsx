@@ -442,8 +442,8 @@ const ProjectionDetails: React.FC = () => {
     return false;
   };
 
-  const checkIfSeatIsCurrentlyReserved = (currentSeatId) => {
-    return state.currentReservationSeats.includes(currentSeatId);
+  const checkIfSeatIsCurrentlyReserved = (currentSeatId: string) => {
+    return state.currentReservationSeats.some(item => item.id === currentSeatId);
   };
 
   const getSeatByPosition = (row: number, number: number) => {
