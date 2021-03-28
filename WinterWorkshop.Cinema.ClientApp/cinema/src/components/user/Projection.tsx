@@ -574,6 +574,15 @@ const Projection: React.FC = (props: any) => {
               >
                 Submit
         </button>
+              <button
+                id="filter-button"
+                className="btn-search"
+                type="submit"
+                onClick={() => setState({ ...state, isMoviesReady: false, isCinemasReady: false, isAuditoriumReady: false, selectedCinema: false, selectedAuditorium: false, selectedMovie: false, selectedDate: false, auditoriumId: "", cinemaId: "", movieId: "", dateTime: "", filteredAuditoriums: [], filteredMovies: [], filteredProjections: [], submitted: false })}
+                style={{ position: 'relative', left: '2px' }}
+              >
+                Reset
+        </button>
             </form>
             <Row className="justify-content-center">
               <Col>
