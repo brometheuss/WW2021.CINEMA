@@ -212,9 +212,13 @@ const Header: React.FC = (props: any) => {
         <Link className="text-decoration-none" to="/dashboard/Projection">
           Cinema 9
         </Link>
-        <span style={{ color: 'blue' }}> | </span>
+        <span style={{ color: 'rgb(51, 126, 184)' }}> | </span>
         <Link className="text-decoration-none" to="/userprofile">
           Profile
+        </Link>
+        <span style={{ color: 'rgb(51, 126, 184)' }}> | </span>
+        <Link className="text-decoration-none" to="/TopIMDBMovies">
+          IMDB Top 10
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="text-white" />
