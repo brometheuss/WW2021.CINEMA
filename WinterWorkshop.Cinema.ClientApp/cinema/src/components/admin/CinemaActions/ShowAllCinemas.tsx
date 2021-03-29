@@ -67,7 +67,8 @@ const ShowAllCinemas: React.FC = (props: any) => {
     fetch(`${serviceConfig.baseURL}/api/cinemas/${id}`, requestOptions)
       .then((response) => {
         if (!response.ok) {
-          return Promise.reject(response);
+          NotificationManager.error("Cinema has projections and cannot be deleted.");
+          return;
         }
         NotificationManager.success("Successfully deleted cinema.");
         return response.json();

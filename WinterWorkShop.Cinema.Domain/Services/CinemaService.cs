@@ -159,6 +159,10 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
                 foreach(var seat in seats)
                 {
+                    if (seat.ReservationSeats.Any())
+                    {
+                        return null;
+                    }
                     _seatsRepository.Delete(seat.Id);
                 }
 

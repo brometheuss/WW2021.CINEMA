@@ -471,6 +471,9 @@ namespace WinterWorkShop.Cinema.Domain.Services
                 return null;
             }
 
+            movies = movies.Where(movie => movie.Projections.Any());
+
+
             IEnumerable<MovieProjectionDomainModel> movieProjections = movies.Select(movie => new MovieProjectionDomainModel
             {
                 Id = movie.Id,
