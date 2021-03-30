@@ -110,5 +110,18 @@ namespace WinterWorkShop.Cinema.API.Controllers
             return Ok(seats);
         }
 
+        [HttpGet("byuserid/{id}")]
+        public async Task<ActionResult<IEnumerable<UserReservationDomainModel>>> GetUserReservationsByUserId(Guid id)
+        {
+            var reservations = await _reservationService.GetReservationsByUserId(id);
+
+            if (reservations == null)
+            {
+                reservations = new List<UserReservationDomainModel>();
+            }
+
+            return Ok(reservations);
+        }
+
     }
 }

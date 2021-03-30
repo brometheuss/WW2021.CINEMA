@@ -24,6 +24,8 @@ const UserProfile: React.FC = () => {
     reservations: [
       {
         projectionId: "",
+        projectionTime: "",
+
       },
     ],
     projection: [],
@@ -32,7 +34,7 @@ const UserProfile: React.FC = () => {
 
   useEffect(() => {
     getUserByUsername();
-  }, []);
+  }, [state.user.id]);
 
   const getUserByUsername = () => {
     let userName = getUserName();
@@ -57,9 +59,10 @@ const UserProfile: React.FC = () => {
       })
       .then((data) => {
         if (data) {
-          setState({ ...state, user: data });
-
+          setState(prevState => ({ ...prevState, user: data }));
+          console.log('USER ID');
           getReservationsByUserId(state.user.id);
+          console.log('USER ID');
         }
       })
       .catch((response) => {
@@ -89,7 +92,7 @@ const UserProfile: React.FC = () => {
       })
       .then((data) => {
         if (data) {
-          setState({ ...state, reservations: data });
+          setState(prevState => ({ ...prevState, reservations: data }));
           state.reservations.map((reservation) => {
             getProjectionById(reservation.projectionId);
           });
@@ -164,6 +167,16 @@ const UserProfile: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div>
+          <ul>
+            <li className="list-group-item list-group-item-primary"><strong>Your Reservations: </strong></li>
+            {state.reservations.map((reservation) => {
+              return (
+                <li className="list-group-item">{reservation.projectionTime} - {reservation.movieTitle}, {reservation.auditoriumName}</li>
+              )
+            })}
+          </ul>
         </div>
       </Row>
     </React.Fragment>

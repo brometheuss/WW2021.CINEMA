@@ -334,5 +334,26 @@ namespace WinterWorkShop.Cinema.Domain.Services
 
             return seatList;
         }
+
+        public async Task<IEnumerable<UserReservationDomainModel>> GetReservationsByUserId(Guid UserId)
+        {
+            var reservations = await _reservationsRepository.GetReservationsByUserId(UserId);
+
+            if ( reservations.Count() == 0)
+            {
+                return null;
+            }
+
+            IEnumerable<UserReservationDomainModel> userReservations =
+                reservations.Select(reservation => new UserReservationDomainModel
+                {
+                    MovieTitle = reservation.Projection.Movie.Title,
+                    ProjectionTime = reservation.Projection.DateTime.ToString("d-MMMM, H:mm"),
+                    AuditoriumName = reservation.Projection.Auditorium.AuditName,
+                    ProjectionId = reservation.ProjectionId
+                });
+
+            return userReservations;
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace WinterWorkShop.Cinema.Repositories
     public interface IReservationsRepository : IRepository<Reservation> 
     {
         IEnumerable<Reservation> GetReservationByProjectionId(Guid projectionId);
+        Task<IEnumerable<Reservation>> GetReservationsByUserId(Guid userId);
     }
     public class ReservationsRepository : IReservationsRepository
     {
@@ -75,6 +76,19 @@ namespace WinterWorkShop.Cinema.Repositories
             _cinemaContext.Entry(obj).State = EntityState.Modified;
 
             return updatedEntry.Entity;
+        }
+
+        public async Task<IEnumerable<Reservation>> GetReservationsByUserId(Guid userId)
+        {
+            var data = await _cinemaContext.Reservations
+                .Include(projection => projection.Projection)
+                .ThenInclude(movie => movie.Movie)
+                .Include(projection => projection.Projection)
+                .ThenInclude(auditorium => auditorium.Auditorium)
+                .Where(reservation => reservation.UserId == userId)
+                .ToListAsync();
+
+            return data;
         }
     }
 }

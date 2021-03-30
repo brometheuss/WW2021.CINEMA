@@ -54,6 +54,9 @@ export interface IUser {
 
 export interface IReservation {
   projectionId: string;
+  projectionTime?: string;
+  auditoriumName?: string;
+  movieTitle?: string;
 }
 
 export interface ITag {
