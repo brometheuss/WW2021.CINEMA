@@ -22,11 +22,11 @@ const UserProfile: React.FC = () => {
       points: "",
     },
     reservations: [
-      {
-        projectionId: "",
-        projectionTime: "",
+      // {
+      //   projectionId: "",
+      //   projectionTime: "",
 
-      },
+      // },
     ],
     projection: [],
     submitted: false,
