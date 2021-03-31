@@ -239,14 +239,14 @@ namespace WinterWorkShop.Cinema.Tests.Services
                 Id = 2,
                 AuditName = "Auditorium 1",
                 CinemaId = 11,
-                Seats = seats1
+                Seats = seats2
             };
 
             List<Auditorium> auditsList = new List<Auditorium>();
             auditsList.Add(audit1);
 
             var expectedCount = 0;
-            _mockSeatRepository.Setup(x => x.GetAll()).ReturnsAsync(seats1);
+            _mockSeatRepository.Setup(x => x.GetAll()).ReturnsAsync(seats2);
             _mockCinemaRepository.Setup(x => x.GetByIdAsync(It.IsAny<int>())).ReturnsAsync(_cinema);
             _mockAuditoriumRepository.Setup(x => x.GetAll()).ReturnsAsync(auditsList);
 
